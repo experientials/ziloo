@@ -29,7 +29,6 @@ It's all in a private GitHub repo. At the end I'd want to check design files int
 I will want to have design files in addition to manufacturing files that can be used for future
 revisions. They must be in a format(or alternate format) that can be revised by low cost software.
 
-
 ## Visual overview 
 
 ![Power Module](./Power_Module.jpg)

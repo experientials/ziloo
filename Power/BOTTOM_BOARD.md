@@ -1,7 +1,7 @@
-The Connector Board is used to get USB power and signal into our consumer device.
+The Bottom Board is used to get USB power and signal into our consumer device.
 It is matched by a Sibling Connector (Base) Board, which is part of a charging and programming base platform.
 
-The Connector Board sits on the bottom of the Power Module. It takes in the equivalent of USB Type C and passes on up to 2A 3.5V - 4.4V over a Flexi PCB connection along with signals to control charging. 
+The Bottom Board sits on the bottom of the Power Module. It takes in the equivalent of USB Type C and passes on up to 2A 3.5V - 4.4V over a Flexi PCB connection along with signals to control charging. 
 It is also responsible for charging a LiPo battery that supplies power when USB isn't connected.
 
 The consumer of the power is a Ziloo Experiential Research IoT device that is always on. 
@@ -14,13 +14,13 @@ The power module will have a single red LED that reflects the status of the char
 When everything is fine it should be off. Options for generating pulsing/ON LED signals should also be
 explored.
 
-The MAX77301 provides additional functionality that isn't used. It would be good to have a summary of
+The MAX77860 provides additional functionality that isn't used. It would be good to have a summary of
 what they are for future consideration.
 
 The initial version of the board should be considered an initial effort. There are open issues that cannot
 be resolved with the initial version.
 
-![Connector Board](./connector-board.jpg)
+![Bottom Board](./bottom-board.jpg)
 
 #### Connectors and Connections
 
@@ -35,12 +35,11 @@ and extended with USB PD/3 Alternate higher speed communication in the future.
 The layout of underside isles is
 
 ```  
- +     D-   RX1   D+
-+++    RX2  CC   TX2   ---
- +     SBU  TX1  TBU(?)
+ +     D-   RX-  TX- 
++++    D+   RX+  TX+   ---
+ +     SBU1 CC   SBU2
 ```
 
-CC is connected to a resistor to signal higher current (1.5A) draw on the connection.
 
 Source Current Capability       Current Source to 1.7V - 5.5V       Rp pull-up to 3.3V ±5%      Rp pull-up to 4.75V - 5.5V
 Default USB power               80μA ±20%                           36kΩ ±20%                   56kΩ ±20%
@@ -69,10 +68,10 @@ This seems to be the performance with default register settings. This range is p
 
 #### Charger
 
-[Maxim MAX77301](./MAX77301.pdf) (or MAX14745or similar)
+[Maxim MAX77860](./MAX77860.pdf)
 EITA-Compliant, Li+ Charger with Smart Power Selector, Automatic Detection, and USB Enumeration
 
-![MAX77301](./MAX77301.gif)
+![MAX77860](./MAX77860.png)
 
 * I2C controlled (400kHz)
 * Automatic Enumeration Enable
@@ -116,7 +115,7 @@ The board must provide the maximum protection
 * Reverse voltage. If connector is reversed, it shouldn't damage components, but there is a correct orientation.
 * Passing tests for IEC 61000-4-2
 
-For the dataline protection it seems that Nexperia PCMF3USB3B/C WLCSP15 (3 channel) covers most of the needed pieces. Perhaps the protection built into MAX77301 is sufficient, and only 2 channels are needed.
+For the dataline protection it seems that Nexperia PCMF3USB3B/C WLCSP15 (3 channel) covers most of the needed pieces. Perhaps the protection built into MAX77860 is sufficient, and only 2 channels are needed.
 
 For power line the primary thing I can see is to ensure that the open connector doesn't supply any significant current output.
 

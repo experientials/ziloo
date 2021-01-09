@@ -1,16 +1,20 @@
 
-## 2 pin Battery connector
+## 3 pin Battery connector
 
-This would be a classic PicoBlade/JST surface mounted connector for the embedded battery.
+1. +
+2. GND
+3. Thermistor
 
-This should be rated above 1A to support alternative battery with higher discharge. 
-There should be two islands allowing soldering on the battery wires.
+This would be a AMP Connectors 2.0mm surface mounted connector for the embedded battery.
+This should be rated at 3A+ to support alternative battery with higher discharge. 
+There should be three islands allowing soldering on the battery wires.
 
-Molex Pitch CLIK 5023860270
-https://www.molex.com/molex/products/part-detail/pcb_receptacles/5023860270
+TE Connectivity AMP Connectors 2.0mm (4A rated)
+[3-292173-3](https://www.mouser.ch/ProductDetail/TE-Connectivity/3-292173-3/?qs=%2Fha2pyFadujfUajo0PC2AYyF1gsMGGMwFqfsq3hzxLc%3D)
 
-Molex picoblade 533980267
-https://www.molex.com/molex/products/part-detail/pcb_headers/0533980267
+JAE Electronics 3mm (3A rated)
+[ES9P004VFZR1600](https://www.digikey.com/en/products/detail/jae-electronics/ES9P004VFZR1600/4867379?s=N4IgTCBcDaIKIGUCcAFADGgLANQGIC0AlARgDYMQBdAXyA)
+
 
 ## 12 pin compression connector
 
@@ -34,28 +38,28 @@ https://www.molex.com/molex/products/part-detail/pcb_headers/0533980267
 The battery connector is a direct connection to the internals in the Power Module via 20 pin 1A FFC FPC.
 The Molex connectors have 1A current rating, other connectors only have 0.5A current rating.
 
-1. GND
+1. V_SYS 3.5V - 4.4V
 2. V_SYS 3.5V - 4.4V
 3. V_SYS 3.5V - 4.4V
-4. V_RSV
+4. V_CHARGE 4.2V - 5V (Allows MCU board to charge battery)
 5. GND
 6. Gut SDA (400 KHz)
 7. Gut SCL (400 KHz)
-8. EXT_PWRON (Internal)
-9. CHG_STAT (Internal)
-10. IRQ Charger
-11. STDB_EN_HW (Internal) (Forces suspend of I2C charge functions)
-12. D+
-13. D-
-14. TX1
-15. RX1
-16. TX2
-17. RX2
-18. SBU1
-19. SBU2
-20. CC
+8. IRQ Charger
+9. SBU1
+10. SBU2
+11. LEDEN / CHG_STAT (Internal)
+12. GND
+13. D+
+14. D-
+15. GND
+16. RX+
+17. RX-
+18. GND
+19. TX+
+20. TX-
 
-https://www.molex.com/molex/products/part-detail/ffc_fpc_connectors/0522072033
+[Easy-On FFC/FPC Connector, 1.00mm Pitch, Slider Series, Vertical, 5.75mm Height, 20 Circuits, Tin-Silver-Bismuth Plating](https://www.molex.com/molex/products/part-detail/ffc_fpc_connectors/0526102034)
 
 
 ## USB-C female socket

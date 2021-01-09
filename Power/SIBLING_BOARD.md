@@ -1,6 +1,6 @@
 The Sibling Connector Board is part of a charging and programming platform,
 it is used to supply USB power and signal into our consumer device.
-It is matched by a Connector Board which connects to the underside of our consumer device.
+It is matched by a Bottom Connector Board which connects to the underside of our consumer device.
 
 ![Sibling Connector Board](./sibling-connector.jpg)
 
@@ -23,10 +23,14 @@ The layout of underside isles is
 Front
   
 ```  
-       D-   RX1   D+      + 
----    RX2  CC   TX2     +++
-       SBU  TX1  TBU(?)   +
+       TX-  RX-  D-       + 
+---    TX+  RX+  D+      +++
+       SBU2 CC   SBU1     +
 ```
+
+CC is optionally connected to a resistor to signal higher current (1.5A) draw on the connection. 
+Or equivalent fixed wiring to negotiate high current charging.
+
 
 Back
 
