@@ -2,7 +2,7 @@ The Sibling Connector Board is part of a charging and programming platform,
 it is used to supply USB power and signal into our consumer device.
 It is matched by a Bottom Connector Board which connects to the underside of our consumer device.
 
-![Sibling Connector Board](./sibling-connector.jpg)
+![Sibling Connector Board](./images/sibling-connector.jpg)
 
 
 #### Connectors and Connections

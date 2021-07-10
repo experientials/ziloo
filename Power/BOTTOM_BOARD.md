@@ -20,12 +20,17 @@ what they are for future consideration.
 The initial version of the board should be considered an initial effort. There are open issues that cannot
 be resolved with the initial version.
 
-![Bottom Board](./bottom-board.jpg)
+![Bottom Board](./images/bottom-board.jpg)
+![Finished PCB](./images/20210601_131838.jpg)
+
 
 #### Connectors and Connections
 
 The underside of the board will have a layout of connection, which reflects USB C pins, that will be transferred to an external surface (a bit like the 3 pin power connector on the side of iPad Pro). Metal contact springs will be placed on
 top of the copper isles.
+
+![Surface connector](./images/BOT.png)
+![Connectors on the top](./images/TOP.png)
 
 A + and - island reflect USB 5V and GND. Inbetween there is a grid of 9 dots. 
 These will all be mirrored by an opposing second Base Board which supplies a 

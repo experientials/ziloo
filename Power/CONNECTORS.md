@@ -1,6 +1,8 @@
 
 ## 3 pin Battery connector
 
+The chosen connector is 3Pin JST-PH 1.0mm.
+
 1. +
 2. GND
 3. Thermistor
@@ -70,7 +72,7 @@ It will share lines with the underside connections.
 The board must have a clear set of isles for cutting the connection between pins on the 20 pin PS connector
 and the USB-C connector. When cut it must be possible re-connect the pins by solding the isles together.
 
-![USB-C Pins](./USB-C_pins.png)
+![USB-C Pins](./images/USB-C_pins.png)
 
 Cut/Resolder isles:
 
