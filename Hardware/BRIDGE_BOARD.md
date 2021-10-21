@@ -2,19 +2,50 @@
 
 The bridge board connects the camera module, external connectors and i.MX8M Plus module.
 
+Connectors placed on the board are,
+
 * [Hirose DF40C-100DS-0.4V](https://www.hirose.com/en/product/p/CL0684-4033-4-51)
 * [Hirose CX80B1-24P](https://www.hirose.com/product/p/CL0480-0625-0-00)
 * [Hirose microSD DM3BT-DSF-PEJS](https://www.hirose.com/product/p/CL0609-0029-9-00)
 * [TE Connectivity 45PIN 0.3MMP FPC 3-2328724-5](https://www.te.com/usa-en/product-4-2328724-5.html) $0.41
-* [Hirose DF40C-34DS-0.4V](https://www.hirose.com/en/product/p/CL0684-4024-3-51) [Mouser](https://www.mouser.ch/ProductDetail/Hirose-Connector/DF40C-34DS-04V51?qs=vcbW%252B4%252BSTIpg26DsEbj1iQ%3D%3D)
+* [Hirose DF40C-34DS-0.4V](https://www.hirose.com/en/product/p/CL0684-4024-3-51) ([Mouser](https://www.mouser.ch/ProductDetail/Hirose-Connector/DF40C-34DS-04V51?qs=vcbW%252B4%252BSTIpg26DsEbj1iQ%3D%3D))
 * [Amphenol M.2 Connector Key B 10128787](https://www.amphenol-icc.com/pcie-m-2-10128787001rlf.html)
- 
+ * [CR2450 battery holder BAT-HLD-006-SMT](https://www.mouser.ch/ProductDetail/Linx-Technologies/BAT-HLD-006-SMT?qs=TuK3vfAjtkUyTQHMSqIP6A%3D%3D)
 
 
-For development connections
+## Camera Module Development and testing
 
-* [TE Connectivity 22pin 1mm FPC 2-1734839-2](https://www.te.com/usa-en/product-2-1734839-2.html)
-* [TE Connectivity 15pin 1mm FPC 1-1734592-5](https://www.te.com/usa-en/product-1-1734592-5.html) or [SFW15R-2STE1LF](https://www.amphenol-icc.com/fpc-ffc-sfw15r2ste1lf.html)
+The brige board can be used to test Camera Modules. Connections from the image sensors are connected to the RPi Zero 22pin connector.
+This allows the bridge board to be connected to a [Raspberry Pi CM 4 IO Board](https://www.waveshare.com/compute-module-4-io-board.htm) or [Tinker Edge R](https://tinker-board.asus.com/product/tinker-edge-r.html) for testing.
+
+Pin #	Name	Description
+1	GND	Ground
+2	CAM_D0_N	MIPI Data Lane 0 Negative
+3	CAM_D0_P	MIPI Data Lane 0 Positive
+4	GND	Ground
+5	CAM_D1_N	MIPI Data Lane 1 Negative
+6	CAM_D1_P	MIPI Data Lane 1 Positive
+7	GND	Ground
+8	CAM_CK_N	MIPI Clock Lane Negative
+9	CAM_CK_P	MIPI Clock Lane Positive
+10	GND	Ground
+11	CAM_IO0	Power Enable
+12	CAM_IO1	LED Indicator
+13	CAM_SCL	I2C SCL
+14	CAM_SDA	I2C SDA
+15	CAM_3V3	3.3V Power Input
+
+For development and testing there are additional optional connectors,
+
+* 2 * RPi compatible [TE Connectivity 15pin 1mm FPC 1-84952-5](https://www.te.com/usa-en/product-1-84952-5.html)
+* [TE 45 pins Wire-to-Board FPC 0.3 4-2328724-5](https://www.te.com/usa-en/product-4-2328724-5.html) ([Mouser](https://eu.mouser.com/ProductDetail/TE-Connectivity/4-2328724-5?qs=w%2Fv1CP2dgqow3y3efq3sig%3D%3D)) $0.41
+
+MIPI DSI display output
+
+
+
+## Other notes
+
 
 Development breakouts (bigger version more connectors)
 
@@ -64,3 +95,10 @@ https://www.newegg.com/wavlink-690a5d-usb-3-0/p/0XM-00B5-00052?Description=m.2%2
 
 M.2 Key B - Dell OEM Wireless 5808E DW5808E M.2 Mobile Broadband 4G LTE WWAN Card 4GP3D
 https://www.newegg.com/p/0XM-005R-000P1?Description=m.2%20lte&cm_re=m.2_lte-_-0XM-005R-000P1-_-Product
+
+
+SMB Asembly China
+https://www.nextpcb.com/
+
+SMB Assembly Europe
+https://www.smtlowcost.com

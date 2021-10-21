@@ -13,8 +13,8 @@ OV2740        1080p             1.4um x 1.4um     2729um x 1550um    1.7606     
 
 We are looking for a lens for a dual camera system. Lens alone or Lens + Base.
 
-* FoV Angle: 90 - 120 deg
-* Aperture/Focal: F2.0/4.3mm
+* Horizontal FoV Angle: 110 - 125 deg
+* Aperture/Focal: F2.0/4.3mm (or effective range 20cm - 200cm)
 * Socket: M7 or M8
 * TTL limit: 15 mm, ideally 10 mm
 * Sensor lens size: 1/4" - 1/3" 
@@ -22,6 +22,8 @@ We are looking for a lens for a dual camera system. Lens alone or Lens + Base.
 * [Fuzhou Chuangan](https://chancctv.en.alibaba.com/productgrouplist-804927292/M6_M7_M8_M10_Lens.html)
 * [F1.8 M12 mount 3.6mm fixed iris lens for 1/3″ OV4689](https://aico-lens.com/product/3-6mm-megapixel-fixed-focal-lens-ac13b03618mm/)
 
+
+https://dofsimulator.net/en/
 
 https://www.photopills.com/calculators/dof
 
@@ -60,13 +62,14 @@ Distortion 9%
 Φ10x8.6mm
 
 
-https://www.lensprocctv.com/2-28mm-Super-Wide-Angle-M7-Mount-Lens-For-OV2643-p.html
-MTV-0228BF14M7(2MP)
+
+[MTV-0228BF14M7(2MP)](https://www.lensprocctv.com/2-28mm-Super-Wide-Angle-M7-Mount-Lens-For-OV2643-p.html)
 2.28mm wide angle M7 Mount Mini Lens for OV2643
 FoV 130°*110°*95°
 1/4" F2.4
 Distortion 50%
 Φ10x8.4mm
+Have: 10 samples. Base tiny, fits only 1/4" sensor
 
  
 
@@ -84,16 +87,23 @@ Distortion 50%
 1/4" 2mm Board Lens with DFOV 170 degree Miniature M8 Lens
 
 
-#### Fuzhou .. Optics Kelly Lin
+#### Fuzhou .. Focusafe Optics Kelly Lin
 
 Model No.	Description	Format Cover (inch)	Mount	Focus Length(mm)	Aperture	Field of View 	Unit Price(USD) EXW FUZHOU
 Below 100PCS	100~1000PCS
  
 FS2328B13M8	Megapixel IR Board Lens	1/3"	M8*0.5	2.3	2.8	129° 	5.8	5.3
 FS3225B2MPM10	Megapixel IR Board Lens	1/3"	M10*0.5	3.2	2.5	99° 	5.8	5.3
+
+Dear Thepia, Good day! Thanks for your enquiry! I want to introduce two lenses which is suitable for your camera, pls check belowing lens list with attached data sheet: Model No. Description Format Cover (inch) Mount Focus Length(mm) Aperture Field of View Unit Price(USD) EXW FUZHOU Below 100PCS 100~1000PCS FS2328B13M8 Megapixel IR Board Lens 1/3" M8*0.5 2.3 2.8 129° US$5.8 US$5.3 FS3225B2MPM10 Megapixel IR Board Lens 1/3" M10*0.5 3.2 2.5 99° US$5.8 US$5.3 Awaiting for your comments and advice! Wish you good business! Thanks & Best regards, Kelly Lin Sales Manager Fuzhou Focusafe Optoelectronic Technology Co.,Ltd. Add:2F Building A,YiQiang Industrial Park,No.13 Jinzhou North Road,Fuzhou,350002 China. Tel: +86 591 83337525 Fax:+86 591 88263182 Cell:+86 (0) 13665052376 Email:sales@focusafe.com Trademanager: focusafe Skype:focusafe http://www.focusafe.com http://focusafe.en.alibaba.com
+
+
  
 
+
 #### Fuzhou ChuangAn Jen Lin
+
+**Top option**
 
 Place of Origin:Fujian, China Brand 
 Name:ChuangAn 
