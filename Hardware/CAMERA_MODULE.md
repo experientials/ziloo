@@ -25,19 +25,14 @@ In the supplied material you find
 2) Design Drawing for Camera Module FFC
 3) DF40 34pin connector pinout
 
-Can you give me a price of producing the test batch with/without me supplying gerber files?
+All the information should be in the attached zip file. The only thing missing is the actual PCB layout. I can ask my engineer to do it, or you can do it. 
 
+- Do you have access to OV2735 datasheets?
+- Can you give me a price of producing the test batch with/without me supplying gerber files?
 
+- [OV2735 module details](./OV2735-module/OV2735_CAMERA_MODULE.md) [Module Spec Zip](./OV2735-module.zip)
 
-We will be mounting lenses ourselves. 
-
-Ideally the FFC produced should support different sizes of M7/M8 lens bases.
-
-
-Omnivision OV2735, Ambient sensor APDS-9960, ToF sensor VL53L1,
-CUI MEMS microphone and B2B connector DF40C-34DP-0.4V.
-Broadcom APDS-9960 Proximity Light and Gesture Sensors
-
+P.S. This isn't the final design, but only minor tweaks remain.
 
 
 ### Synchronised Dual Image Sensors Diagram (Current Job)
@@ -75,6 +70,8 @@ Questions to answer:
 - It might be possible to lay out an FFC design that can be used for both variations of the module by mounting alternate 
   components on each and leaving others unconnected. Is this a good idea as it would require sealing it?
 - Do you have suggestions for how to vet and select a factory to make the modules?
+- Recucing the number of voltages supplied: Does it save pins? Does it cost more power?
+- Should the connector be revised to DF30 / DF37 ?
 
 
 ### Milestone 2
@@ -97,6 +94,15 @@ Questions to answer:
 - Ensure no clash of I2C addresses
 - Design for Lens-base alignment holes & backplate
 - 
+
+## Flex
+
+The FFC mounts all components on one side. It is folded around to fit the sensors correctly.
+Three important slack/flex lengths are added.
+1) Parts not used as sensors are not added there
+2) 5mm to allow the camera lens to be shorter
+3) 3mm slack in both ends allow eye to be pulled forward a bit.
+
 
 ## Sensor
 
@@ -169,6 +175,11 @@ For debugging a separate appendage should be added following the RPi 15 pin 1mm 
 * Small battery clip [12BH028-GR](https://eu.mouser.com/ProductDetail/Eagle-Plastic-Devices/12BH028-GR?qs=AQlKX63v8RvfEOo0C5jS5Q%3D%3D)
 
 
+Alternative
+
+* [Panasonic AXT534124 socket/receptacle]() - [Mouser](https://www.mouser.ch/ProductDetail/Panasonic-Industrial-Devices/AXT534124/?qs=2rFUEsTwVNxdSFw7IuWdSA==)
+
+
 ### SCCB / I2C addresses
 
 - Left Image Sensor
@@ -183,32 +194,37 @@ Omnivision SCCB ID select
 Since the image sensors are oriented on the FFC board they can be hardcoded to their ID
 
 
-## Hirose DF40 single eye connector 34/40 pins
+## Hirose DF40 single eye connector 34 pins
+
+
+Toward thin part with microphone and other sensors
 
 1  AF_VDD     Power    Autofocus             3.3V ?
 3  AVDD_2V8   Power    Analog 2.8V OUTPUT, Max 500mA
 5  AVDD_2V8   Power    Analog 2.8V OUTPUT, Max 500mA
 7  DOVDD      Power    Power for I/O circuit, Max 300mA        1.8V
-9  EXTCLK      Input   External Clock Input
+9  Reserved
 11 DVDD_1V2   Power    1.2V  ,MAX 300mA                   For OV2718/32/40 Camera            1.2V
 13 VCC_1V8    Power    1.8V ,MAX 200mA                                       1.8V
-15 XSHUTDOWN  Input    Camera Reset, Active Low   
-17 PWRDN      Input    Camera Power Down
-19 CAM_SID    Input    Sensor slave address selection input   (tentative)
-21 I2C_SCL    I/O      I2C1_SCL(pullup resistor 2.2K)                    1.8V         UP
-23 I2C_SDA    I/O      I2C1_SDA(pullup resistor 2.2K)                    1.8V         UP
-25 CAM_FSIN   I/IO     Frame sync input
-27 Reserved
+15 I2C_SCL    I/O      I2C1_SCL(pullup resistor 2.2K)                    1.8V         UP
+17 I2C_SDA    I/O      I2C1_SDA(pullup resistor 2.2K)                    1.8V         UP
+19 MIC SEL               Mic. Left/Right Select             Microphone I2S        1.8V
+21 BCLK / SCK            Bit clock line                     Microphone I2S        1.8V
+23 WS / LRCLK            Word clock line                    Microphone I2S        1.8V
+25 SDATA1                Input data 1                       Microphone I2S        1.8V
+27 SDATA2                Input data 2 (NC)                  Microphone I2S        1.8V
 29 ATT_INT    Output   Interrupt Attached Sensor, Active L    Interrupts        1.8V?
 31 ATT_XSHUT  Input    Attached Sensor XSHUTDOWN                                    1.8V
 33 Reserved (NC)         PWM Motor control
 
 
-2  MIC SEL               Mic. Left/Right Select             Microphone I2S        1.8V
-4  BCLK / SCK            Bit clock line                     Microphone I2S        1.8V
-6  WS / LRCLK            Word clock line                    Microphone I2S        1.8V
-8  SDATA1                Input data 1                       Microphone I2S        1.8V
-10 SDATA2                Input data 2 (NC)                  Microphone I2S        1.8V
+Towards image sensors
+
+2  XSHUTDOWN  Input    Camera Reset, Active Low   
+4  PWRDN      Input    Camera Power Down
+6  CAM_SID    Input    Sensor slave address selection input   (tentative)
+8  CAM_FSIN   I/IO     Frame sync input
+10 EXTCLK      Input   External Clock Input
 12 -                                                                      GND
 14 MIPI_CSI_RX_CLKP      MIPI_CSI_RX_CLK+                For Camera     1.8V
 16 MIPI_CSI_RX_CLKN      MIPI_CSI_RX_CLK-                For Camera      1.8V
@@ -232,7 +248,8 @@ Since the image sensors are oriented on the FFC board they can be hardcoded to t
 * [M8 Stereo 3D OV4689 USB](http://www.camera-module.com/product/duallenscameramodule/smallest-dual-lens-stereo-3d-camera-module-ov4689.html)
 * [Lumia 925 Lens Assembly](http://mynokiablog.com/2013/07/04/pics-detailed-lumia-925-lens-assembly-high-resolution-images/)
 
-
+* [ArduCam multi-camera solutions](https://www.arducam.com/raspberry-pi-multiple-cameras/)
+* [RPi Camera Scheduler](https://www.waveshare.com/wiki/Camera_Scheduler) on [pi Shop](https://www.pi-shop.ch/raspberry-pi-camera-scheduler-one-cable-for-two-cameras)
 * [Mira130 1.3MP sensor](https://ams.com/mira130) $11 for sensor
 
 
@@ -306,3 +323,15 @@ Lynn Xu
 Component distributor Shenzen
 https://www.fivetreesic.com
 OV2735 sensors
+
+
+**Supplier: camera-module.com**
+
+Camera Module Technology Limited 
+(Shenzhen ChuangMu Technology Co., Ltd)
+Address: #2 Floor, Zaimao Industrial Park, Baoji Road, Bantian Street, LongGang District, Shenzhen, 518129, China
+Tel: 86-755-8958 3007 
+Fax: 86-755-8958 3008
+Email: info@camera-module.com
+Website: www.camera-module.com
+
