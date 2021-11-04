@@ -22,7 +22,21 @@ Version IR components:
 - CMM-4030D-261-I2S-TR
 
 A precise drawing of the module is provided. It is essential that the module is shaped and laid out according to the drawing.
-A 3D Model is also provided. This should be used for precise reference for placing the components.
+A 3D Model is also provided. These should be used for precise reference for placing the components.
+
+
+### Recent changes
+
+I realised that the misunderstanding on connector layout was the numbering scheme.
+It has now been corrected to match the commonly used one.
+
+* Extra ground pins added
+* The pin numbers corrected to make connector layout clear
+* I2S is 1.8V, the microphone must connect to 1.8V
+* No need to use 3.3V in the design
+
+**Just to be clear**: All CSI lanes are laid out on one side of the connector with GND between.
+
 
 ## Bill of Materials
 
@@ -34,33 +48,21 @@ A 3D Model is also provided. This should be used for precise reference for placi
 - Additional resistors and capacitors
 
 
+## Camera mounting
+
+Two versions of the camera module exists. They look nearly the same. 
+They differ in the orientation of the image sensor and type of secondary sensor mounted.
+
+The image sensor is placed centered with mounting holes for an M7 housing and M12 housing in the corners.
+To enable different types of housing mounts the FFC edges in the Image Sensor section must not conduct signal, see drawing.
 
 ![Flex Camera Module for both versions](./OV2735-module.png)
-
-
-## Dual camera setup (only one fitted)
-
-The layout include two ways to mount the image sensor. Only one will be mounted at a time.
-The pins on both image sensor slots connect directly to eachother and on to the connector.
-The current version has mounting holes for one type of M7 base over each of the two sensors.
-
-Ideally the FFC produced should support different sizes of M7/M8/M12 lens bases. This implies more holes.
-For this reason the FFC edges in the Image Sensor section must not conduct signal, see drawing.
-
-![Module version IR](./IR-version-mounting.png)
-
-Module version IR with components
-
-
-![Module version RGB](./RGB-version-mounting.png)
-
-Module version RGB with components
 
 
 
 ## Time-of-Flight + Ambient sensor
 
-The layout include two additional sensors. Only one will be used at a time
+The layout include two additional sensors. Only one will be mounted at a time
 
 VL53L1 will be combined with image sensor oriented in portrait mode going across the FFC in the RGB version.
 APDS-9960 will be combined with image sensor oriented in landscape mode going along the FFC in the IR version.
@@ -99,7 +101,7 @@ Notations printed on the FFC
 - VL53L1 and APDS-9960 uses 2.8V
 - Isles added to allow Mic. Select to be soldered to HIGH(1.8V) or LOW(GND)
 - Isles added to allow I2CID. Select to be soldered to HIGH(1.8V) or LOW(GND)
-- All connector pins(except NC / Reserved) are connected to components
+- LED connections for APDS-9960 are accessble by pads(soldering isles) near the sensor
 - The edges around image sensors must not carry signal to allow punching extra holes for lens alignment
 
 
@@ -153,18 +155,8 @@ Towards image sensors
 
 
 
-### Recent changes
 
-I realised that the misunderstanding on connector layout was the numbering scheme.
-
-* Extra ground pins added
-* The pin numbers corrected to make connector layout clear
-* I2S is 1.8V, the microphone must connect to 1.8V
-* No need to use 3.3V in the design
-
-
-
-## THIS IS NOT THE LAYOUT !!!
+## THE FOLLOWING IS NOT THE PINOUT !!!
 
 Toward thin part with microphone and other sensors
 

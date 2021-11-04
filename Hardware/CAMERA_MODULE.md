@@ -45,7 +45,7 @@ I am currently looking at OV2732/35, but am open to other suggestions.
 The aim of this job is to produce,
 
 - A diagram with two image sensors on their modules and connected to and via the bridge board
-- Review the suggestion of [OV2732](./datasheets/OmniVision_OV2732.pdf) or [OV2732](./datasheets/OmniVision_OV2735.pdf)
+- Review the suggestion of [OV2732](./datasheets/image-sensors/OmniVision_OV2732.pdf) or [OV2732](./datasheets/image-sensors/OmniVision_OV2735.pdf)
 - Suggestion for sensors with 1080p low light video capture capability. Comment on reasoning.
 - Describe what information the factory must supply us such as details from the datasheets or production material details.
 - details on which pins to expose to the receiving/controlling MCU
@@ -112,7 +112,7 @@ Three important slack/flex lengths are added.
 ## Sensor
 
 The sensor chosen for the first batch is OV2735, due to the better low light performance of a big sensor. 
-In case there are supply constraints [Sony IMX307](./datasheets/IMX307LQD_LQR_Flyer02.pdf) is a 1/2.8" 1080p alternative.
+In case there are supply constraints [Sony IMX307](./datasheets/image-sensors/IMX307LQD_LQR_Flyer02.pdf) is a 1/2.8" 1080p alternative.
 
 Notable options,
 
