@@ -23,24 +23,39 @@ We are looking for a lens for a dual camera system. Lens alone or Lens + Base.
 * [Fuzhou Chuangan](https://chancctv.en.alibaba.com/productgrouplist-804927292/M6_M7_M8_M10_Lens.html)
 * [F1.8 M12 mount 3.6mm fixed iris lens for 1/3″ OV4689](https://aico-lens.com/product/3-6mm-megapixel-fixed-focal-lens-ac13b03618mm/)
 
+Pinhole. 140 deg FoV. 1/2.5" sensor. Max 14mm TTL. Ideal focus range 20cm - 200cm. I think F2.0/4.3mm works.
+
 
 https://dofsimulator.net/en/
 
 https://www.photopills.com/calculators/dof
 
+
+The New A-25H-D0
+Variable Focus Liquid Lens
+https://www.corning.com/worldwide/en/products/advanced-optics/product-materials/corning-varioptic-lenses/A-25H-D0_variable_focus_liquid_lens.html
+The new A-25H-D0 liquid lens keeps the same clear aperture (2.5mm) but features a wider dynamic range (70D vs. 18D)
+
+
 Lens requirement
 
-We are looking for a lens for a dual camera system. Lens alone or Lens + Base.
 
 - Perfect focus 25cm - 100cm distance
-- Decent focus 100cm - 400cm
-- Compatible with OV2732, OV2740, OV2718 (if possible OV4689)
-- RGB+IR dual camera use
-- Vertical min. 90deg FOV
-- Nice to have 120deg FOV
-- Small module M6 - M8. 
+- Decent focus 20cm - 400cm
+- Resolution 3MP
+- Sensor size 1/2.5"
+- Aperture 2.4
+- DFOV 140°+
+- M8 or M12. 
 
-Do you have existing lenses that match these requirements?
+Lens holder base requirement
+
+- low profile
+- M8 or M12
+- Space for 9mm x 9mm physical sensor size
+- TTL ~14 mm
+- No ears (ideally)
+
 
 Working assumption:
 
@@ -57,6 +72,25 @@ Firefly FOV D70°H62°V38°
 Black 6mm height plastic M8 m8x0.5 thread 0.5mm mount board car rear view lens socket holder
 
 https://www.alibaba.com/product-detail/Black-6mm-height-plastic-M8-m8x0_60736454859.html?spm=a2700.galleryofferlist.normal_offer.d_image.383e697d6i8agI
+
+
+## TOWIN Pinhole lens
+
+CCL127028PMP Pinhole lens 2.8mm 1/2.7″ IR 3MP HD CCTV M12 mount lens for Covert hidden Surveillance
+
+ IMAGE FORMAT	1/2.7″
+ FOCAL LENGTH	2.8mm
+ F.O.V.	140°(D)
+ F.O.V.	108°(H)
+ RESOLUTION	3 Megapixel
+ APERTURE	F2.4
+ MOUNT	M12X0.5
+ IRIS	Fixed
+ FOCUS	Manual
+ ZOOM	Fixed
+ TTL	12
+ M.O.D.	0.2mTowi
+
 
 
 ## Lenspro Vicky Hou
@@ -90,7 +124,7 @@ Have: 10 samples. Base tiny, fits only 1/4" sensor
 
 
 
-#### Fuzhou Sandra Zhang
+#### Fuzhou ChuangAn Sandra Zhang
 
 1/4" 2mm Board Lens with DFOV 170 degree Miniature M8 Lens
 
