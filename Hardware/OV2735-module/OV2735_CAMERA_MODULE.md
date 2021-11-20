@@ -107,99 +107,36 @@ Notations printed on the FFC
 
 ## Pinouts: Hirose DF40 single eye connector 34 pins
 
+![Pinouts for connector](./OV2735-module-connector-pinouts.png)
 
-Toward thin part with microphone and other sensors
-
-| Pin | Code       | Type     | Details                              | Voltage |
-|-----|------------|----------|--------------------------------------|---------|
-| 1   | AF_VDD     | Power    | Reserved for Autofocus               | 3.3V |
-| 2   | AVDD_2V8   | Power    | Analog, Max 500mA                    | 2.8V |
-| 3   | DOVDD      | Power    | Power for I/O circuit, Max 500mA     | 1.8V |
-| 4   | VCC_1V8    | Power    | 1.8V ,MAX 200mA                      | 1.8V |
-| 5   | GND        | Power    | GND                                  |      |
-| 6   | CAM_FSIN   | I/O      | Frame sync input                     |      |
-| 7   | CAM_STROBE | I/O      | Frame sync output                    |      |
-| 8   | EXTCLK     | Input    | External Clock Input (MCLK)          |      |
-| 9  | ATT_INT    | Output   | Interrupt Attached Sensor, Active L  | 1.8V? |
-| 10  | ATT_XSHUT  | Input    | Attached Sensor XSHUTDOWN            | 1.8V |
-| 11  | Reserved   | AF/PWM   | PWM Motor control (NC)               |      |
-| 12  | I2C_SCL    | I/O      | I2C1_SCL(pullup resistor 2.2K)       | 1.8V |       
-| 13  | I2C_SDA    | I/O      | I2C1_SDA(pullup resistor 2.2K)       | 1.8V |        
-| 14  | BCLK / SCK | I2S      | Bit clock line                       | 1.8V |
-| 15  | WS / LRCLK | I2S      | Word clock line                      | 1.8V |
-| 16  | SDATA1     | I2S      | Input data 1                         | 1.8V |
-| 17  | SDATA2     | I2S      | Input data 2 (NC)                    | 1.8V |
+:[Camera Module 201 connector](./CAMERA_MODULE_CONNECTOR_PINOUT.md)
 
 
-Towards image sensors
+## Lenses for testing
 
-| Pin | Code       | Type     | Details                              | Voltage |
-|-----|------------|----------|--------------------------------------|---------|
-| 34  | AGND       |  Power   | Analog ground                        |         |
-| 33  | RESET      | Input    | Camera Reset, Active Low (RSTB)      |         |
-| 32  | PWRDN      | Input    | Camera Power Down                    |         |
-| 31  | Reserved   |          |                                      |         |
-| 30  | Reserved   |          |                                      |         |
-| 29  | -          |          | GND                                  |         |
-| 28  | CSI_RX_D0P | Camera   | MIPI_CSI_RX_D0+                      | 1.8V    |
-| 27  | CSI_RX_D0N | Camera   | MIPI_CSI_RX_D0-                      | 1.8V    |
-| 26  | -          |          | GND                                  |         |
-| 25  | CSI_RX_D1P | Camera   | MIPI_CSI_RX_D1+                      | 1.8V    |
-| 24  | CSI_RX_D1N | Camera   | MIPI_CSI_RX_D1-                      | 1.8V    |
-| 23  | -          |          | GND                                  |         |
-| 22  | CSI_RX_D2P | Camera   | MIPI_CSI_RX_D2+                      | 1.8V    |
-| 21  | CSI_RX_D2N | Camera   | MIPI_CSI_RX_D2-                      | 1.8V    |
-| 20  | -          |          | GND                                  |         |
-| 19  | CSI_RX_CLKP| Camera   | MIPI_CSI_RX_CLK+                     | 1.8V    |
-| 18  | CSI_RX_CLKN| Camera   | MIPI_CSI_RX_CLK-                     | 1.8V    |
+We plan to test the following lenses
+
+| Model           | Manufactur. | Res.   | Type     | Mount    | Sensor   | HFoV | Aperture | Focal   | Bk Focal | Optcl ln  | M.O.D  |Dimensions / Weight   | 
+|-----------------|-------------|--------|----------|----------|----------|------|----------|---------|----------|-----------|--------|----------------------|
+| [CW-BL15620-5MP](./lenses/CW-BL15620-5MP.jpeg) | TREEYE | 5.0MP | Wide | M12x0.5  | 1 / 3" | 185° | F2.0     | 1.56mm  | 4.3mm    | 21.6mm | 0.2m   | Dia. 20mm * 16mm, 6g, $5, 6G | 
+| [CW-BL2120-5MP](http://www.cwlens.com/en/pd.jsp?id=341#_pp=0_330_2) | TREEYE      | 5.0MP  | Fisheye  | M12x0.5 | 1 / 2.5" | 160° | F2.0     | 2.1mm   | 6.9mm    | 20.7mm    | 0.2m   | Φ17.5 x 17.5, 8g, $4.2 | 
+|                 | AIRFORTH    | ? MP   | Wide     | M8       | 1 / 3"   | 160° |          | 2.1mm   |          |           |        | Racing Drone $3.75 |
+| MTV-0368BF127M7 | Lenspro     | 2 MP   | Semi Wide| M7       | 1 / 2.7" | 97°  | F2.8     | 3.68mm  | 2.01mm   |           | 0.3m   | TTL 9.9mm, Φ10x8.6mm, ~9%, FoV 97°/86.5°/50.5° |
+| CCL127028PMP    | TOWIN       | 3 MP   | Pinhole  | M12x0.5  | 1 / 2.7" | 108° | F2.4     | 2.8mm   |          |           | 0.2m   |  TTL 12,  F.O.V. 140°(D) |
+| CA1308C         | ChuangAn    | MP     | Wide     | M8x0.5   | 1 / 4"   | 115° | F2.4     | 2mm     | 4.10mm   |           |        | 87° *115° *170°  12*L10.57mm |
+| CA1300I         | ChuangAn    |        | Wide     | M7*P0.35 | 1 / 2.5" | 115° | F2.4     | 2.92mm  | 5.26mm   |           | 0.1m   | TTL:13.97mm, 71° *115° *145°, 10*L10.33mm, 5G+IR  |
+| [FS2328B13M8](./lenses/FS2328B13M8.png)     | Focusafe    | MP     | Wide     | M8*0.5   | 1 / 3"   | 115° | F2.8     | 2.3mm   | 5.09mm   |           |        | Flange back 4.5mm, max image circle 6.4mm |
+| HK-8244-1042-1  | Guangtongd. | MP     | Wide     | M12*P0.5 | 1 / 2.7" | 120° | F1.8     | 3.0mm   | 6.04mm   |           |        | Flange back 5.2mm, 6G+IR |
+| JSD2157         | JSD         | MP     | Wide     | M12x0.5  | 1 / 2.7" | 148° | F2.0     | 2.35mm  |          |           |        | 6G, TTL 22mm, Lens diameter 17mm |
+| JSD1529-A1      | JSD         | MP     | Wide     | M7*P0.35 | 1 / 2.7" | 124° | F2.0     | 2.8mm   | 2.61mm   |           |        | Diameter 10mm, TTL 11.51mm |
+| TS-2314T-A10    | TeSoo       | MP     | Fishey   | M7*P0.35 | 1 / 2.3" | 200° | F2.0     | 1.8mm   |          |           |        | Diameter 10mm, TTL 14mm |
 
 
+* https://www.lensprocctv.com/3-68mm-M7-CCTV-Lens-Low-Distortion-OV2710-p.html
+* https://chancctv.en.alibaba.com/product/60534477516-804927292/1_4_2mm_Board_Lens_with_DFOV_170_degree_Miniature_M8_Lens.html
+* https://www.alibaba.com/product-detail/Element-6G-IR-aluminum-glass-plastic_60857424830.html?spm=a2700.wholesale.0.0.55ba6f04EWTHa0
+* https://www.alibaba.com/product-detail/m12-mount-OV2735-hd-wide-angle_62351098002.html?spm=a2756.order-detail-ta-bn-b.0.0.486a2fc23vZisF
+* https://www.alibaba.com/product-detail/m7-lens-camera-F2-0-diagonal_60302931327.html?spm=a2700.wholesale.0.0.2edffc19WUBCbz
+* http://www.cwlens.com/en/pd.jsp?id=13#keyword=CW-BL15620-5MP&_pp=0_378
 
 
-## THE FOLLOWING IS NOT THE PINOUT !!!
-
-Toward thin part with microphone and other sensors
-
-| Pin | Code       | Type     | Details                              | Voltage |
-|-----|------------|----------|--------------------------------------|---------|
-| 1   | AF_VDD     | Power    | Reserved for Autofocus               | 3.3V    |
-| 2   | AGND       |  Power   | Analog ground                        |         |
-| 3   | AVDD_2V8   | Power    | Analog, Max 500mA                    | 2.8V    |
-| 4   | RESET      | Input    | Camera Reset, Active Low (RSTB)      |         |
-| 5   | DOVDD      | Power    | Power for I/O circuit, Max 500mA     | 1.8V    |
-| 6   | CAM_PWRDN  | Input    | Camera Power Down                    |         |
-| 7   | VCC_1V8    | Power    | 1.8V ,MAX 200mA                      | 1.8V    |
-| 8   | Reserved   |          |                                      |         |
-| 9   | Reserved   |          |                                      |         |
-| 10  | Reserved   |          |                                      |         |
-| 11  | CAM_FSIN   | I/O      | Frame sync input                     |         |
-| 12  | Reserved   | AF/PWM   | PWM Motor control (NC)               |         |
-| 13  | CAM_STROBE | I/O      | Frame sync output                    |         |
-| 14  | CSI_RX_D0P | Camera   | MIPI_CSI_RX_D0+                      | 1.8V    |
-| 15  | EXTCLK     | Input    | External Clock Input (MCLK)          |         |
-| 16  | CSI_RX_D0N | Camera   | MIPI_CSI_RX_D0-                      | 1.8V    |
-| 17  | ATT_INT    | Output   | Interrupt Attached Sensor, Active L  | 1.8V?   |
-
-
-
-Towards image sensors
-
-| Pin | Code       | Type     | Details                              | Voltage |
-|-----|------------|----------|--------------------------------------|---------|
-| 18  | -          |          | GND                                  |         |
-| 19  | ATT_XSHUT  | Input    | Attached Sensor XSHUTDOWN            | 1.8V    |
-| 20  | CSI_RX_D1P | Camera   | MIPI_CSI_RX_D1+                      | 1.8V    |
-| 21  | Reserved   | Power    |                                      |         |
-| 22  | CSI_RX_D1N | Camera   | MIPI_CSI_RX_D1-                      | 1.8V    |
-| 23  | I2C_SCL    | I/O      | I2C1_SCL(pullup resistor 2.2K)       | 1.8V    |       
-| 24  | -          |          | GND                                  |         |
-| 25  | I2C_SDA    | I/O      | I2C1_SDA(pullup resistor 2.2K)       | 1.8V    |        
-| 26  | CSI_RX_D2P | Camera   | MIPI_CSI_RX_D2+                      | 1.8V    |
-| 27  | BCLK / SCK | I2S      | Bit clock line                       | 1.8V    |
-| 28  | CSI_RX_D2N | Camera   | MIPI_CSI_RX_D2-                      | 1.8V    |
-| 29  | WS / LRCLK | I2S      | Word clock line                      | 1.8V    |
-| 30  | -          |          | GND                                  |         |
-| 31  | SDATA1     | I2S      | Input data 1                         | 1.8V    |
-| 32  | CSI_RX_CLKP| Camera   | MIPI_CSI_RX_CLK+                     | 1.8V    |
-| 33  | SDATA2     | I2S      | Input data 2 (NC)                    | 1.8V    |
-| 34  | CSI_RX_CLKN| Camera   | MIPI_CSI_RX_CLK-                     | 1.8V    |

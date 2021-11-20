@@ -1,6 +1,6 @@
 # Bridge Board
 
-The bridge board connects the camera module, external connectors and i.MX8M Plus module.
+The bridge board connects two camera modules, external connectors and i.MX8M Plus module.
 
 Connectors placed on the board are,
 
@@ -13,10 +13,11 @@ Connectors placed on the board are,
  * [CR2450 battery holder BAT-HLD-006-SMT](https://www.mouser.ch/ProductDetail/Linx-Technologies/BAT-HLD-006-SMT?qs=TuK3vfAjtkUyTQHMSqIP6A%3D%3D)
 
 
-## Camera Module 2 row connectors
+## Camera Module 201 row connectors
 
 These two connectors have identical pinouts and connect the bridge board to two Camera Modules.
 
+:[Camera Module 201 connector](./CAMERA_MODULE_CONNECTOR_PINOUT.md)
 
 
 
@@ -57,6 +58,24 @@ MIPI DSI display output
 
 
 ## Other notes
+
+
+Inspiration from https://www.waveshare.com/wiki/IMX219-83_Stereo_Camera?spm=a2g0o.detail.1000023.2.296d4832DZoKOX
+
+Use accelerometer 
+ICM20948:
+Accelerometer:
+Resolution: 16-bit
+Measuring Range (configurable): ±2, ±4, ±8, ±16g
+Operating Current: 68.9uA
+Gyroscope:
+Resolution: 16-bit
+Measuring Range (configurable): ±250, ±500, ±1000, ±2000°/sec
+Operating Current: 1.23mA
+Magnetometer:
+Resolution: 16-bit
+Measuring Range: ±4900μT
+Operating Current: 90uA
 
 
 Development breakouts (bigger version more connectors)
