@@ -138,5 +138,5 @@ We plan to test the following lenses
 * https://www.alibaba.com/product-detail/m12-mount-OV2735-hd-wide-angle_62351098002.html?spm=a2756.order-detail-ta-bn-b.0.0.486a2fc23vZisF
 * https://www.alibaba.com/product-detail/m7-lens-camera-F2-0-diagonal_60302931327.html?spm=a2700.wholesale.0.0.2edffc19WUBCbz
 * http://www.cwlens.com/en/pd.jsp?id=13#keyword=CW-BL15620-5MP&_pp=0_378
-
+* https://www.alibaba.com/product-detail/JSD2017-cctv-lens-M8-F2-0_62344332185.html?fromMSite=true
 

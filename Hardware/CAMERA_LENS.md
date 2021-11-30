@@ -199,7 +199,7 @@ M12 18mm hole spacing
 Holder for 1/2.5" 1/3" 1/4" 
 https://www.alibaba.com/product-detail/PC-glass-fiber-18mm-hole-spacing_1600192965995.html?spm=a2700.galleryofferlist.normal_offer.d_title.3a1d2deb77Rsll
 
-
+- Received
 
 
 ## Lenspro Vicky Hou
