@@ -50,10 +50,31 @@ Pin #	Name	Description
 
 For development and testing there are additional optional connectors,
 
+TODO 22 pins
+
 * 2 * RPi compatible [TE Connectivity 15pin 1mm FPC 1-84952-5](https://www.te.com/usa-en/product-1-84952-5.html)
 * [TE 45 pins Wire-to-Board FPC 0.3 4-2328724-5](https://www.te.com/usa-en/product-4-2328724-5.html) ([Mouser](https://eu.mouser.com/ProductDetail/TE-Connectivity/4-2328724-5?qs=w%2Fv1CP2dgqow3y3efq3sig%3D%3D)) $0.41
 
 MIPI DSI display output
+
+
+## NVIDIA compatible connector
+
+20525-030E-02
+
+https://www.i-pex.com/product/cabline-ca
+0.4mm pitch
+30 pins
+
+Reference camera module:
+
+https://www.e-consystems.com/4k-autofocus-camera-for-variscite-imx8.asp
+
+
+
+## I2C Allocation
+
+2. Is system I2C with EEPROM / RTC.
 
 
 
