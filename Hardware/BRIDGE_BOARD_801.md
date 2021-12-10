@@ -1,6 +1,8 @@
 # Bridge Board
 
-The bridge board connects two camera modules, external connectors and i.MX8M Plus module.
+The bridge board connects two camera modules, external connectors and [i.MX8M Plus module](./datasheets/i.MX8/ucm-imx8plus_reference-guide_2021-11-02.pdf).
+The [909 model](./BRIDGE_BOARD_909.md) is a prototyping version of the bridge board, which connects to the [UMC-IMX8PLUS development board] rather than hosting the i.MX module directly.
+
 
 Connectors placed on the board are,
 
@@ -12,12 +14,15 @@ Connectors placed on the board are,
 * [Amphenol M.2 Connector Key B 10128787](https://www.amphenol-icc.com/pcie-m-2-10128787001rlf.html)
  * [CR2450 battery holder BAT-HLD-006-SMT](https://www.mouser.ch/ProductDetail/Linx-Technologies/BAT-HLD-006-SMT?qs=TuK3vfAjtkUyTQHMSqIP6A%3D%3D)
 
+- Power connector [JST SHR-03V-S CHM-1-2389](https://www.jst.com/products/crimp-style-connectors-wire-to-board-type/sh-connector/)
+
+
 
 ## Camera Module 201 row connectors
 
 These two connectors have identical pinouts and connect the bridge board to two Camera Modules.
 
-:[Camera Module 201 connector](./CAMERA_MODULE_CONNECTOR_PINOUT.md)
+:[Camera Module 201 connector](./pinouts/CAMERA_MODULE_CONNECTOR_PINOUT.md)
 
 
 

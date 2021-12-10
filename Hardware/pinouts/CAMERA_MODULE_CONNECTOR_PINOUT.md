@@ -13,7 +13,7 @@ Toward thin part with microphone and other sensors
 | 6   | CAM_FSIN   | I/O      | Frame sync input                     |      |
 | 7   | CAM_STROBE | I/O      | Frame sync output                    |      |
 | 8   | EXTCLK     | Input    | External Clock Input (MCLK)          |      |
-| 9  | ATT_INT    | Output   | Interrupt Attached Sensor, Active L  | 1.8V? |
+| 9   | ATT_INT    | Output   | Interrupt Attached Sensor, Active L  | 1.8V? |
 | 10  | ATT_XSHUT  | Input    | Attached Sensor XSHUTDOWN            | 1.8V |
 | 11  | Reserved   | AF/PWM   | PWM Motor control (NC)               |      |
 | 12  | I2C_SCL    | I/O      | I2C1_SCL(pullup resistor 2.2K)       | 1.8V |       
