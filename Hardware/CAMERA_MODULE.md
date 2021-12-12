@@ -45,7 +45,7 @@ I am currently looking at OV2732/35, but am open to other suggestions.
 The aim of this job is to produce,
 
 - A diagram with two image sensors on their modules and connected to and via the bridge board
-- Review the suggestion of [OV2732](./datasheets/OmniVision_OV2732.pdf) or [OV2732](./datasheets/OmniVision_OV2735.pdf)
+- Review the suggestion of [OV2732](./datasheets/image-sensors/OmniVision_OV2732.pdf) or [OV2732](./datasheets/image-sensors/OmniVision_OV2735.pdf)
 - Suggestion for sensors with 1080p low light video capture capability. Comment on reasoning.
 - Describe what information the factory must supply us such as details from the datasheets or production material details.
 - details on which pins to expose to the receiving/controlling MCU
@@ -71,7 +71,6 @@ Questions to answer:
   components on each and leaving others unconnected. Is this a good idea as it would require sealing it?
 - Do you have suggestions for how to vet and select a factory to make the modules?
 - Recucing the number of voltages supplied: Does it save pins? Does it cost more power?
-- Should the connector be revised to DF30 / DF37 ?
 
 
 ### Milestone 2
@@ -93,6 +92,12 @@ Questions to answer:
 - Microphone LR clock and select. Can we put logic on bridge board to reduce pins?
 - Ensure no clash of I2C addresses
 - Design for Lens-base alignment holes & backplate
+- Should the connector be revised to DF30 / DF37 ?
+- Which voltages should be passed to the module; Will 2.8V & 1.8V be power consumption efficient? Additionally 3.3V or 1.2/1.3?
+- Can autofocus motors run on less than 3.3V?
+- Is there a benefit in having 4 MIPI lanes vs 3?
+- Can module identity be programmed in sensor EEPROM?
+- Microphone L/R select via I2C?
 - 
 
 ## Flex
@@ -107,7 +112,7 @@ Three important slack/flex lengths are added.
 ## Sensor
 
 The sensor chosen for the first batch is OV2735, due to the better low light performance of a big sensor. 
-In case there are supply constraints [Sony IMX307](./datasheets/IMX307LQD_LQR_Flyer02.pdf) is a 1/2.8" 1080p alternative.
+In case there are supply constraints [Sony IMX307](./datasheets/image-sensors/IMX307LQD_LQR_Flyer02.pdf) is a 1/2.8" 1080p alternative.
 
 Notable options,
 
@@ -179,6 +184,8 @@ Alternative
 
 * [Panasonic AXT534124 socket/receptacle]() - [Mouser](https://www.mouser.ch/ProductDetail/Panasonic-Industrial-Devices/AXT534124/?qs=2rFUEsTwVNxdSFw7IuWdSA==)
 
+* OX03F10 as a more squre 4 lane version (surround view system)
+
 
 ### SCCB / I2C addresses
 
@@ -194,49 +201,53 @@ Omnivision SCCB ID select
 Since the image sensors are oriented on the FFC board they can be hardcoded to their ID
 
 
-## Hirose DF40 single eye connector 34 pins
+## Pinouts: Hirose DF40 single eye connector 34 pins
 
 
 Toward thin part with microphone and other sensors
 
-1  AF_VDD     Power    Autofocus             3.3V ?
-3  AVDD_2V8   Power    Analog 2.8V OUTPUT, Max 500mA
-5  AVDD_2V8   Power    Analog 2.8V OUTPUT, Max 500mA
-7  DOVDD      Power    Power for I/O circuit, Max 300mA        1.8V
-9  Reserved
-11 DVDD_1V2   Power    1.2V  ,MAX 300mA                   For OV2718/32/40 Camera            1.2V
-13 VCC_1V8    Power    1.8V ,MAX 200mA                                       1.8V
-15 I2C_SCL    I/O      I2C1_SCL(pullup resistor 2.2K)                    1.8V         UP
-17 I2C_SDA    I/O      I2C1_SDA(pullup resistor 2.2K)                    1.8V         UP
-19 MIC SEL               Mic. Left/Right Select             Microphone I2S        1.8V
-21 BCLK / SCK            Bit clock line                     Microphone I2S        1.8V
-23 WS / LRCLK            Word clock line                    Microphone I2S        1.8V
-25 SDATA1                Input data 1                       Microphone I2S        1.8V
-27 SDATA2                Input data 2 (NC)                  Microphone I2S        1.8V
-29 ATT_INT    Output   Interrupt Attached Sensor, Active L    Interrupts        1.8V?
-31 ATT_XSHUT  Input    Attached Sensor XSHUTDOWN                                    1.8V
-33 Reserved (NC)         PWM Motor control
+| Pin | Code       | Type     | Details                              | Voltage |
+|-----|------------|----------|--------------------------------------|---------|
+| 1   | AF_VDD     | Power    | Reserved for Autofocus               | 3.3V |
+| 3   | AVDD_2V8   | Power    | Analog, Max 500mA                    | 2.8V |
+| 5   | DOVDD      | Power    | Power for I/O circuit, Max 500mA     | 1.8V |
+| 7   | VCC_1V8    | Power    | 1.8V ,MAX 200mA                      | 1.8V |
+| 9   | Reseved    | Power    |                                      |      |
+| 11  | CAM_FSIN   | I/O      | Frame sync input                     |      |
+| 13  | CAM_STROBE | I/O      | Frame sync output                    |      |
+| 15  | EXTCLK     | Input    | External Clock Input (MCLK)          |      |
+| 17  | ATT_INT    | Output   | Interrupt Attached Sensor, Active L  | 1.8V? |
+| 19  | ATT_XSHUT  | Input    | Attached Sensor XSHUTDOWN            | 1.8V |
+| 21  | Reserved   | AF/PWM   | PWM Motor control (NC)               |      |
+| 23  | I2C_SCL    | I/O      | I2C1_SCL(pullup resistor 2.2K)       | 1.8V |       
+| 25  | I2C_SDA    | I/O      | I2C1_SDA(pullup resistor 2.2K)       | 1.8V |        
+| 27  | BCLK / SCK | I2S      | Bit clock line                       | 1.8V |
+| 29  | WS / LRCLK | I2S      | Word clock line                      | 1.8V |
+| 31  | SDATA1     | I2S      | Input data 1                         | 1.8V |
+| 33  | SDATA2     | I2S      | Input data 2 (NC)                    | 1.8V |
 
 
 Towards image sensors
 
-2  XSHUTDOWN  Input    Camera Reset, Active Low   
-4  PWRDN      Input    Camera Power Down
-6  CAM_SID    Input    Sensor slave address selection input   (tentative)
-8  CAM_FSIN   I/IO     Frame sync input
-10 EXTCLK      Input   External Clock Input
-12 -                                                                      GND
-14 MIPI_CSI_RX_CLKP      MIPI_CSI_RX_CLK+                For Camera     1.8V
-16 MIPI_CSI_RX_CLKN      MIPI_CSI_RX_CLK-                For Camera      1.8V
-18 -                                                                       GND
-20 MIPI_CSI_RX0_D0P      MIPI_CSI_RX_D0+                  For Camera        1.8V
-22 MIPI_CSI_RX_D0N       MIPI_CSI_RX_D0-                  For Camera         1.8V
-24 -                                                                       GND
-26 MIPI_CSI_RX_D1P       MIPI_CSI_RX_D1+                  For Camera            1.8V
-28 MIPI_CSI_RX_D1N       MIPI_CSI_RX_D1-                  For Camera            1.8V
-30 -                                                                      GND
-32 MIPI_CSI_RX_D2P       MIPI_CSI_RX_D2+                  For Camera            1.8V
-34 MIPI_CSI_RX_D2N       MIPI_CSI_RX_D2-                  For Camera            1.8V
+| Pin | Code       | Type     | Details                              | Voltage |
+|-----|------------|----------|--------------------------------------|---------|
+| 2   | AGND       |  Power   | Analog ground                        |         |
+| 4   | XSHUTDOWN  | Input    | Camera Reset, Active Low (RSTB)      |         |
+| 6   | PWRDN      | Input    | Camera Power Down                    |         |
+| 8   | Reserved   |          |                                      |         |
+| 10  | Reserved   |          |                                      |         |
+| 12  | Reserved   |          |                                      |         |
+| 14  | CSI_RX_D0P | Camera   | MIPI_CSI_RX_D0+                      | 1.8V    |
+| 16  | CSI_RX_D0N | Camera   | MIPI_CSI_RX_D0-                      | 1.8V    |
+| 18  | -          |          | GND                                  |         |
+| 20  | CSI_RX_D1P | Camera   | MIPI_CSI_RX_D1+                      | 1.8V    |
+| 22  | CSI_RX_D1N | Camera   | MIPI_CSI_RX_D1-                      | 1.8V    |
+| 24  | -          |          | GND                                  |         |
+| 26  | CSI_RX_D2P | Camera   | MIPI_CSI_RX_D2+                      | 1.8V    |
+| 28  | CSI_RX_D2N | Camera   | MIPI_CSI_RX_D2-                      | 1.8V    |
+| 30  | -          |          | GND                                  |         |
+| 32  | CSI_RX_CLKP| Camera   | MIPI_CSI_RX_CLK+                     | 1.8V    |
+| 34  | CSI_RX_CLKN| Camera   | MIPI_CSI_RX_CLK-                     | 1.8V    |
 
 
 

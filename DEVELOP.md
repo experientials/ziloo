@@ -17,3 +17,17 @@ Components include,
 * [Raspberry Pi Compute Module 4 IO Board With PoE Feature (Type B), for all Variants of CM4](https://www.waveshare.com/compute-module-4-poe-board-b.htm?___SID=U)
 * [IMX219-83 Stereo Camera, 8MP Binocular Camera Module, Depth Vision](https://www.waveshare.com/imx219-83-stereo-camera.htm)
 * [Raspberry Pi Compute Module 4, 2GB / No EMMC / Wireless CM4102000](https://www.waveshare.com/product/raspberry-pi/boards-kits/compute-module-4-cat/compute-module-4.htm?sku=18788)
+* [Compute module devboard support cameras](https://www.waveshare.com/wiki/CM4-IO-BASE-A)
+
+
+Test camera0:
+
+```
+sudo raspivid -t 0 -cs 0
+```
+
+Test camera1:
+
+```
+sudo raspivid -t 0 -cs 1
+```
