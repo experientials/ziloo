@@ -5,13 +5,18 @@ the i.MX8 board. The setup enables connecting a Compulab SB-UCM-iMX8PLUS develop
 Alternately a board like Raspberry Pi can be connected to test components via development connectors.
 Not all the 909 connectors will be mounted on the 801 production bridge board that mounts the i.MX8 board.
 
+- Some of the UCM-iMX8M-Plus carrier board interface pins are multifunctional. Up to 4 functions (ALT modes) are accessible through each multifunctional pin.
+- All of the UCM-iMX8M-Plus digital interfaces operate at 3.3V voltage levels unless noted otherwise.
+- NOTE: RGMII ENET1 signals operate at 1.8V voltage level
+- NOTE: SD/SDIO port #2 can be configured to operate at 3.3V or 1.8V voltage levels. Voltage level is controlled by SoC pin GPIO1_IO04.
+
 TODO
-- CSI connector pin orientation
 - Check if the 22 pin connectors can be bidirectional
-- Extras pinouts I2S I2C
-- Desiding Soldering isles
-- Signal pin voltage 1.8 / 3.3
-- 
+- Signal voltage PD Controller?
+- Camera modules are signal voltage 1.8V
+- Review if camera 1.8V, 2.8V should come from camera input connector or power connector.
+- Dynamic Voltage/Frequency Design options?
+- Evaluate the need for additional pinouts from TPS65982 (TPS PD Controller Dev PSIL091B(002).PDF)
 
 ![Ziloo Bridge Board 909](./ziloo-bridge-909.png)
 
@@ -20,11 +25,14 @@ TODO
 
 If one of the USB-C connectors supplies power it is managed by the USB PD Controller circuit and routed to 
 the 10-pin Power Connnector as VIN.
-The bridge board is powered via 5V and 3V3 from the 10-pin Power connector. 
+
 The power connector sends the power from USB-C connectors away from the board
-to be used and sent back as regulated voltages. 
-The regulated 3V3 is downregulated to supply camera modules.
+to be used and sent back as regulated 5V.
+ 
 The regulated 5V is used to supply attached USB devices that do not themselves provide power.
+The regulated 5V is also downregulated to 3V3, 2V8 and 1V8.
+
+The bridge board is powered via 5V from the 10-pin Power connector, and its downregulated variants. 
 
 
 #### Power supply TI chipset
@@ -37,6 +45,8 @@ The TPS65982 device is a stand-alone USB Type-C and Power Delivery (PD) controll
 
 A minimal version of this setup should be placed on the 909 to handle power. I.E. No TUSB1044
 
+The 10 pin power connector can be used to test the chipset and USB devices attached.
+
 
 #### Handling USB Connectors
 
@@ -47,6 +57,33 @@ Power regulators receive power from USB connectors and supply the 12V & 5V power
 The USB-C connectors can power the carrier board 12V by upregulating, which would be done on the In-Between board.
 
 
+
+## 8.1 Carrier Board Design Guidelines
+
+APPLICATION NOTES from  UCM-iMX8M-Plus Reference guide.
+
+- Ensure that all V_SOM and GND power pins are connected.
+- Major power rails - V_SOM and GND must be implemented by planes, rather than traces. Using at least two planes is essential to ensure the system signal quality because the planes provide a current return path for all interface signals.
+- It is recommended to put several 10/100uF capacitors between V_SOM and GND near the mating connectors.
+- Except for a power connection, no other connection is mandatory for UCM-iMX8M-Plus operation. All power-up circuitry and all required pullups/pulldowns are available onboard UCM-iMX8M-Plus.
+- If for some reason you decide to place an external pullup or pulldown resistor on a certain signal (for example - on the GPIOs), first check the documentation of that signal provided in this manual. Certain signals have on-board pullup/pulldown resistors required for proper initialization. Overriding their values by external components will disable board operation. For details please refer to section Error! Reference source not found..
+- You must be familiar with signal interconnection design rules. There are many sensitive groups of signals. For example:
+- PCIe, Ethernet, USB and more signals must be routed in differential pairs and by a controlled impedance trace.
+- Audio input must be decoupled from possible sources of carrier board noise.
+- The following interfaces should meet the differential impedance requirements with
+manufacturer tolerance of 10%:
+- USB2.0: DP/DM signals require 90 ohm differential impedance.
+- All single-ended signals require 50 ohm impedance.
+- PCIe TX/RX data pairs and PCIe clocks require 85 ohm differential impedance.
+- Ethernet, MIPI-CSI and MIPI-DSI signals require 100 ohm differential impedance.
+- The carrier board interface connectors provide 3mm mating height. Bear in mind that there are components on the bottom side of UCM-iMX8M-Plus. It is not recommended to place any components underneath the UCM-iMX8M-Plus module.
+- Refer to the SB-UCMIMX8PLUS carrier board reference design schematics.
+- It is recommended to send the schematics of the custom carrier board to Compulab
+support team for review.
+
+V_SOM is recommended between 3.45 and 4.4 volt, typical 3.7
+
+
 ## Connectors
 
 Connectors placed on the board are,
@@ -54,9 +91,8 @@ Connectors placed on the board are,
 - 2 * [Molex 22PIN 0.5mm pitch 54548-2271](https://www.molex.com/molex/products/part-detail/ffc_fpc_connectors/0545482271)
 - 2 * [I-PEX 30PIN 0.4mm pitch 20525-030E-02](https://www.i-pex.com/product/cabline-ca)
 - 2 * [Hirose USB-C CX80B1-24P](https://www.hirose.com/product/p/CL0480-0625-0-00)
-- 2 * [TE Connectivity 45PIN 0.3MM 571-4-2328724-5 FPC 3-2328724-5](https://www.te.com/usa-en/product-4-2328724-5.html) $0.41
-- 2 * [Hirose DF40C-34DS-0.4V](https://www.hirose.com/en/product/p/CL0684-4024-3-51) ([Mouser](https://www.mouser.ch/ProductDetail/Hirose-Connector/DF40C-34DS-04V51?qs=vcbW%252B4%252BSTIpg26DsEbj1iQ%3D%3D))
-- 1 * [TE 10PIN 1mm pitch power 84952-0](https://www.te.com/usa-en/product-84952-0.html)
+- 1 * [TE Connectivity 45PIN 0.3MM 571-4-2328724-5 FPC 3-2328724-5](https://www.te.com/usa-en/product-4-2328724-5.html) $0.41
+- 2 * [Hirose DF40C-34DS-0.4V](https://www.hirose.com/en/product/p/CL0684-4023-0-51) ([Mouser](https://www.mouser.ch/ProductDetail/Hirose-Connector/DF40C-34DS-04V51?qs=vcbW%252B4%252BSTIpg26DsEbj1iQ%3D%3D))
 
 The two 100 pin Hirose connectors are not mounted but are in 3D design for reference. It will connect the MCU board on the 801.
 
@@ -80,13 +116,18 @@ the camera modules should be powered over the MIPI CSI connectors.
 In this case it should be possible to use either the 22 pin connectors or the 30 pin connectors for inputting
 the signal and power. This means that the 22 pin connectors can be used to input or output MIPI CSI lanes.
 
+Signal voltage level 
 
-### Soldering isles
-
-Soldering iles allows the board connections to be tweaked by,
-
-- Connecting I2C busses together
-- Connecting I2S busses to alternate DATAx pins. 
+- 201 Camera Module uses 1.8V signals
+- IMX477 sensor uses 1.8V for signals
+- Does RPi cam module level shift the signals?
+- UMC iMX8PLUS module uses 3.3V for signals by default
+- UMC iMX8PLUS module RGMII ENET1 signals operate at 1.8V voltage level
+- iMX8M plus is documented to use VDD_MIPI_1P8 power group for CSI1 & CSI2
+- iMX8M plis is documented to use VDD_HDMI_1P8 power group for HDMI
+- NVCC_SAI1_SAI5 power group?
+- What will the I2C 5+6 power group be?
+- USB 1 & 2 uses VDD_USB_3P3 power group
 
 
 
@@ -96,21 +137,12 @@ Soldering iles allows the board connections to be tweaked by,
 
 For further details see [Product Page](https://www.compulab.com/products/carrier-boards/sb-ucmimx8plus-carrier-board/#diagram).
 
-- 2 * I-PEX connector directly between the two
-- 2 * 45 pins connected to Inbetween-board
-- 10 pins power connector to 101 Inbetween-board
-- USB-C connector to model 101 Inbetween-board
-- USB-A connector to model 101 Inbetween-board
-- HDMI female to Inbetween-board
-
-
-101 board breaks up 45 pins to be bridged to Misc connector
-and USB-C connectors
-
-In revision B the Host connector is alternately used to carry HDMI instead of connecting to 
-Bluetooth/Wifi connectivity.
-
-(801 Board will have V_SYS power input of 3.6V - 4.4V potentially from battery)
+- 2 * I-PEX connector directly between UCM carrier board and bridge board
+- 45 pins connected to Inbetween breakout boards
+- 10 pins power connector to Inbetween breakout boards
+- USB-C connector to Inbetween breakout boards
+- USB-A connector to Inbetween breakout boards
+- HDMI female to Inbetween breakout boards
 
 
 
@@ -135,26 +167,16 @@ This connector(only on the 909 model) enables experimentation with alternate mod
 :[45 pins T-USB direct connector](../pinouts/T-USB_DIRECT_CONNECTOR.md)
 
 
-### Extras connector
+### Camera breakout connector
 
-:[45 pins Extras connector](../pinouts/EXTRAS_CONNECTOR.md)
+These connectors will not normally be mounted, but instead be breakout throughholes.
 
+The two breakouts are spaced 58.42mm (22 * 2.54mm)
 
-
-
-### HDMI connector mapping (future rev B)
-
-The HDMI signal from the i.MX8 board is mapped to USB-C. While providing HDMI Ziloo cannot be connected
-to
+:[10 pin Camera breakout connector](../pinouts/CAMERA_BREAKOUT_CONNECTOR.md)
 
 
-### USB4 support (future rev C)
 
-* Use Texas Instruments TPS65994AD to route thunderbolt
-
-USB Interface IC Dual port USB Type-C and USB PD controller with integrated source power switches 48-VQFN -40 to 125
-
-[Temporary stop for Thunderbolt 4 and USB 4 on Intel’s Tiger Lake?](https://www.igorslab.de/en/goes-with-intel-for-tiger-lake-and-thunderbolt-4-bald-the-lights-out-what-chip-shortage-really-means-exclusively/)
 
 
 ### RPI FPC 22 pins
@@ -165,79 +187,12 @@ Raspberry Pi connectors
 - 54548-2271   Molex 22 pins  Right angle Pi Zero & Compute module
 - SFW15R-2STE1LF  Amphenol FCI 15 pins Right angle Camera Module
 
-
-
-| Pin | Code       | Type     | Details                              | Voltage |
-|-----|------------|----------|--------------------------------------|---------|
-| 1   |	GND        | Power    | Ground                               |      |
-| 2   |	CAM_D0_N   | Data     | MIPI Data Lane 0 Negative            |      |
-| 3   |	CAM_D0_P   | Data     | MIPI Data Lane 0 Positive            |      |
-| 4   |	GND        | Power    | Ground                               |      |
-| 5   |	CAM_D1_N   | Data     | MIPI Data Lane 1 Negative            |      |
-| 6   |	CAM_D1_P   | Data     | MIPI Data Lane 1 Positive            |      |
-| 7   |	GND        | Power    | Ground                               |      |
-| 8   |	CAM_CK_N   | Data     | MIPI Clock Lane Negative             |      |
-| 9   |	CAM_CK_P   | Data     | MIPI Clock Lane Positive             |      |
-| 10  |	GND        | Power    | Ground                               |      |
-| 11  |	CAM_D2_N   | Data     | MIPI Data Lane 2 Negative            |      |
-| 12  |	CAM_D2_P   | Data     | MIPI Data Lane 2 Positive            |      |
-| 13  |	GND        | Power    | Ground                               |      |
-| 14  |	CAM_D3_N   | Data     | MIPI Data Lane 3 Negative            |      |
-| 15  |	CAM_D3_P   | Data     | MIPI Data Lane 3 Positive            |      |
-| 16  |	GND        | Power    | Ground                               |      |
-| 17  |	CAM_IO0    | Power    | Power Enable                         |      |
-| 18  |	CAM_IO1    | LED      | LED Indicator                        |      |
-| 19  |	GND        | Power    | Ground                               |      |
-| 20  |	SCL        | I2C      | I2C SCL                              |      |
-| 21  |	SDA        | I2C      | SCCB serial Interface data IO        |      |                           
-| 22  |	VCC        | Power    | 3.3V Power Supply                    |      |
-
+:[22 pins RPi CSI connector](../pinouts/RPI_22_CONNECTOR.md)
 
 
 ### NVIDIA FPC 30 pins
 
-The connector is an [I-PEX type 20525-030E-02](https://www.i-pex.com/product/cabline-ca) with 0.4mm pitch & 30 pins.
-Data pins are 1.8V level.
-
-
-| Pin | Code       | Details                              |
-|-----|------------|--------------------------------------|
-| 1   | CAM_3V3	   | 3.3V Power Input                     |
-| 2   | CAM_3V3    |                                      |
-| 3   | CAM_1V8	   | 1.8V Power Input                     |
-| 4   | GND        |                   |
-| 5   | GND        |                   |
-| 6   | PWR DWN    |                   |
-| 7   | I2C SCL    |                   |
-| 8   | I2C SDA    |                   |
-| 9   | GND        |                   |
-| 10  | CSI D2-    |                   |
-| 11  | CSI D2+    |                   |
-| 12  | TRIGGER    |                   |
-| 13  | MCLK       |                   |
-| 14  | Reserved   |                   |
-| 15  | CSI D1-    |                   |
-| 16  | CSI D1+    |                   |
-| 17  | GND        |                   |
-| 18  | GND        |                   |
-| 19  | CSI D0-    |                   |
-| 20  | CSI D0+    |                   |
-| 21  | RESET      |                   |
-| 22  | GND        |                   |
-| 23  | Reserved   |                   |
-| 24  | CSI CLK-   |                   |
-| 25  | CSI CLK+   |                   |
-| 26  | GND        |                   |
-| 27  | CSI D3-    |                   |
-| 28  | CSI D3+    |                   |
-| 29  | Flash      |                   |
-| 30  | Reserved   |                   |
-
-Refs
-- https://www.leopardimaging.com/product/accessories/cables/faw-1233-03/
-- https://www.mouser.com/datasheet/2/233/LI-TX1-CB-6CAM_datasheet-1395894.pdf
-- https://connecttech.com/ftp/pdf/ASG006_Spacely.pdf
-- https://www.i-pex.com/product/cabline-ca
+:[30 pins I-PEX CSI connector](../pinouts/I-PEX_30_CONNECTOR.md)
 
 
 ### Ziloo Camera Module 34 pin connector
