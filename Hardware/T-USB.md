@@ -27,6 +27,10 @@ The CC pins can be used to enable alternate T-USB cables for different connectio
 Difference resistance levels or something similar.
 
 
+TODO
+DX+ DX- pins are used for debugging connections. Re: Serial Debug console UART2 & 4.
+
+
 TODO Scenarios
 
 * Power + Bluetooth/Controller + HDMI Display

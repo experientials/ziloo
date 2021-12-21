@@ -152,7 +152,7 @@ Two USB-C connectors are arranged in a T shape and the normal way to use it is w
 attached. This means that the wires will normally be connected in a particular orientation. The system
 takes advantage of this by detecting when both USBs are connected in the normal arrangement.
 
-:[T-USB Connector Mapping](../pinouts/T-USB_CONNECTOR_PINOUT.md)
+:[T-USB Connector Mapping](../pinouts/T-USB_WITH_DIRECT_CONNECTOR_PINOUT.md)
 
 
 ## Board Power 10 pins Connector

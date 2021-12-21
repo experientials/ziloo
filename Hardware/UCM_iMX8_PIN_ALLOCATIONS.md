@@ -1,6 +1,6 @@
 # Pin Allocations
 
-![UCM iMX8M SoM block diagram](./refs/UCM-iMX8M-Plus-System-on-Module-block-diagram.png)
+![UCM iMX8M SoM block diagram](./refs/Compulab/UCM-iMX8M-Plus-System-on-Module-block-diagram.png)
 
 The Misc connectors are used to route additional busses to the bridge board.
 To enable this FLEXCAN and ENET1 are re-mapped to other ports. LVDS isn't used, but only I2C3 can be mapped.
