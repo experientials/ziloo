@@ -18,3 +18,4 @@ Ziloo has an M.2 type B expansion port for wireless connectivity and SSD utility
 * HDMI
 * JTAG
 * PDM Microphone
+* Debug UARTs

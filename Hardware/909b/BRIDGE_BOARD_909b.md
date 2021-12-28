@@ -2,7 +2,8 @@
 
 The 909b is a Bridge Board version made for testing and experiementation with the Ziloo attachments without attaching
 the SB-UCM i.MX8 board or directly attaching it. 
-The setup enables connecting a Compulab SB-UCM-iMX8PLUS or [I-Pi SMARC IMX8M Plus](https://www.ipi.wiki/products/i-pi-smarcplus-imx8mp) development board.
+The setup enables connecting a [Compulab SB-UCM-iMX8PLUS](https://www.compulab.com/products/carrier-boards/sb-ucmimx8plus-carrier-board/) or 
+[I-Pi SMARC IMX8M Plus](https://www.ipi.wiki/products/i-pi-smarcplus-imx8mp) development board.
 Not all the 909 connectors will be mounted on the 801 production bridge board that mounts the i.MX8 board.
 
 The board provides two key features: Dual USB connectivity for Webcam, Internet, Display & Power; MIPI CSI Stereo Camera.
@@ -23,14 +24,23 @@ Alt. Mode, HDMI and extra MIPI CSI connectors are not intended for the productio
 - Connect HD3SS460 pins POL AMSEL EN
 - Should HD3SS3220 be used to mux between M.2 and T-USB connector?
 - Plan I2C addresses and which bus is used
-- Can PD Controller control other chipsets or is it just a slave?
+- Can PD Controller control other chipsets or is it just I2C slave?
 - Ensure all pins are connected to GPIO Expander
 - Add bridge board EEPROM
 - Should there be Boot origin switches like EVK? (4 bits? EVK)
 - Add Reset/Power push buttons
+- Power LED
 - Document Camera sync breakout connector
 - Revise the M.2 key type for the second one (currently key E)
 - Document connections on the two M.2 connectors
+- Second stage designing a 909 Smiley Board
+- Adding connectors SCCB, GPIO
+- Adding second m.2 connector with mounting screw holder glued on
+- Samtec connector pin 1, and soldering isles
+- Optional connectors debug uart / jtag
+- Connection option for Varscite board instead of Compulab
+- RTC battery connector 
+- Annotations and Logo on the board
 
 
 ## Connectors
@@ -48,7 +58,11 @@ Connectors placed on the board are,
 - 1 * [PicoBlade 4 pin 533980471](https://www.molex.com/molex/products/part-detail/pcb_headers/0533980471) for the power ouput. Can be replaced with a higher quality/current connector.
 - 1 * m.2 key B connector
 - 1 * m.2 key E connector [Amphenol ICC](https://www.amphenol-icc.com/pci-express-10128794004rlf.html)
-- 
+
+- 1 * TSM-120-01-F-DV Samtec 2*20 pins surface mounted .100 (Smiley model) [Mouser](https://www.mouser.ch/ProductDetail/Samtec/TSM-120-01-F-DV?qs=rU5fayqh%252BE2gtcIirjF3kA%3D%3D)
+- 2 * 6 pins header CSI breakout 200-TSM10601FSV [Mouser](https://www.mouser.ch/ProductDetail/Samtec/TSM-106-01-F-SV?qs=FESYatJ8odKC4DfTpvD7ng%3D%3D)
+- 2 * 5 pins I2C SCCB 504449-0507 [Mouser](https://www.mouser.ch/ProductDetail/Molex/504449-0507?qs=%2Fha2pyFadujhksfO9WeSi1QsiN7z8iM%252B1RdltVI1xWyyDvXT9mlhvA%3D%3D)
+
 
 ## Components
 
@@ -128,6 +142,8 @@ In this case it should be possible to use either the 22 pin connectors or the 30
 the signal and power. This means that the 22 pin connectors can be used to input or output MIPI CSI lanes.
 
 For debugging purposes pads must be put on the board for JTAG and debug UARTs 2 & 4.
+These are described as Debugging Breakout connector.
+
 
 Signal voltage level 
 
@@ -170,6 +186,44 @@ Open question:
 
 - What should the I2C be used for on TPS65988 Port 1 - 3 ?
 - Can PD Controller be wired to control the Alt Mode chips ()
+
+
+### Booting 
+
+The board can boot from eMMC / SD or USB.
+
+The board has push buttons for POWER and RESET.
+
+The board has a power LED
+
+
+### Debugging Breakout connector
+
+| No. | Pin  | Description   |
+|-----|------|---------------|
+|  1  |	5V   |	Board Power 5V   |
+|  2  |	3V3   |	Board Power 3.3V   |
+|  3  |	GND  |	   GND 	     |
+|  4  |	GND  |	   GND 	     |
+|  5  |	UART2_RX  |	Debug UART2 RX |
+|  6  |	UART2_TX  |	Debug UART2 TX |
+|  7  |	UART4_RX  |	Debug UART4 RX |
+|  8  |	UART4_TX  |	Debug UART4 TX |
+
+|  4  | CAM_FSIN   | Frame sync input                     |
+|  5  | CAM_STROBE | Frame sync output                    |
+|  6  | EXTCLK     | External Clock Input (MCLK)          |
+
+TDI
+TDO
+TMS
+TCK
+MOD
+RESET
+Reset for CAM/ALT
+
+
+Standard JTAG connector ?
 
 
 ### I/O Expanders
@@ -354,9 +408,18 @@ The power connector supplies external boards with power. Max 5V/1A. Max VIN/1A.
 
 This connector(only on the 909 model) enables experimentation with alternate modes and directional pins.
 
-:[45 pins T-USB alt mode connector](../pinouts/T-USB_ALT_CONNECTOR.md)
+Host ALT
+
+:[45 pins T-USB Host alt mode connector](../pinouts/T-USB_HOST_ALT_CONNECTOR.md)
+
+OTG ALT
+
+:[45 pins T-USB OTG alt mode connector](../pinouts/T-USB_OTG_ALT_CONNECTOR.md)
 
 
+## SCCB I2C connector
+
+todo
 
 
 ### RPI FPC 22 pins
@@ -382,7 +445,7 @@ Raspberry Pi connectors
 :[Camera Module 201 connector](../pinouts/CAMERA_MODULE_CONNECTOR_PINOUT.md)
 
 
-### Camera Breakout connector 6 pins
+### Camera symc Breakout connector 6 pins
 
 | No. | Pin  | Description   |
 |-----|------|---------------|
