@@ -2,120 +2,145 @@
 
 The 909b is a Bridge Board version made for testing and experiementation with the Ziloo attachments without attaching
 the SB-UCM i.MX8 board or directly attaching it. 
-The setup enables connecting a [Compulab SB-UCM-iMX8PLUS](https://www.compulab.com/products/carrier-boards/sb-ucmimx8plus-carrier-board/) or 
+The setup enables connecting a [Compulab SB-UCM-iMX8PLUS](https://www.compulab.com/products/carrier-boards/sb-ucmimx8plus-carrier-board/), [DART-MX8M-PLUS Evaluation Kit](https://www.variscite.com/product/system-on-module-som/cortex-a53-krait/dart-mx8m-plus-nxp-i-mx-8m-plus/#evaluation-kit) or 
 [I-Pi SMARC IMX8M Plus](https://www.ipi.wiki/products/i-pi-smarcplus-imx8mp) development board.
 Not all the 909 connectors will be mounted on the 801 production bridge board that mounts the i.MX8 board.
 
-The board provides two key features: Dual USB connectivity for Webcam, Internet, Display & Power; MIPI CSI Stereo Camera.
+The board provides two key features: Dual USB connectivity for Webcam, 
+Internet, Display & Power + MIPI CSI Stereo Camera.
 Alt. Mode, HDMI and extra MIPI CSI connectors are not intended for the production board.
+
+Of note in design,
 
 - Some of the UCM-iMX8M-Plus carrier board interface pins are multifunctional. Up to 4 functions (ALT modes) are accessible through each multifunctional pin.
 - All of the UCM-iMX8M-Plus digital interfaces operate at 3.3V voltage levels unless noted otherwise.
-- NOTE: RGMII ENET1 signals operate at 1.8V voltage level
-- NOTE: SD/SDIO port #2 can be configured to operate at 3.3V or 1.8V voltage levels. Voltage level is controlled by SoC pin GPIO1_IO04.
+- RGMII ENET1 signals operate at 1.8V voltage level
+- SD/SDIO port #2 can be configured to operate at 3.3V or 1.8V voltage levels. Voltage level is controlled by SoC pin GPIO1_IO04.
 
 ![Ziloo Bridge Board 909b](./ziloo-bridge-909b.png)
 
 
 ### Open points
 
-- Add second HD3SS460 for T-USB OTG. 
-- Describe T-USB Host ALT connector pinouts with ETH0 pins
 - Connect HD3SS460 pins POL AMSEL EN
 - Should HD3SS3220 be used to mux between M.2 and T-USB connector?
 - Plan I2C addresses and which bus is used
+- Stem I2C compress GPIO iMX and others, also on I2C3
+- Correctly crossing RX/TX signal lines
 - Can PD Controller control other chipsets or is it just I2C slave?
 - Ensure all pins are connected to GPIO Expander
-- Add bridge board EEPROM
 - Should there be Boot origin switches like EVK? (4 bits? EVK)
-- Add Reset/Power push buttons
-- Power LED
-- Document Camera sync breakout connector
-- Revise the M.2 key type for the second one (currently key E)
+- Power LED & Indicator LEDs for M.2 expansions
+- Adding second m.2 connector with mounting screw holder glued on
 - Document connections on the two M.2 connectors
 - Second stage designing a 909 Smiley Board
 - Adding connectors SCCB, GPIO
-- Adding second m.2 connector with mounting screw holder glued on
 - Samtec connector pin 1, and soldering isles
 - Optional connectors debug uart / jtag
 - Connection option for Varscite board instead of Compulab
 - RTC battery connector 
 - Annotations and Logo on the board
+- Mux X pairs
+- TEST The Mux pin configurations
 
 
-## Connectors
+## Core Components
+
+- [SB-UCM-iMX8PLUS](https://www.compulab.com/products/computer-on-modules/ucm-imx8m-plus-nxp-i-mx-8m-plus-som-system-on-module-computer/) System-on-Module
+- 2 * [Hirose DF40HC(3.0)-100DS-0.4V](https://www.hirose.com/en/product/p/CL0684-4151-0-51) mated height 3.0mm
+- M.2 key B connector H4.20mm [Amphenol ICC 10128793001RLF](https://www.amphenol-icc.com/pci-express-10128793001rlf.html)
+- M.2 key E connector H4.20mm [Amphenol ICC 10128794001RLF](https://www.amphenol-icc.com/pci-express-10128794001rlf.html)
+- 2 * [Hirose DF40C-34DS-0.4V](https://www.hirose.com/en/product/p/CL0684-4023-0-51) ([Mouser](https://www.mouser.ch/)
+- 2 * [Hirose USB-C CX80B1-24P](https://www.hirose.com/product/p/CL0480-0625-0-00)
+- 1 * microSD card slot (suggested Molex 5031821852) push-push, compact. [Mouser](https://www.mouser.ch/ProductDetail/Molex/503182-1852?qs=s7UCm7gO1bZmpyAhCKZ26g%3D%3D), [Molex](https://www.molex.com/molex/products/part-detail/memory_card_socket/5031821852)
+- 1 * [TPS65988](https://www.ti.com/product/TPS65988?keyMatch=TPS65988&tisearch=search-everything&usecase=GPN) Dual Port USB Type-C® and USB PD Controller, Power Switch, and High-Speed Multiplexer. [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/TPS65988DJRSHR?qs=sGAEpiMZZMv0NwlthflBiyrCPYKWtEb9w8lmLVKGFHI%3D)
+- 2 * [HD3SS3220  10-Gbps USB 3.1 Type-C 2:1 mux with DRP Controller](https://www.ti.com/product/HD3SS3220) [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/HD3SS3220IRNHR?qs=sGAEpiMZZMsyYdr3R27aV4Thfeh8oIeSp2btOUhwC5A%3D)
+- 2 * [HD3SS460](https://www.ti.com/product/HD3SS460?keyMatch=HD3SS460&tisearch=search-everything&usecase=GPN) 4 x 6 Channels USB Type-C Alternate Mode MUX. Connected to T-USB Host. [Mouser](https://www.mouser.ch/new/texas-instruments/ti-hd3ss460-switch/). [Dock Eval Kit](https://www.mouser.ch/ProductDetail/Texas-Instruments/USB-CTM-MINIDK-EVM?qs=vcbl%252BK4rRletdX9FWp9J9A%3D%3D)
+- 6 * [USB 2.0 multiplexer TS5USBC41](https://www.mouser.ch/ProductDetail/Texas-Instruments/TS5USBC410YFFR?qs=F5EMLAvA7IA%2F5xlXyiIUvA%3D%3D)
+- 2 * push buttons (RESET / POWER)
+- 3 * PCA9555 I/O Expander
+- 2 * [TS5USBC410 Dual 2:1 USB 2.0 Mux/DeMux Switch](../datasheets/USB/ts5usbc41.pdf). [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/TS5USBC410IYFFR?qs=sGAEpiMZZMutXGli8Ay4kPB6XEQFysSpdNErqZgdEYs%3D)
+- 
+
+
+## Dev. Connectors
+
+- 1 * MicroHDMI (suggested Molex 46765-1301) [Mouser](https://www.mouser.ch/ProductDetail/Molex/46765-1301?qs=sGAEpiMZZMt1iCLsaqcCFmQhPEZFSo0wUGorAW08d1I%3D) [Molex](https://www.molex.com/molex/products/part-detail/io_connectors/0467651301)
+- 2 * [Molex 22PIN 0.5mm pitch 54548-2271](https://www.molex.com/molex/products/part-detail/ffc_fpc_connectors/0545482271)
+- 2 * [I-PEX 30PIN 0.4mm pitch 20525-030E-02](https://www.i-pex.com/product/cabline-ca)
+- 3 * [TE Connectivity 45PIN 0.3MM 571-4-2328724-5 FPC 3-2328724-5](https://www.te.com/usa-en/product-4-2328724-5.html) $0.41
+ProductDetail/Hirose-Connector/DF40C-34DS-04V51?qs=vcbW%252B4%252BSTIpg26DsEbj1iQ%3D%3D))
+- 5 * [6 pin Molex 5044490607](https://www.molex.com/molex/products/part-detail/pcb_headers/5044490607)
+
+
+## Other Components
 
 Connectors placed on the board are,
 
-- 2 * [Molex 22PIN 0.5mm pitch 54548-2271](https://www.molex.com/molex/products/part-detail/ffc_fpc_connectors/0545482271)
-- 2 * [I-PEX 30PIN 0.4mm pitch 20525-030E-02](https://www.i-pex.com/product/cabline-ca)
-- 2 * [Hirose USB-C CX80B1-24P](https://www.hirose.com/product/p/CL0480-0625-0-00)
-- 1 * [TE Connectivity 45PIN 0.3MM 571-4-2328724-5 FPC 3-2328724-5](https://www.te.com/usa-en/product-4-2328724-5.html) $0.41
-- 2 * [Hirose DF40C-34DS-0.4V](https://www.hirose.com/en/product/p/CL0684-4023-0-51) ([Mouser](https://www.mouser.ch/ProductDetail/Hirose-Connector/DF40C-34DS-04V51?qs=vcbW%252B4%252BSTIpg26DsEbj1iQ%3D%3D))
-- 2 * [Hirose DF40HC(3.0)-100DS-0.4V](https://www.hirose.com/en/product/p/CL0684-4151-0-51) mated height 3.0mm
-- 1 * microSD card slot (suggested Molex 5031821852) push-push, compact. [Mouser](https://www.mouser.ch/ProductDetail/Molex/503182-1852?qs=s7UCm7gO1bZmpyAhCKZ26g%3D%3D), [Molex](https://www.molex.com/molex/products/part-detail/memory_card_socket/5031821852)
-- 1 * MicroHDMI (suggested Molex 46765-1301) [Mouser](https://www.mouser.ch/ProductDetail/Molex/46765-1301?qs=sGAEpiMZZMt1iCLsaqcCFmQhPEZFSo0wUGorAW08d1I%3D) [Molex](https://www.molex.com/molex/products/part-detail/io_connectors/0467651301)
-- 1 * [PicoBlade 4 pin 533980471](https://www.molex.com/molex/products/part-detail/pcb_headers/0533980471) for the power ouput. Can be replaced with a higher quality/current connector.
-- 1 * m.2 key B connector
-- 1 * m.2 key E connector [Amphenol ICC](https://www.amphenol-icc.com/pci-express-10128794004rlf.html)
-
+- 1 * 24C08 Carrier-board EEPROM. [Mouser](https://www.mouser.ch/ProductDetail/STMicroelectronics/M24C08-FMN6TP?qs=sGAEpiMZZMtXHE36kCvv38ceEodIXDQNqtU0Mm03QrY%3D)
 - 1 * TSM-120-01-F-DV Samtec 2*20 pins surface mounted .100 (Smiley model) [Mouser](https://www.mouser.ch/ProductDetail/Samtec/TSM-120-01-F-DV?qs=rU5fayqh%252BE2gtcIirjF3kA%3D%3D)
 - 2 * 6 pins header CSI breakout 200-TSM10601FSV [Mouser](https://www.mouser.ch/ProductDetail/Samtec/TSM-106-01-F-SV?qs=FESYatJ8odKC4DfTpvD7ng%3D%3D)
 - 2 * 5 pins I2C SCCB 504449-0507 [Mouser](https://www.mouser.ch/ProductDetail/Molex/504449-0507?qs=%2Fha2pyFadujhksfO9WeSi1QsiN7z8iM%252B1RdltVI1xWyyDvXT9mlhvA%3D%3D)
 
 
-## Components
-
-- 1 * TPS65982 USB Type-C® and USB PD Controller, Power Switch, and High-Speed Multiplexer
-- 1 * HD3SS460 4 x 6 Channels USB Type-CTMAlternate Mode MUX. Connected to T-USB Host
-- 2 * push buttons (RESET / POWER)
-- 2 * PCA9555 I/O Expander
-- 1 * 24C08 Carrier-board EEPROM
-- 2 * HD3SS3220  10-Gbps USB 3.1 Type-C 2:1 mux with DRP Controller
-
 ![Ziloo Bridge Board 909b back](./ziloo-bridge-909b-back.png)
 
+Connectors for SB-UCM-iMX8PLUS, M.2 Key B, M.2 Key E.
+The SB-UCM-iMX8PLUS is the center of the board and receives all signals.
 
-## USB Power source & Data connectivity
 
-If one(or both) of the USB-C connectors supplies power, it is managed by the USB PD Controller circuit and routed to 
-power regulators to provide board power as VIN.
+# Power supply, CSI, I2S & I2C
 
-The power connector sends the power from USB-C connectors away from the board as VIN and regulated 5V.
-If the USB connectors are not used the power connector can be used to supply the board over VIN.
- 
-The regulated 5V is also downregulated to 3V3, 2V8 and 1V8 to supply the board with power.
-
-If no connected USB plug connected provides power, the board will have to be a power source. This would be from a yet to be
-defined battery connector.
+The USB-C connectors can supply power, as can the 30 pins and 22 pins CSI connectors.
+The 34 pins connector outputs CSI, I2S, I2C, Power and control pins.
+The 6 pins connector ouputs I2S/I2C and Power.
+Voltages needed are 5V, 3V3, 2V8, 1V8. 2V8 is only needed for the camera module.
 
 In the specific case of CSI connectors being used without an i.MX8 module attached, the CSI input connectors must
 supply power, if no USB connector does.
 
+Pads on the board must be provided for attaching RTC battery.
 
-#### Handling USB Connectors
+If no connected USB plug connected provides power, the board would have to be a power source. 
+Pads on the board must be provided for 5-20V PP_HV1/PP_HV2 directly connected to the PD Controller.
+
+
+### Handling USB Connector (PD Controller)
 
 The two USB ports may power the board. The powering is negotiated and handled by by TPS65988 (in future TPS65994AE).
 They also deliver data lanes which are multiplexed between the two USB busses on the i.MX8 module, m.2 connectors and T-USB alt connectors. This allows further development of alt mode connectivity.
 
-Power regulators receive power from USB connectors and supply the VIN & 5V power for development carrier board through the power connector.
-The USB-C connectors can power the carrier board 12V through upregulating, which would be done on the In-Between cables.
+Power regulators receive power from USB connectors and supply the board with power.
 
 If one USB port delivers power to the board, the other one can consume power.
 
+See I/O expanders for control pins connected to PD Controller.
 
 
-## Wiring and Connecting
+### Power supply TI chipset
 
-The board can be used in different ways
+Dual Port USB Type-C® and USB PD Controller with Integrated Source and Sink Power Path Supporting USB3 and Alternate Mode
 
-1) Adding a daughterboard, two OV2735 camera modules and connecting a USB cable with power.
-2) Adding a daughterboard, two RPi camera modules and connecting a USB cable with power.
-3) Use the board to connect two OV2735 camera modules to Compulab SB-UCM-iMX8PLUS
-4) Use the board to connect two OV2735 camera modules to I-Pi SMARC IMX8M Plus
+The TPS65988 is a highly integrated stand-alone Dual Port USB Type-C and Power Delivery (PD) controller providing cable plug and orientation detection for a single USB Type-C connector. Upon cable detection, the TPS65988 communicates on the CC wire using the USB PD protocol. When cable detection and USB PD negotiation are complete, the TPS65988 enables the appropriate power path and configures alternate mode settings for external multiplexers. The TPS65988 integrates fully managed power paths with robust protection for a complete USB-C PD solution. The TPS65988 also enables the appropriate power path and configures alternate mode settings for external multiplexers.
+
+![Wiring of TPS65988 from datasheet](../datasheets/USB/ref-TPS65988-diagram.png)
+
+Further information is found in the TPS65988 datasheet including reference implementation advice. The documents also include layout diagrams for the reference board.
+See 11.3 Stack-Up and Design Rules for advice on using 8-layer stacku-up PCB.
+
+A minimal version of this setup should be placed on the 909 to handle power. I.E. No TUSB1044
+
+The I2C Port 1 is connected to the SYS I2C. I2C Port 2 is for I2C3 stem.
+The I2C Port 3 is for Peripherals which so far are not identified.
+The I2C Port 1 & 2 interrupts are connected to I/O Expander Zero. (EX0.3 EX0.4)
+
+The 45 pin debug connector and T-USB alt connectors can be used to test the chipset and USB devices attached.
 
 
-### Wiring within the board
+### CSI connectors
+
+The CSI connectors data lanes are connected directly together for each side. It is only possible 
+to connect a left and a right camera module at a time.
 
 30 pin CSI connectors are intended to be used without a daughter board and instead a separate i.MX8 development board is used.
 The 22 pin connectors are connected directly to the equivalent lines on the 30 pins, and a likewise meant for an external development board or for testing alternate camera modules.
@@ -127,22 +152,187 @@ i.MX8 CSI1 is used for left module, CSI2 is used for right module.
 
 The two 34 pin CSI connectors are wired to run in sync via the STROBE pin.
 
-
-The MicroHDMI connector is connected to the HTMI_TX* pins from the i.MX8 module.
-
-The MicroSD connector is connected to SD2_* on the i.MX8 module.
-
-The USB-C signal lines from the T-USB connector is managed by the Multiplexing chipsets around the PD Controller.
-
-The Power pins on USB-C connectors go to the TPS65988 as well as VIN on 4 pins Power Connector.
-GND connected from everywhere as normal.
-
 If power isn't connected over the USB-C plugs, the camera modules should be powered over the MIPI CSI connectors.
 In this case it should be possible to use either the 22 pin connectors or the 30 pin connectors for inputting
 the signal and power. This means that the 22 pin connectors can be used to input or output MIPI CSI lanes.
 
-For debugging purposes pads must be put on the board for JTAG and debug UARTs 2 & 4.
-These are described as Debugging Breakout connector.
+
+### I2C / I2S connectors
+
+The I2C/I2S connectors sends the power from USB-C connectors away from the board as regulated 5V and 3V3.
+ 
+:[6 pins I2C I2S Connector](../pinouts/PW_I2C_I2S_CONNECTOR.md)
+
+For the two camera modules the SCCB signals are broken out with a six pin connector, in the corner, next to the CSI connectors.
+INT is connected to ATT_INT.
+The signal level for SCCB is 1.8V.
+
+The microphone signals from the 34 pins connectors are broken out in the 6 pins connector next to the left camera connector.
+The signal level for Microphone I2S connector is 1.8V.
+
+Next to the right camera connector the SAI3 OUT SPEAKER is broken out as a 6 pins connector.
+
+
+#### Microphone I2S (SAI5)
+
+The microphone I2S mapping is done by using AL2 mode for the SAI3 pads to get SAI5 signals.
+[Multiplexed Signal Pins](./ucm-imx8plus_multifunctional.pdf).
+The microphones on the 6 pins and 34 pins connector use SAI5_RX_DATA0.
+
+| Misc pin | SoM pin | i.MX pad      | Functionality     | ALT       |
+|----------|---------|---------------|-------------------|-----------|-------
+| 11       | P1.26   |  SAI3_TXD     |  SAI5_RX_DATA3    | ALT2      | 
+| 17       | P1.28   |  SAI3_RXD     |  SAI5_RX_DATA0    | ALT2      | Extras 
+| 15       | P1.30   |  SAI3_MCLK    |  SAI5_MCLK        | ALT2      | Extras 
+| 19       | P1.32   |  SAI3_RXC     |  SAI5_RXC         | ALT2      | Extras
+| 23       | P1.34   |  SAI3_RXFS    |  SAI5_RX_SYNC     | ALT2      | Extras 
+| 13       | P1.36   |  SAI3_TXC     |  SAI5_RX_DATA2    | ALT2      | 
+| 21       | P1.38   |  SAI3_TXFS    |  SAI5_RX_DATA1    | ALT2      | 
+
+
+#### Speaker I2S (SAI2)
+
+CAN1 and CAN2 are mapped as SAI2 and brought out as speaker 6 pins connector.
+[Multiplexed Signal Pins](./ucm-imx8plus_multifunctional.pdf).
+
+| Misc pin | SoM pin | i.MX pad              | Functionality     | ALT       |
+|----------|---------|-----------------------|-------------------|-----------|-------
+| 8        | P1.33   | SAI2_TXD0 ~~CAN2_TX~~ | SAI2_TXD0         |      | 
+| 10       | P1.49   | SAI2_MCLK ~~CAN2_RX~~ | SAI2_MCLK         |      | 
+| 12       | P1.51   | SAI2_TXC ~~CAN1_RX~~  | SAI2_TXC          |      | 
+| 14       | P1.53   | SAI2_RXC ~~CAN1_TX~~  | SAI2_RXC          |      | 
+
+
+### I/O Expanders
+
+:[SYS I2C GPIO Expander 0](../pinouts/I2C_EXPANDER_0.md)
+
+:[SYS I2C addresses](../pinouts/SYS_I2C_ADDRESSES.md)
+
+
+
+### Connecting the SB-UCM-iMX8PLUS SoM
+
+The daughter board clicks into the two Hirose 100pin board-to-board connectors.
+
+For further details see [Product Page](https://www.compulab.com/products/computer-on-modules/ucm-imx8m-plus-nxp-i-mx-8m-plus-som-system-on-module-computer/).
+
+The CSI1 & CSI2 are wired from the 100pin connectors to relevant CSI connectors.
+The CSI1 lanes are connected to Left CSI.
+The CSI2 lanes are connected to Right CSI.
+The USB1 and USB2 data will be connected to multiplexers
+The 45 pins Debug connector will break out many additional signal lines
+
+- 2 * Hirose 100 pin connectors are used to connect the SoM daughter board
+
+
+![SB-UCM-iMX8PLUS](../refs/Compulab/ucm-imx8plus_system-on-module_top.jpg)
+
+
+### Booting 
+
+The board can boot from eMMC / SD or USB.
+
+The board has push buttons for POWER and RESET.
+
+The board has a power LED
+
+
+
+# MicroSD, MicroHDMI, M.2 key B & Debug Breakout
+
+The MicroHDMI connector is connected to the HTMI_TX*, HDMI_DDC_*, HDMI_CEC, HDMI_HPD pins from the i.MX8 module.
+
+The MicroSD connector is connected to SD2_DATA*, SD2_CLK, SD2_CMD, SD2_nCD on the i.MX8 module.
+
+![HDMI connector with eARC](./HDMI-connection.jpg)
+
+![MicroSD connector](./MicroSD.png)
+
+
+### M.2 Key B
+
+See end of document for pinouts and EXPANSION document for more information.
+
+Note that some pins are connected to I/O Expander 2 meant for USB2 and Key B.
+
+
+### Debugging Breakout connector
+
+See end of this document for pinouts.
+
+
+# T-USB Data and M.2 Key E Expansion
+
+Data is routed primarily over the two USB-C connectors, but it is also available over Breakout connectors
+as well as the two M.2 Expansion connectors.
+
+![Connecting USB 3.0 data and Alt. Mode](./USB-C-alt-mux.jpg)
+
+
+### T-USB connector 3.0 data mapping
+
+Two USB-C connectors are arranged in a T shape and the normal way to use it is with a combined connector
+attached. This means that the wires will normally be connected in a particular orientation. The system
+takes advantage of this by detecting when both USBs are connected in the normal arrangement.
+
+The USB-C signal lines from the T-USB connector is managed by the Multiplexing chipsets around the PD Controller.
+The USB-C signal lines for the OTG connector in T-USB come from USB1(OTG cabable 2.0 & 3.0).
+The SBU1/SBU2 are connected to AUX-/AUX+ pins on the T-USB OTG alt connector. 
+The USB 3.0 superspeed data pairs and SBU1/SBU2 are passed from USB-C connectors to HD3SS460.
+
+The Host USB-C connector is similarily connected.
+The HD3SS460 chips are controlled over I2C by the MCU using SYS I2C.
+The HD3SS3220 chips are controlled over I2C by the MCU using SYS I2C.
+
+One side of the RX/TX pins are carried to  the T-USB alt connector, and not connected to USB1 signals.
+(Should the side be muxed?)
+
+
+
+
+![USB OTG reference hookup](./USB-OTG-hookup.jpg)
+
+
+:[T-USB Connector Mapping](../pinouts/T-USB_WITH_ALT_CONNECTOR_PINOUT.md)
+
+
+
+
+
+### Multiplexing USB
+
+The i.MX8 has two USB busses. USB1(supports OTG) and USB2(Host mode only).
+
+The USB 3.0 superspeed USB1/USB2 from the SoM are multiplexed using HD3SS3220.
+
+
+- USB1 is muxed between the m.2 key E? and the T-USB OTG connector?.
+- USB2 is muxed between the m.2 key B and the HD3SS460 for T-USB Host.
+- T-USB Host connector is muxed with alternate connections using HD3SS460
+- Ethernet may in the future be muxed over T-USB OTG
+- TS5USBC41 is used to multiplex USB 2.0 signals
+
+Open question:
+
+- What should the I2C be used for on TPS65988 Port 1 - 3 ?
+- Can PD Controller be wired to control the Alt Mode chips ()
+
+
+### Key E
+
+See end of document for pinouts and EXPANSION document for more information.
+
+
+## Wiring and Connecting
+
+The board can be used in different ways
+
+1) Adding a daughterboard, two OV2735 camera modules and connecting a USB cable with power.
+2) Adding a daughterboard, two RPi camera modules and connecting a USB cable with power.
+3) Use the board to connect two OV2735 camera modules to Compulab SB-UCM-iMX8PLUS
+4) Use the board to connect two OV2735 camera modules to I-Pi SMARC IMX8M Plus
+
 
 
 Signal voltage level 
@@ -168,128 +358,24 @@ Required distances/location
 - Holes in the corners should be the regular sort for mounting.
 - 
 
-![HDMI connector with eARC](./HDMI-connection.jpg)
-
-![MicroSD connector](./MicroSD.png)
-
-
-### Multiplexing USB
-
-The i.MX8 has two USB busses. USB1(supports OTG) and USB2(Host mode only).
-
-- USB1 is muxed between the m.2 key E? and the T-USB OTG connector?.
-- USB2 is muxed between the m.2 key B and the HD3SS460 for T-USB Host.
-- T-USB Host connector is muxed with alternate connections using HD3SS460
-- Ethernet may in the future be muxed over T-USB OTG
-
-Open question:
-
-- What should the I2C be used for on TPS65988 Port 1 - 3 ?
-- Can PD Controller be wired to control the Alt Mode chips ()
-
-
-### Booting 
-
-The board can boot from eMMC / SD or USB.
-
-The board has push buttons for POWER and RESET.
-
-The board has a power LED
-
-
-### Debugging Breakout connector
-
-| No. | Pin  | Description   |
-|-----|------|---------------|
-|  1  |	5V   |	Board Power 5V   |
-|  2  |	3V3   |	Board Power 3.3V   |
-|  3  |	GND  |	   GND 	     |
-|  4  |	GND  |	   GND 	     |
-|  5  |	UART2_RX  |	Debug UART2 RX |
-|  6  |	UART2_TX  |	Debug UART2 TX |
-|  7  |	UART4_RX  |	Debug UART4 RX |
-|  8  |	UART4_TX  |	Debug UART4 TX |
-
-|  4  | CAM_FSIN   | Frame sync input                     |
-|  5  | CAM_STROBE | Frame sync output                    |
-|  6  | EXTCLK     | External Clock Input (MCLK)          |
-
-TDI
-TDO
-TMS
-TCK
-MOD
-RESET
-Reset for CAM/ALT
-
-
-Standard JTAG connector ?
-
-
 ### I/O Expanders
 
-The development board uses a single Expander. The 909 and 801 uses two PCA9555 to control more states
-The expanders input triggers interrupt via USB1_TCPC_nINT.
 
-SYS I2C addresses
+:[SYS I2C GPIO Expander 0](../pinouts/I2C_EXPANDER_0.md)
+I/O Expander like Compulab Carrier Board
 
-0x20 PCA9555 16 bit expander
-0x21 PCA9555 16 bit expander (2nd) (EX2. / EX3.)
-0x54..0x57 EEPROM  I2C slave address: 
-? TPS65988 PD Controller
+:[SYS I2C GPIO Expander 1](../pinouts/I2C_EXPANDER_1.md)
 
+:[SYS I2C GPIO Expander 2](../pinouts/I2C_EXPANDER_2.md)
 
-| Expander  | Connected to    |
-|-----------|-----------------|
-| EX0.0     | mPCIe_PERST on M2    |
-| EX0.1     |                 |
-| EX0.2     | UART_DEBUGSEL   |
-| EX0.3     |                 |
-| EX0.4     | _RESET  |
-| EX0.5     | _RESET |
-| EX0.6     | LVDS_DISP_RESET |
-| EX0.7     | LVDS_TOUCH_RESET |
-| EX1.0     | CSI1_PWR_DWN_B |
-| EX1.1     | LEFT_CAM_RESET  |
-| EX1.2     | LEFT_ATT_INT    |
-| EX1.3     | LEFT_ATT_XSHUT  |
-| EX1.4     | CSI2_PWR_DWN_B  |
-| EX1.5     | RIGHT_CAM_RESET |
-| EX1.6     | RIGHT_ATT_INT   |
-| EX1.7     | RIGHT_ATT_XSHUT |
-| EX2.0     | USB_H_ALT_EN    |
-| EX2.1     | USB_H_ALT_POL   |
-| EX2.2     | USB_H_ALT_AMSEL |
-| EX2.3     | USB_O_ALT_EN    |
-| EX2.4     | USB_O_ALT_POL   |
-| EX2.5     | USB_O_ALT_AMSEL |
-| EX2.6     | PD_CTL_INT      |
-| EX2.7     | PD_CTL_RESET    |
-| EX3.0     |                 |
-| EX3.1     |                 |
-| EX3.2     |                 |
-| EX3.3     |                 |
-| EX3.4     |                 |
-| EX3.5     |                 |
-| EX3.6     |                 |
-| EX3.7     |                 |
-
-PD Controller I2C GPIO
-- USB_H_ALT_EN, POL, AMSEL
-- USB_O_ALT_EN, POL, AMSEL
-- 
+:[SYS I2C addresses](../pinouts/SYS_I2C_ADDRESSES.md)
 
 
 ### I2S (SAI5) 4 channel microphone input mapping
 
 One lane goes to the 34 pins camera connectors
 
-Full connection on the T-USB Alt connectors
-
-| 14  | BCLK / SCK | I2S      | Bit clock line                       | 1.8V |
-| 15  | WS / LRCLK | I2S      | Word clock line                      | 1.8V |
-| 16  | SDATA1     | I2S      | Input data 1                         | 1.8V |
-| 17  | SDATA2     | I2S      | Input data 2 (NC)                    | 1.8V |
+The full 4 lanes are available on the debug connector
 
 
 
@@ -322,26 +408,6 @@ V_SOM is recommended between 3.45 and 4.4 volt, typical 3.7
 for more information see [UCM i.MX8 PLUS Reference Guide](../datasheets/i.MX8/ucm-imx8plus_reference-guide_2021-11-02.pdf)
 
 
-### Connecting the SB-UCM-iMX8PLUS daughter board
-
-![SB-UCM-iMX8PLUS](../refs/Compulab/ucm-imx8plus_system-on-module_top.jpg)
-
-The daughter board clicks into the two Hirose 100pin board-to-board connectors.
-
-For further details see [Product Page](https://www.compulab.com/products/computer-on-modules/ucm-imx8m-plus-nxp-i-mx-8m-plus-som-system-on-module-computer/).
-
-The CSI1 & CSI2 are wired from the 100pin connectors to relevant CSI connectors.
-The CSI1 lanes are connected to Left CSI.
-The CSI2 lanes are connected to Right CSI.
-
-
-- 2 * Hirose 100 pin connectors
-- 45 pins connected to Inbetween breakout boards
-- 10 pins power connector to Inbetween breakout boards
-- USB-C connector to Inbetween breakout boards
-- USB-A connector to Inbetween breakout boards
-
-
 ### Connecting the SB-UCM-iMX8PLUS carrier board
 
 ![SB-UCM-iMX8PLUS Carrier Board](../refs/SB-UCMIMX8PLUS-carrier-board.jpg)
@@ -357,56 +423,17 @@ For further details see [Product Page](https://www.compulab.com/products/carrier
 
 
 
-## T-USB connector mapping
+# 909b Connector Pinouts
 
-Two USB-C connectors are arranged in a T shape and the normal way to use it is with a combined connector
-attached. This means that the wires will normally be connected in a particular orientation. The system
-takes advantage of this by detecting when both USBs are connected in the normal arrangement.
+## Debugging Breakout connector
 
-The USB-C signal lines for the OTG connector in T-USB come from USB1(OTG capbale 2.0 & 3.0).
-The SBU1/SBU2 are connected to OSBU1/OSBU2 pins on the T-USB alt connector 
-One side of the RX/TX pins are carried to  the T-USB alt connector, and not connected to USB1 signals.
-(Should the side be muxed?)
-
-The USB-C signal lines for the Host connector in T-USB can be muxed. They either come from USB2(Host only 2.0 & 3.0),
-or they come from T-USB alt connector pins prefixed by H*. 
-The SBU1/SBU2 on the HD3SS460 are connected to HSBU1/HSBU2.
-The Host only USB2 from i.MX8 is Muxed between the T-USB Host connector and the M.2 connector.
-
-The HD3SS460 chips are controlled over I2C by either the MCU using SYS I2C or by the PD Controller.
-
-
-![USB OTG reference hookup](./USB-OTG-hookup.jpg)
-
-
-:[T-USB Connector Mapping](../pinouts/T-USB_WITH_ALT_CONNECTOR_PINOUT.md)
+:[Debugging Breakout connector](../pinouts/DEBUG_BREAKOUT_CONNECTOR_PINOUT.md)
 
 
 
-#### Power supply TI chipset
+## T-USB alt mode connectors
 
-TPS65982 USB Type-C® and USB PD Controller, Power Switch, and High-Speed Multiplexer
-
-The TPS65982 device is a stand-alone USB Type-C and Power Delivery (PD) controller providing cable- plug and orientation detection at the USB Type- C connector. Upon cable detection, the TPS65982 device communicates on the CC wire using the USB PD protocol. After successful USB PD negotiation is complete, the TPS65982 enables the appropriate power path and configures alternate mode settings for internal and (optional) external multiplexers.
-
-![Wiring of TPS65988 from datasheet](../datasheets/USB/ref-TPS65988-diagram.png)
-
-A minimal version of this setup should be placed on the 909 to handle power. I.E. No TUSB1044
-
-The 4 pin power connector and T-USB alt connector can be used to test the chipset and USB devices attached.
-
-
-
-## Board Power 4 pins Connector
-
-The power connector supplies external boards with power. Max 5V/1A. Max VIN/1A.
-
-:[4 pins Board Power Connector](../pinouts/BOARD_POWER_4_CONNECTOR.md)
-
-
-## T-USB alt mode connector
-
-This connector(only on the 909 model) enables experimentation with alternate modes and directional pins.
+These connectors(only on the 909 model) enables experimentation with alternate modes and directional pins.
 
 Host ALT
 
@@ -417,43 +444,25 @@ OTG ALT
 :[45 pins T-USB OTG alt mode connector](../pinouts/T-USB_OTG_ALT_CONNECTOR.md)
 
 
-## SCCB I2C connector
+## M.2 Expansion Slots 
 
-todo
+:[67 pins M.2 connectors](../EXPANSION.md)
 
 
-### RPI FPC 22 pins
-
-Raspberry Pi connectors
-
-- 1-7342485-5  TE Connectivity  15 pins vertical Pi Board A/B
-- 54548-2271   Molex 22 pins  Right angle Pi Zero & Compute module
-- SFW15R-2STE1LF  Amphenol FCI 15 pins Right angle Camera Module
+## RPI FPC 22 pins
 
 :[22 pins RPi CSI connector](../pinouts/RPI_22_CONNECTOR.md)
 
 
-### NVIDIA FPC 30 pins
+## NVIDIA FPC 30 pins
 
 :[30 pins I-PEX CSI connector](../pinouts/I-PEX_30_CONNECTOR.md)
 
 
-### Ziloo Camera Module 34 pin connector
+## Ziloo Camera Module 34 pin connector
 
 **Just to be clear**: All CSI lanes are laid out on one side of the connector with GND between.
 
 :[Camera Module 201 connector](../pinouts/CAMERA_MODULE_CONNECTOR_PINOUT.md)
 
 
-### Camera symc Breakout connector 6 pins
-
-| No. | Pin  | Description   |
-|-----|------|---------------|
-|  1  |	5V   |	Board Power 5V   |
-|  2  |	3V3   |	Board Power 3.3V   |
-|  3  |	GND  |	   GND 	     |
-|  4  | CAM_FSIN   | Frame sync input                     |
-|  5  | CAM_STROBE | Frame sync output                    |
-|  6  | EXTCLK     | External Clock Input (MCLK)          |
-
-Max. Current per pin 1A

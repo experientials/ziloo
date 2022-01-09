@@ -6,7 +6,7 @@ Where possible data pins are not combined but carried through individually.
 The GND/VBUS pins are connected to the power charging circuit as normal. The system should accept
 charging power from either connector.
 
-![T-USB Layout](./T-USB-layout.jpg)
+![T-USB Layout](../pinouts/T-USB-layout.jpg)
 
 
 | No. | Pin  | Usage     | OTG connect to..  | Host connect to.. |
@@ -28,8 +28,8 @@ charging power from either connector.
 | 15  |	 B3	 | TX2-      |              | HD3SS460     |
 | 16  |	 B4	 | VBUS      | 65988 & Regs | 65988 & Regs |
 | 17  |	 B5	 | CC2       | TPS65988     | TPS65988     |
-| 18  |	 B6	 | D+        | 65988 & MCU  | 65988 & MCU  |
-| 19  |	 B7	 | D-        | 65988 & MCU  | 65988 & MCU  |
+| 18  |	 B6	 | X+       | 65988 & MCU  | 65988 & MCU  |
+| 19  |	 B7	 | X-       | 65988 & MCU  | 65988 & MCU  |
 | 20  |	 B8	 | SBU2      |              | HD3SS460     |
 | 21  |	 B9	 | VBUS      | 65988 & Regs | 65988 & Regs |
 | 22  |	 B10 | RX1-      |              | HD3SS460     |

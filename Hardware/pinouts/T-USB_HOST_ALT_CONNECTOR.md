@@ -40,15 +40,12 @@
 | 37  | GND        |                     |
 | 38  | I2C6 SCL   | LVDS TOUCH SCL                      |
 | 39  | I2C6 SDA   | LVDS TOUCH SDA                      |
-| 40  | TOUCH_INT  | LVDS TOUCH INT                    |
-| 41  | TOUCH_RST  | LVDS TOUCH Reset                    |
+| 40  | TOUCH_INT  | LVDS TOUCH INT EX0.6                   |
+| 41  | TOUCH_RST  | LVDS TOUCH Reset EX0.7                   |
+| 42  | I2C SCL    | SYS SCL                      |
+| 43  | I2C SDA    | SYS SDA                      |
+| 44  | UART3_TXD  | P1.61 UART3 Tx                      |
+| 45  | UART3_RXD  | P1.21 UART3 Rx                      |
 
-DX+-
-SYS I2C
-UART2 RXD TXD
 
-TODO wiring up the extra enable/gpio pins
-     wiring up the master I2C and others
-    which lines LVDS are needed for conversion chip
-    alt layout on Key E
      
