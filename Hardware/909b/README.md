@@ -156,6 +156,19 @@ USB Power levels to test
 
 Deliverables:
 
-- Report results and send the hardware(incl. Compulab dev board) back to me. $1000
+- Report results and send the hardware(incl. Compulab dev board) back to me.
 - All design files & send the hardware including test setup
 
+
+### Revise Designs $500
+
+Based on Initial Batch testing and review with Product Owner revise the board diagram and design
+
+- Create list of alternative chips cheching with JLPCB and PCBWay
+- Update chosen components based on currently available
+- Create updated diagram and board layout designs
+
+Deliverables:
+
+- Revised design files
+- Alternate component BoM

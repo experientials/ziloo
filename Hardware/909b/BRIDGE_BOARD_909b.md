@@ -22,8 +22,6 @@ Of note in design,
 
 ### Open points
 
-- Connect HD3SS460 pins POL AMSEL EN
-- Should HD3SS3220 be used to mux between M.2 and T-USB connector?
 - Plan I2C addresses and which bus is used
 - Stem I2C compress GPIO iMX and others, also on I2C3
 - Correctly crossing RX/TX signal lines
@@ -32,7 +30,6 @@ Of note in design,
 - Should there be Boot origin switches like EVK? (4 bits? EVK)
 - Power LED & Indicator LEDs for M.2 expansions
 - Adding second m.2 connector with mounting screw holder glued on
-- Document connections on the two M.2 connectors
 - Second stage designing a 909 Smiley Board
 - Adding connectors SCCB, GPIO
 - Samtec connector pin 1, and soldering isles
@@ -56,10 +53,9 @@ Of note in design,
 - 1 * [TPS65988](https://www.ti.com/product/TPS65988?keyMatch=TPS65988&tisearch=search-everything&usecase=GPN) Dual Port USB Type-C® and USB PD Controller, Power Switch, and High-Speed Multiplexer. [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/TPS65988DJRSHR?qs=sGAEpiMZZMv0NwlthflBiyrCPYKWtEb9w8lmLVKGFHI%3D)
 - 2 * [HD3SS3220  10-Gbps USB 3.1 Type-C 2:1 mux with DRP Controller](https://www.ti.com/product/HD3SS3220) [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/HD3SS3220IRNHR?qs=sGAEpiMZZMsyYdr3R27aV4Thfeh8oIeSp2btOUhwC5A%3D)
 - 2 * [HD3SS460](https://www.ti.com/product/HD3SS460?keyMatch=HD3SS460&tisearch=search-everything&usecase=GPN) 4 x 6 Channels USB Type-C Alternate Mode MUX. Connected to T-USB Host. [Mouser](https://www.mouser.ch/new/texas-instruments/ti-hd3ss460-switch/). [Dock Eval Kit](https://www.mouser.ch/ProductDetail/Texas-Instruments/USB-CTM-MINIDK-EVM?qs=vcbl%252BK4rRletdX9FWp9J9A%3D%3D)
-- 6 * [USB 2.0 multiplexer TS5USBC41](https://www.mouser.ch/ProductDetail/Texas-Instruments/TS5USBC410YFFR?qs=F5EMLAvA7IA%2F5xlXyiIUvA%3D%3D)
 - 2 * push buttons (RESET / POWER)
 - 3 * PCA9555 I/O Expander
-- 2 * [TS5USBC410 Dual 2:1 USB 2.0 Mux/DeMux Switch](../datasheets/USB/ts5usbc41.pdf). [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/TS5USBC410IYFFR?qs=sGAEpiMZZMutXGli8Ay4kPB6XEQFysSpdNErqZgdEYs%3D)
+- 6 * [TS5USBC410 Dual 2:1 USB 2.0 Mux/DeMux Switch](../datasheets/USB/ts5usbc41.pdf). [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/TS5USBC410IYFFR?qs=sGAEpiMZZMutXGli8Ay4kPB6XEQFysSpdNErqZgdEYs%3D)
 - 
 
 
@@ -103,6 +99,10 @@ Pads on the board must be provided for attaching RTC battery.
 
 If no connected USB plug connected provides power, the board would have to be a power source. 
 Pads on the board must be provided for 5-20V PP_HV1/PP_HV2 directly connected to the PD Controller.
+
+According to the UCM-IMX8PLUS Referene Guide the Supply Voltage is 3.45V to 4.4V. 
+This fits with charging/discharging of a LiPO battery which will be supported in the future.
+While 5V is relevant for power supply via USB, the board has no need 
 
 
 ### Handling USB Connector (PD Controller)
@@ -267,9 +267,6 @@ See end of this document for pinouts.
 Data is routed primarily over the two USB-C connectors, but it is also available over Breakout connectors
 as well as the two M.2 Expansion connectors.
 
-![Connecting USB 3.0 data and Alt. Mode](./USB-C-alt-mux.jpg)
-
-
 ### T-USB connector 3.0 data mapping
 
 Two USB-C connectors are arranged in a T shape and the normal way to use it is with a combined connector
@@ -288,15 +285,9 @@ The HD3SS3220 chips are controlled over I2C by the MCU using SYS I2C.
 One side of the RX/TX pins are carried to  the T-USB alt connector, and not connected to USB1 signals.
 (Should the side be muxed?)
 
-
-
-
 ![USB OTG reference hookup](./USB-OTG-hookup.jpg)
 
-
 :[T-USB Connector Mapping](../pinouts/T-USB_WITH_ALT_CONNECTOR_PINOUT.md)
-
-
 
 
 
@@ -304,24 +295,26 @@ One side of the RX/TX pins are carried to  the T-USB alt connector, and not conn
 
 The i.MX8 has two USB busses. USB1(supports OTG) and USB2(Host mode only).
 
-The USB 3.0 superspeed USB1/USB2 from the SoM are multiplexed using HD3SS3220.
+The USB 3.0 superspeed USB1/USB2 from the SoM are multiplexed using HD3SS3220 and controlled by MUX_USB3_SEL pins.
+The USB-C connector Alt. mode is managed by HD3SS460.
 
+![Connecting USB 3.0 data and Alt. Mode](./USB-C-alt-mux.jpg)
 
-- USB1 is muxed between the m.2 key E? and the T-USB OTG connector?.
-- USB2 is muxed between the m.2 key B and the HD3SS460 for T-USB Host.
-- T-USB Host connector is muxed with alternate connections using HD3SS460
-- Ethernet may in the future be muxed over T-USB OTG
-- TS5USBC41 is used to multiplex USB 2.0 signals
+The USB 2.0 USB1/USB2 from the SoM are multiplexed using TS5USBC41 and controlled by MUX_USB2_SEL pins.
+The USB-C connector USB 2.0 signals(A/B 6/7) are managed separately and multiplexed using TS5USBC41. This allows
+routing an Extra USB 2.0 signal selectively via the Debug Breakout connector.
 
-Open question:
-
-- What should the I2C be used for on TPS65988 Port 1 - 3 ?
-- Can PD Controller be wired to control the Alt Mode chips ()
+![Connecting USB 2.0 data and Extra](./USB-2.0-extra-mux.jpg)
 
 
 ### Key E
 
 See end of document for pinouts and EXPANSION document for more information.
+
+
+### I2C EEPROM
+
+Add an EEPROM like 24C08 present on the UCM carrier board.
 
 
 ## Wiring and Connecting
@@ -375,7 +368,7 @@ I/O Expander like Compulab Carrier Board
 
 One lane goes to the 34 pins camera connectors
 
-The full 4 lanes are available on the debug connector
+The full 4 lanes are available on the debug connector and M.2 Key B.
 
 
 

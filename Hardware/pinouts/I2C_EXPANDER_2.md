@@ -16,8 +16,8 @@ The EX2 expander allows controlling T-USB maps,
 | EX2.6     | RESET#      |
 | EX2.7     | ALERT / I2C_IRQ    |
 | EX2.8     | GPIO4 on 65988 (HPD2) |
-| EX2.9     | GPIO9 / LED / DAS / DSS                |
-| EX2.10    | GPIO10 / W_DISABLE_2#                |
+| EX2.9     | LED / DAS / DSS                |
+| EX2.10    | W_DISABLE_2#                |
 | EX2.11    | W_DISABLE#                |
 | EX2.12    | DEVSLP 3V3                |
 | EX2.13    |                 |

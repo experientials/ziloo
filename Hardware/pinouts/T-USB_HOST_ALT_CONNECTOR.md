@@ -2,8 +2,8 @@
 | Pin | Code       | Description                              | 
 |-----|------------|------------------------------------------|
 |  1  | 3V3        |                                          |
-|  2  | AUX+       | Host alt AUX+ (SBU2)                     |
-|  3  | AUX-       | Host alt AUX- (SBU1)                     |
+|  2  | SBU2       | Host AUX+ / SBU2                     |
+|  3  | SBU1       | Host AUX- / SBU1                     |
 |  4  | 3V3        |                                          |
 |  5  | HA+        | Host A+                     |
 |  6  | HA-        | Host A-                     |
@@ -17,29 +17,29 @@
 | 14  | HD+        | Host D+                     |
 | 15  | HD-        | Host D-                     |
 | 16  | GND        |                                          |
-| 17  | OSBU1      | OTG alt SBU1                     |
-| 18  | OSBU2      | OTG alt SBU2                     |
+| 17  |       |                      |
+| 18  |       |                      |
 | 19  | GND        |                     |
 | 20  | HX+        | Host Extra 2.0 D+                     |
 | 21  | HX-        | Host Extra 2.0 D-                     |
-| 22  | GND        |                                          |
-| 23  | LVCLK+     | LVDS CLK+                      |
-| 24  | LVCLK-     | LVDS CLK-                      |
-| 25  | GND        |                     |
-| 26  | LVD0+      | LVDS D0+                      |
-| 27  | LVD0-      | LVDS D0-                      |
-| 28  | GND        |                     |
-| 29  | LVD1+      | LVDS D1+                      |
-| 30  | LVD1-      | LVDS D1-                      |
-| 31  | GND        |                     |
-| 32  | LVD2+      | LVDS D2+                      |
-| 33  | LVD2-      | LVDS D2-                      |
-| 34  | GND        |                     |
-| 35  | LVD3+      | LVDS D3+                      |
-| 36  | LVD3-      | LVDS D3-                      |
-| 37  | GND        |                     |
-| 38  | I2C6 SCL   | LVDS TOUCH SCL                      |
-| 39  | I2C6 SDA   | LVDS TOUCH SDA                      |
+| 22  | HXA_SEL    | Select Host Extra A6/A7               | 
+| 23  | HXB_SEL    | Select Host Extra B6/B7               |
+| 24  | GND        |                                          |
+| 25  | LVCLK+     | LVDS CLK+                      |
+| 26  | LVCLK-     | LVDS CLK-                      |
+| 27  | GND        |                     |
+| 28  | LVD0+      | LVDS D0+                      |
+| 29  | LVD0-      | LVDS D0-                      |
+| 30  | GND        |                     |
+| 31  | LVD1+      | LVDS D1+                      |
+| 32  | LVD1-      | LVDS D1-                      |
+| 33  | GND        |                     |
+| 34  | LVD2+      | LVDS D2+                      |
+| 35  | LVD2-      | LVDS D2-                      |
+| 36  | GND        |                     |
+| 37  | LVD3+      | LVDS D3+                      |
+| 38  | LVD3-      | LVDS D3-                      |
+| 39  | GND        |                     |
 | 40  | TOUCH_INT  | LVDS TOUCH INT EX0.6                   |
 | 41  | TOUCH_RST  | LVDS TOUCH Reset EX0.7                   |
 | 42  | I2C SCL    | SYS SCL                      |

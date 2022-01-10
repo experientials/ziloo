@@ -47,7 +47,3 @@
 | 44  | I2C3_SCL        | Stem/3 I2C SCL              |          |
 | 45  | I2C3_SDA        | Stem/3 I2C SDA              |          |
 
-6 - free
-SD2_nRST
-SD1_RESET_B
-I2C3_SCL SDA

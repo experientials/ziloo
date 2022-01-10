@@ -16,7 +16,7 @@ The EX1 expander allows controlling T-USB maps,
 | EX1.6     | DEV_WLAN_WAKE      |
 | EX1.7     | ALERT / I2C_IRQ    |
 | EX1.8     | GPIO3 on 65988 (HPD1) |
-| EX1.9     | GPIO9 / LED / DAS / DSS  |
+| EX1.9     | LED / DAS / DSS  |
 | EX1.10    | W_DISABLE2#                |
 | EX1.11    | W_DISABLE1#                |
 | EX1.12    | UART WAKE                |

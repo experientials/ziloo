@@ -17,7 +17,7 @@ Features:
 - SIM pins are not connected, reserved for now
 
 The USB is connected to T-USB (not the M.2 expansions) on boot to support NVMe SSD expansions by default.
-The USB data signals are multiplexed between T-USB Host (USB2) and M.2 Key B based on MUX_USB2_SEL & MUX_USB3_SEL.
+The USB data signals from SoM are multiplexed between T-USB Host (USB2) and M.2 Key B based on MUX_USB2_SEL & MUX_USB3_SEL.
 
 Be aware the current pin plan is not final. Input/Ouput such as DIN/DOUT RXD/TXD may be the wrong way around.
 It must be verified with reference hardware design/testing.
@@ -39,7 +39,7 @@ TODO unallocated/GPIO pins from chipsets
 
 A dedicated I/O Expander controls addition pins on Key B.
 
-:[Expansion I/O Expander #3](./pinouts/I2C_EXPANDER_2.md)
+:[Expansion I/O Expander #2](./pinouts/I2C_EXPANDER_2.md)
 
 
 :[M.2 Key B Pin allocations](./pinouts/M2_KEY_B_CONNECTOR.md)
@@ -67,6 +67,8 @@ Features:
 - PCIe single lane reserved pins
 - JTAG + debugging pins reserved (lay out pads)
 - Speaker I2S
+- Two LEDs next to connector
+- SIM pins are not connected, reserved for now
 
 
 ### Control pins mapped by I/O Expander
@@ -79,7 +81,7 @@ TODO unallocated/GPIO pins from chipsets
 
 A dedicated I/O Expander controls addition pins on Key E.
 
-:[Expansion I/O Expander #3](./pinouts/I2C_EXPANDER_1.md)
+:[Expansion I/O Expander #1](./pinouts/I2C_EXPANDER_1.md)
 
 :[M.2 Key E Pin allocations](./pinouts/M2_KEY_E_CONNECTOR.md)
 

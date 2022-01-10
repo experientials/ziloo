@@ -7,7 +7,7 @@ This first expander, which is also on the dev. board maps,
 |-----------|-----------------|
 | EX0.0     | mPCIe_PERST on M2 Key B    |
 | EX0.1     | mPCIe_PERST on M2 Key E   |
-| EX0.2     | UART_DEBUGSEL   |
+| EX0.2     |                 |
 | EX0.3     | PD_CTL_INT_1    |
 | EX0.4     | PD_CTL_INT_2     |
 | EX0.5     | PD_CTL_RESET     |
