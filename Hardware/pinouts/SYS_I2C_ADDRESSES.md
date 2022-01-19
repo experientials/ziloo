@@ -10,5 +10,10 @@ SYS I2C addresses
 | ?          | HD3SS220 | USB2 MUX M.2 / T-USB |
 | 0x68 0x6A  | PI6CG18200 | PCIe clock generator |
 | 0x70 0x71  | TPS65988 |  PD Controller Port 1 / SYS |
-| 0x7E 0x7F  | TPS65988 |  PD Controller Port 2 / i.MX I2C3 |
+
+i.MX I2C3 adresses
+
+| Address    | Chipset  | Description               |
+|------------|----------|---------------------------|
+| 0x7E 0x7F  | TPS65988 |  PD Controller Port 2     |
 

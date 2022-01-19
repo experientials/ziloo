@@ -121,6 +121,7 @@ Do an additional board diagram and layout for additional components
 - Alt Mode circuitry for Host connector ([Ti ref impl](./datasheets/USB/Alt%20mode%20mux%20hd3ss460.pdf))
 - Host Alt mode connector with 4 Alt pairs and LVDS0 pairs
 - I2C EEPROM
+- Ensure I2C addresses of the various chips
 
 Deliverables:
 

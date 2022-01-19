@@ -22,6 +22,7 @@ Of note in design,
 
 ### Open points
 
+- Which GPIO receives interrupt
 - Plan I2C addresses and which bus is used
 - Stem I2C compress GPIO iMX and others, also on I2C3
 - Correctly crossing RX/TX signal lines
@@ -77,7 +78,7 @@ Connectors placed on the board are,
 - 1 * TSM-120-01-F-DV Samtec 2*20 pins surface mounted .100 (Smiley model) [Mouser](https://www.mouser.ch/ProductDetail/Samtec/TSM-120-01-F-DV?qs=rU5fayqh%252BE2gtcIirjF3kA%3D%3D)
 - 2 * 6 pins header CSI breakout 200-TSM10601FSV [Mouser](https://www.mouser.ch/ProductDetail/Samtec/TSM-106-01-F-SV?qs=FESYatJ8odKC4DfTpvD7ng%3D%3D)
 - 2 * 5 pins I2C SCCB 504449-0507 [Mouser](https://www.mouser.ch/ProductDetail/Molex/504449-0507?qs=%2Fha2pyFadujhksfO9WeSi1QsiN7z8iM%252B1RdltVI1xWyyDvXT9mlhvA%3D%3D)
-
+- [SuperSpeed MUX PI5USB30213]() may be an option intead of HD3SS3220
 
 ![Ziloo Bridge Board 909b back](./ziloo-bridge-909b-back.png)
 
@@ -155,6 +156,9 @@ The two 34 pin CSI connectors are wired to run in sync via the STROBE pin.
 If power isn't connected over the USB-C plugs, the camera modules should be powered over the MIPI CSI connectors.
 In this case it should be possible to use either the 22 pin connectors or the 30 pin connectors for inputting
 the signal and power. This means that the 22 pin connectors can be used to input or output MIPI CSI lanes.
+
+SCCB for CSI1 is connected to I2C5 voltage shifted.
+SCCB for CSI2 is connected to I2C6 voltage shifted.
 
 
 ### I2C / I2S connectors
