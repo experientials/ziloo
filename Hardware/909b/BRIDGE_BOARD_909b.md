@@ -33,10 +33,8 @@ Of note in design,
 - Adding second m.2 connector with mounting screw holder glued on
 - Second stage designing a 909 Smiley Board
 - Adding connectors SCCB, GPIO
-- Samtec connector pin 1, and soldering isles
 - Optional connectors debug uart / jtag
 - Connection option for Varscite board instead of Compulab
-- RTC battery connector 
 - Annotations and Logo on the board
 - Mux X pairs
 - TEST The Mux pin configurations
@@ -67,7 +65,7 @@ Of note in design,
 - 2 * [I-PEX 30PIN 0.4mm pitch 20525-030E-02](https://www.i-pex.com/product/cabline-ca)
 - 3 * [TE Connectivity 45PIN 0.3MM 571-4-2328724-5 FPC 3-2328724-5](https://www.te.com/usa-en/product-4-2328724-5.html) $0.41
 ProductDetail/Hirose-Connector/DF40C-34DS-04V51?qs=vcbW%252B4%252BSTIpg26DsEbj1iQ%3D%3D))
-- 5 * [6 pin Molex 5044490607](https://www.molex.com/molex/products/part-detail/pcb_headers/5044490607)
+- 4 * [6 pin Molex 5044490607](https://www.molex.com/molex/products/part-detail/pcb_headers/5044490607)
 
 
 ## Other Components
@@ -76,14 +74,15 @@ Connectors placed on the board are,
 
 - 1 * 24C08 Carrier-board EEPROM. [Mouser](https://www.mouser.ch/ProductDetail/STMicroelectronics/M24C08-FMN6TP?qs=sGAEpiMZZMtXHE36kCvv38ceEodIXDQNqtU0Mm03QrY%3D)
 - 1 * TSM-120-01-F-DV Samtec 2*20 pins surface mounted .100 (Smiley model) [Mouser](https://www.mouser.ch/ProductDetail/Samtec/TSM-120-01-F-DV?qs=rU5fayqh%252BE2gtcIirjF3kA%3D%3D)
-- 2 * 6 pins header CSI breakout 200-TSM10601FSV [Mouser](https://www.mouser.ch/ProductDetail/Samtec/TSM-106-01-F-SV?qs=FESYatJ8odKC4DfTpvD7ng%3D%3D)
-- 2 * 5 pins I2C SCCB 504449-0507 [Mouser](https://www.mouser.ch/ProductDetail/Molex/504449-0507?qs=%2Fha2pyFadujhksfO9WeSi1QsiN7z8iM%252B1RdltVI1xWyyDvXT9mlhvA%3D%3D)
 - [SuperSpeed MUX PI5USB30213]() may be an option intead of HD3SS3220
 
 ![Ziloo Bridge Board 909b back](./ziloo-bridge-909b-back.png)
 
 Connectors for SB-UCM-iMX8PLUS, M.2 Key B, M.2 Key E.
 The SB-UCM-iMX8PLUS is the center of the board and receives all signals.
+
+
+
 
 
 # Power supply, CSI, I2S & I2C
@@ -106,7 +105,9 @@ This fits with charging/discharging of a LiPO battery which will be supported in
 While 5V is relevant for power supply via USB, the board has no need 
 
 
-### Handling USB Connector (PD Controller)
+## PD Controller
+
+### Handling USB Connector
 
 The two USB ports may power the board. The powering is negotiated and handled by by TPS65988 (in future TPS65994AE).
 They also deliver data lanes which are multiplexed between the two USB busses on the i.MX8 module, m.2 connectors and T-USB alt connectors. This allows further development of alt mode connectivity.
@@ -138,6 +139,13 @@ The I2C Port 1 & 2 interrupts are connected to I/O Expander Zero. (EX0.3 EX0.4)
 The 45 pin debug connector and T-USB alt connectors can be used to test the chipset and USB devices attached.
 
 
+### Connect push buttons for power/reset
+
+Simple push buttons should be wired up to trigger reset or power off during press.
+
+
+## Camera CSI Connectors
+
 ### CSI connectors
 
 The CSI connectors data lanes are connected directly together for each side. It is only possible 
@@ -161,23 +169,33 @@ SCCB for CSI1 is connected to I2C5 voltage shifted.
 SCCB for CSI2 is connected to I2C6 voltage shifted.
 
 
-### I2C / I2S connectors
+## I2C / I2S connectors
 
-The I2C/I2S connectors sends the power from USB-C connectors away from the board as regulated 5V and 3V3.
+The I2C/I2S connectors sends the power from USB-C connectors away from the board as regulated 5V and 3V3/1V8.
+
+Otherwise they carry specific I2S or I2C signals
+
+| Connector  | Power   | Signal             | Domain       |
+|------------|---------|--------------------|--------------|
+| Left SCCB  | 1.8V    | CSI1 SCCB / I2C5   | Camera module signals |
+| Right SCCB | 1.8V    | CSI2 SCCB / I2C6   | Camera module signals |
+| Microphone | 1.8V    | SAI5_RX_DATA0      | Camera module signals |
+| Speaker    | 3.3V    | SAI5_TX_DATA0      | SoM signals           |
+|            |         |                    |                       |
  
-:[6 pins I2C I2S Connector](../pinouts/PW_I2C_I2S_CONNECTOR.md)
-
 For the two camera modules the SCCB signals are broken out with a six pin connector, in the corner, next to the CSI connectors.
-INT is connected to ATT_INT.
-The signal level for SCCB is 1.8V.
+INT is connected to ATT_INT on the Camera Module connector.
+The signal level for SCCB is 1.8V, and hence second voltage pin is also 1V8.
 
 The microphone signals from the 34 pins connectors are broken out in the 6 pins connector next to the left camera connector.
 The signal level for Microphone I2S connector is 1.8V.
 
-Next to the right camera connector the SAI3 OUT SPEAKER is broken out as a 6 pins connector.
+Next to the right camera connector the SAI5 OUT SPEAKER is broken out as a 6 pins connector.
+
+The 6 pin connector is described at the end of the document.
 
 
-#### Microphone I2S (SAI5)
+#### Microphone I2S mapping (SAI5)
 
 The microphone I2S mapping is done by using AL2 mode for the SAI3 pads to get SAI5 signals.
 [Multiplexed Signal Pins](./ucm-imx8plus_multifunctional.pdf).
@@ -194,24 +212,33 @@ The microphones on the 6 pins and 34 pins connector use SAI5_RX_DATA0.
 | 21       | P1.38   |  SAI3_TXFS    |  SAI5_RX_DATA1    | ALT2      | 
 
 
-#### Speaker I2S (SAI2)
+#### Speaker I2S mapping (SAI5)
 
-CAN1 and CAN2 are mapped as SAI2 and brought out as speaker 6 pins connector.
+ENET1 are mapped as SAI5 and brought out as speaker 6 pins connector.
 [Multiplexed Signal Pins](./ucm-imx8plus_multifunctional.pdf).
 
 | Misc pin | SoM pin | i.MX pad              | Functionality     | ALT       |
 |----------|---------|-----------------------|-------------------|-----------|-------
-| 8        | P1.33   | SAI2_TXD0 ~~CAN2_TX~~ | SAI2_TXD0         |      | 
-| 10       | P1.49   | SAI2_MCLK ~~CAN2_RX~~ | SAI2_MCLK         |      | 
-| 12       | P1.51   | SAI2_TXC ~~CAN1_RX~~  | SAI2_TXC          |      | 
-| 14       | P1.53   | SAI2_RXC ~~CAN1_TX~~  | SAI2_RXC          |      | 
+| 15       | P1.30   |  SAI3_MCLK            |  SAI5_MCLK        | ALT2      | Extras 
+|          | P2.53   | ENET1_RX_CTL          | SAI5_TXFS         | ALT       |
+|          | P2.55   | ENET1_RXC             | SAI5_TXC / BCLK   | ALT       |
+|          | P2.60   | ENET1_TD0             | SAI5_TXD0         | ALT       |
+|          | P2.63   | ENET1_TD2             | SAI5_TXD2         | ALT       |
+|          | P2.65   | ENET1_TD3             | SAI5_TXD3         | ALT       |
+|          | P2.76   | ENET1_nRST IO24       | SAI5_TXD1         | ALT       |
 
 
-### I/O Expanders
+##### CAN1 / CAN2 mapping Soldering Pads
 
-:[SYS I2C GPIO Expander 0](../pinouts/I2C_EXPANDER_0.md)
+CAN1 and CAN2 brought out as soldering pads.
+[Multiplexed Signal Pins](./ucm-imx8plus_multifunctional.pdf).
 
-:[SYS I2C addresses](../pinouts/SYS_I2C_ADDRESSES.md)
+| Misc pin | SoM pin | i.MX pad              | Functionality     | ALT       |
+|----------|---------|-----------------------|-------------------|-----------|-------
+| 8        | P1.33   | CAN2_TX  |           |      | 
+| 10       | P1.49   | CAN2_RX  |           |      | 
+| 12       | P1.51   | CAN1_RX   |            |      | 
+| 14       | P1.53   | CAN1_TX   |            |      | 
 
 
 
@@ -256,7 +283,7 @@ The MicroSD connector is connected to SD2_DATA*, SD2_CLK, SD2_CMD, SD2_nCD on th
 
 ### M.2 Key B
 
-See end of document for pinouts and EXPANSION document for more information.
+See EXPANSION document for more information.
 
 Note that some pins are connected to I/O Expander 2 meant for USB2 and Key B.
 
@@ -313,7 +340,7 @@ routing an Extra USB 2.0 signal selectively via the Debug Breakout connector.
 
 ### Key E
 
-See end of document for pinouts and EXPANSION document for more information.
+See EXPANSION document for more information.
 
 
 ### I2C EEPROM
@@ -441,9 +468,9 @@ OTG ALT
 :[45 pins T-USB OTG alt mode connector](../pinouts/T-USB_OTG_ALT_CONNECTOR.md)
 
 
-## M.2 Expansion Slots 
+## I2S / I2C 6 pins connector
 
-:[67 pins M.2 connectors](../EXPANSION.md)
+:[6 pins I2C I2S Connector](../pinouts/PW_I2C_I2S_CONNECTOR.md)
 
 
 ## RPI FPC 22 pins
@@ -461,5 +488,33 @@ OTG ALT
 **Just to be clear**: All CSI lanes are laid out on one side of the connector with GND between.
 
 :[Camera Module 201 connector](../pinouts/CAMERA_MODULE_CONNECTOR_PINOUT.md)
+
+
+
+## Soldering Pads
+
+A number of connections should be broken out on the board as soldering pads
+
+
+| Pin       | Function                |
+|-----------|-------------------------|
+| VSOM      | Output or Input         |
+| VCC_RTC   | Power input RTC battery |
+| GND       |                         |
+| P1.33     | CAN2_TX                 |           
+| P1.49     | CAN2_RX                 |           
+| P1.51     | CAN1_RX                 |          
+| P1.53     | CAN1_TX                 |          
+| SAI5_TXC  | I2S Speaker Bit clock line  (BCLK/SCK)    |
+| SAI5_TXFS | I2S Mic Word clock line (WS/LRCLK)    |
+| SAI5_TXD0 | I2S Speaker data 1              |
+| SAI5_TXD1 | I2S Mic Input data 2        |
+| SAI5_TXD2 | I2S Mic Input data 3        |
+| SAI5_TXD3 | I2S Mic Input data 4        |
+
+
+## M.2 B, E and Other Expansion Slots 
+
+See `EXPANSION.pdf` / `EXPANSION.md`
 
 

@@ -56,6 +56,7 @@ Do an initial board diagram and layout and order the Development board from comp
 - Power LED, Power and Reset buttons
 - Pads for connecting RTC battery
 - Pads for drawing out VIN+GND to external battery unit, or providing it back.
+- Pads for I2S output 4 bit
 - 30 pin CSI connectors
 - 34 pin CSI connectors
 - 22 pin CSI connectors

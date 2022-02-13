@@ -79,10 +79,10 @@ Misc connector P21
 | 2  | P1.87   |   I2C6_SCL          |                   |      | 
 | 4  | P1.89   |   I2C6_SDA          |                   |      | 
 | 6  |         |   GND               |                   |      | 
-| 8  | P1.33   |  ~~CAN2_TX~~        | SAI2_TXD0         |      | 
-| 10 | P1.49   |  ~~CAN2_RX~~        | SAI2_MCLK                  |      | 
-| 12 | P1.51   |  ~~CAN1_RX~~        | SAI2_TXC         |      | 
-| 14 | P1.53   |  ~~CAN1_TX~~        | SAI2_RXC          |      | 
+| 8  | P1.33   |  CAN2_TX            |                   |      | 
+| 10 | P1.49   |  CAN2_RX            |                   |      | 
+| 12 | P1.51   |  CAN1_RX            |                   |      | 
+| 14 | P1.53   |  CAN1_TX            |                   |      | 
 | 16 | P2.51   |  SD2_nRST           |                   |      | 
 | 18 | P1.95   |  QSPI_BOOT_EN_3P3   |                   |      | 
 | 20 | P2.90   |  PCIE_CLKREQ_B      |                   |      | 

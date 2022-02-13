@@ -1,13 +1,44 @@
-## M.2 Key B Expansion Module
+# Ziloo Expansion Connectors
 
-Ziloo has an M.2 type B expansion port for SSD utility cards.
+Ziloo has an M.2 type B expansion port for SSD utility cards, and a type E expansion port for Wireless utility cards.
+Additional future expation ports are a 40 pin GPIO, uSIM / eSIM, Speakers, Microphones.
+
+
+## 40 pins GPIO Header
+
+The GPIO header is made to be compatible with RPi expansion hardware. It has fewer GND pins which are mapped to GPIO or receiving pins.
+
+Features:
+
+- Spare GPIOs
+- SPI Image Boot
+- Power 5V / 3V3 / 1V8 / RTC
+- SPI / SAI7 I2S Out
+- Stem and System I2C
+- UART1 / UART3
+- PWM1..3
+
+:[40 pins GPIO Expansion](./pinouts/GPIO_HEADER.md)
+
+
+## Sound Connector
+
+It is not yet defined if the signal level is 1.8V or 3.3V. It will depend on NVCC_SAI5
+The pin layout wraps around aligning 1 and 20 close, but on opposite sides.
+
+Two Connector components used are [DF40HC(3.5)-20DS-0.4V(51)](https://www.hirose.com/en/product/p/CL0684-4188-0-51). [Socket @ Mouser](https://www.mouser.ch/ProductDetail/Hirose-Connector/DF40HC35-20DS-04V51?qs=sGAEpiMZZMtJbfcMcIM8CC3aG3XFbLOWRtCXQ0n%252BY5Y%3D)
+
+:[Sound Connector](./pinouts/SOUND_CONNECTOR.md)
+
+
+# M.2 Key B Expansion Module
 
 Features:
 
 - 1 Lane PCIe (PExx0)
 - USB 3.0 data multiplexed (USB2/Host, PExx1)
 - USB 2.0 data multiplexed (USB2/Host)
-- GNSS I2C (I2C3)
+- GNSS / Stem I2C (I2C3)
 - MFG I2C (SYS I2C)
 - AUDIO I2S MIC SAI5 4 channels (GPIO5..8 and COEX*)
 - SPI (ANTCTL*)
@@ -15,6 +46,9 @@ Features:
 - Additional signals via 16 bit I/O Expander
 - Some are broken out with pads near connector (CONFIG 0/2/3, DPR)
 - SIM pins are not connected, reserved for now
+- 4 channel I2S stereo input
+- 4 channel I2S stereo output
+
 
 The USB is connected to T-USB (not the M.2 expansions) on boot to support NVMe SSD expansions by default.
 The USB data signals from SoM are multiplexed between T-USB Host (USB2) and M.2 Key B based on MUX_USB2_SEL & MUX_USB3_SEL.
@@ -42,6 +76,8 @@ A dedicated I/O Expander controls addition pins on Key B.
 :[Expansion I/O Expander #2](./pinouts/I2C_EXPANDER_2.md)
 
 
+### M.2 Key B Pin allocations
+
 :[M.2 Key B Pin allocations](./pinouts/M2_KEY_B_CONNECTOR.md)
 
 
@@ -55,7 +91,7 @@ Compulab reference design
 
 
 
-## M.2 Key E Expansion Module
+# M.2 Key E Expansion Module
 
 Ziloo has an M.2 type E expansion port for Wireless/Bluetooth/GSM utility cards.
 
@@ -106,3 +142,4 @@ i.MX 8 only provides PCIe x1 so Key M is not relevant. This leaves A, B and E.
 - [ATP M.2 key info page](https://www.atpinc.com/blog/what-is-m.2-M-B-BM-key-socket-3)
 - [Congatec AN43](https://www.congatec.com/fileadmin/user_upload/Documents/Application_Notes/AN43_M.2_Pinout_Descriptions_and_Reference_Designs.pdf)
  
+

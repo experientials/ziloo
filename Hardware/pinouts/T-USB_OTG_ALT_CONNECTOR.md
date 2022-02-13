@@ -25,8 +25,8 @@
 | 22  | OXA_SEL    | Select OTG Extra A6/A7               | 
 | 23  | OXB_SEL    | Select OTG Extra B6/B7               |
 | 24  | GND        |                                          |
-| 25  | TRCLK+     | ETH0 TR CLK+                      |
-| 26  | TRCLK-     | ETH0 TR CLK-                      |
+| 25  |            |                        |
+| 26  |            |                        |
 | 27  | GND        |                     |
 | 28  | TR1+       | ETH0 TR 1+                      |
 | 29  | TR1-       | ETH0 TR 1-                      |

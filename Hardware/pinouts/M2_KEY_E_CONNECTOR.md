@@ -13,9 +13,9 @@
 | 9 	    | SDIO CLK  |            | SDIO	        		              | SD1 CLK        | 1.8V         |
 | 10        |           | M2_I2S_WS  | GPIO8	M2_I2S_WS			      | MIC I2S WS     | 1.8V         |
 | 11 	    | SDIO CMD  |            | SDIO	        		              | SD1 CMD        | 1.8V         |
-| 12	    |           | M2_I2S_DIN | 	GPIO6	M2_I2S_DIN                | MIC I2S DATA0  | 1.8V         |
+| 12	    |           | M2_I2S_DIN | 	GPIO6	M2_I2S_DIN SAI5           | MIC I2S DATA0  | 1.8V         |
 | 13 	    | SDIO DATA0|            | SDIO	        		              | SD1 DATA0      | 1.8V         |
-| 14	    |           | M2_I2S_DOUT|	GPIO7	M2_I2S_DOUT			      | PWM_OUT1       | 1.8V         |
+| 14	    |           | M2_I2S_DOUT|	GPIO7	M2_I2S_DOUT	SAI5	      | SAI5 TX DATA0  | 1.8V         |
 | 15 	    | SDIO DATA1|            | SDIO	        		              | SD1 DATA1      | 1.8V         |
 | 16	    |           | LED2#      |		  			                  |                |    |
 | 17 	    | SDIO DATA2|            | SDIO	        		              | SD1 DATA2      | 1.8V         |

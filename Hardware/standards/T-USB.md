@@ -90,3 +90,114 @@ SYS_RST_PMIC P1-2 I Active Low cold reset input signal. Should be used as main s
 
 Availability
 Always available
+
+
+
+
+
+### DF40 60 pin connector
+
+EXTRA height ?
+
+
+Toward thin part with microphone and other sensors
+
+| Pin | Code       | Type     | Details                              | Voltage |
+|-----|------------|----------|--------------------------------------|---------|
+| 1   | USB1_VBUS  | Power    | USB1 Bus power                       |         |
+| 2   | GND        | Power    | Ground                               |         |
+| 3   | USB1_DP    | USB      | USB1 D+                              |         |
+| 4   | USB1_DN    | USB      | USB1 D-                              |         |
+| 5   | USB1_RX_DP | USB      | USB1 RX D+                           |         |
+| 6   | USB1_RX_DN | USB      | USB1 RX D-                           |         |
+| 7   | GND        | Power    | Ground                               |         |
+| 8   | USB1_TX_DP | USB      | USB1 TX D+                           |         |
+| 9   | USB1_TX_DN | USB      | USB1 TX D-                           |         |
+| 10  | GND        | Power    | Ground                               |         |
+| 11  | TRCLK+     | Network  | ETH0 TR CLK+                         |         |
+| 12  | TRCLK-     | Network  | ETH0 TR CLK-                         |         |
+| 13  | GND        | Power    | Ground                               |         |
+| 14  | TR1+       | Network  | ETH0 TR 1+                           |         |
+| 15  | TR1-       | Network  | ETH0 TR 1-                           |         |
+| 16  | GND        | Power    | Ground                               |         |
+| 17  | TR2+       | Network  | ETH0 TR 2+                           |         |
+| 18  | TR2-       | Network  | ETH0 TR 2-                           |         |
+| 19  | GND        | Power    | Ground                               |         |
+| 20  | TR3+       | Network  | ETH0 TR 3+                           |         |
+| 21  | TR3-       | Network  | ETH0 TR 3-                           |         |
+| 22  | GND        | Power    | Ground                               |         |
+| 23  | TR4+       | Network  | ETH0 TR 4+                           |         |
+| 24  | TR4-       | Network  | ETH0 TR 4-                           |         |
+| 25  | GND        | Power    | Ground                               |         |
+| 26  | LED_ACT    | Network  | ETH0_LED_ACT                         |         |
+| 27  | LED_10_100 | Network  | ETH0_LINK-LED_10_100                 |         |
+
+| 1   | SYS_RST_PMIC | Reset  | Power Management SYS Reset           |         |
+
+USB1_TCPC_nINT
+ALT_BOOT
+PMIC_STBY_REQ
+PMIC_ON_REQ
+POR_B_3P3
+
+| 24  | GND        |                                          |
+| 40  | TOUCH_INT  | LVDS TOUCH INT EX0.6                   |
+| 41  | TOUCH_RST  | LVDS TOUCH Reset EX0.7                   |
+
+
+
+Reduce ETH0 to RX/TX
+
+
+
+
+
+
+
+
+Towards image sensors
+
+| Pin | Code       | Type     | Details                              | Voltage |
+|-----|------------|----------|--------------------------------------|---------|
+| 60  | USB2_VBUS  | Power    | USB2 Bus power                       |         |
+| 59  | GND        | Power    | Ground                               |         |
+| 58  | USB2_DP    | USB      | USB2 D+                              |         |
+| 57  | USB2_DN    | USB      | USB2 D-                              |         |
+| 56  | USB2_RX_DP | USB      | USB2 RX D+                           |         |
+| 55  | USB2_RX_DN | USB      | USB2 RX D-                           |         |
+| 54  | GND        | Power    | Ground                               |         |
+| 53  | LVCLK+     | LVDS     | LVDS CLK+                            |         |
+| 52  | LVCLK-     | LVDS     | LVDS CLK-                            |         |
+| 51  | GND        | Power    | Ground                               |         |
+| 50  | LVD0+      | LVDS     | LVDS D0+                             |         |
+| 49  | LVD0-      | LVDS     | LVDS D0-                             |         |
+| 48  | GND        | Power    | Ground                               |         |
+| 47  | LVD1+      | LVDS     | LVDS D1+                             |         |
+| 46  | LVD1-      | LVDS     | LVDS D1-                             |         |
+| 45  | GND        | Power    | Ground                               |         |
+| 44  | LVD2+      | LVDS     | LVDS D2+                             |         |
+| 43  | LVD2-      | LVDS     | LVDS D2-                             |         |
+| 42  | GND        | Power    | Ground                               |         |
+| 41  | LVD3+      | LVDS     | LVDS D3+                             |         |
+| 40  | LVD3-      | LVDS     | LVDS D3-                             |         |
+| 39  | GND        | Power    | Ground                               |         |
+
+| 50  | UART1_TXD  | UART     | P1.72 UART1 Tx                       |         |
+| 49  | UART1_RXD  | UART     | P1.19 UART1 Rx                       |         |
+| 48  | UART2_TXD  | UART     | UART2 Tx                             |         |
+| 47  | UART2_RXD  | UART     | UART2 Rx                             |         |
+| 46  | UART3_TXD  | UART     | P1.61 UART3 Tx                       |         |
+| 45  | UART3_RXD  | UART     | P1.21 UART3 Rx                       |         |
+| 44  | UART4_TXD  | UART     | UART4 Tx                             |         |
+| 43  | UART4_RXD  | UART     | UART4 Rx                             |         |
+| 42  | I2C SCL    | I2C      | P1.99 SYS SCL                        |         |
+| 41  | I2C SDA    | I2C      | P1.97 SYS SDA                        |         |
+| 40  | I2C3 SCL   | I2C      | Stem SCL                             |         |
+| 39  | I2C3 SDA   | I2C      | Stem SDA                             |         |
+
+
+| 31  | Reserved   |          |                                      |         |
+| 30  | Reserved   |          |                                      |         |
+
+
+
