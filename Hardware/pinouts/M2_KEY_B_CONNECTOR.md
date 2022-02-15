@@ -48,7 +48,7 @@
 | 51        | GND		|            | Ground                             |                | GND           |
 | 52        | 	        | CLKREQ     | Reference clock request		      | PCIE_CLKREQ_B  | 3.3V         |
 | 53        | PCIE REFCLK- |         | PCIE REFCLK-	                      | REFCLK-       |              |
-| 54        | 	        | WAKE       | PCIe WAKE# Active Low.	          | USB1_SS_SEL   |              |		
+| 54        | 	        | WAKE       | PCIe WAKE# Active Low.	          | PCIE_WAKE_B   |              |		
 | 55        | PCIE REFCLK+ |         | PCIE REFCLK+				          | REFCLK+       |              |
 | 56        | 	        | MFG_DAT    | SDA		                          | SYS I2C SDA   |               |	
 | 57        | GND		|            | Ground                             |               |               |

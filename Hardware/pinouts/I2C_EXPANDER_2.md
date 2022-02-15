@@ -1,6 +1,6 @@
 The development board uses a single Expander. The 909 and 801 uses 3x PCA9555 to control more states.
 
-The EX2 expander input triggers interrupt via EX_H_nINT (GPIO1_IO0).
+The EX2 expander input triggers interrupt via EX_OH_nINT (GPIO1_IO0).
 The pins relate to USB2 Host and M.2 Key B.
 
 The EX2 expander allows controlling T-USB maps,

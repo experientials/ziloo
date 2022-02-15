@@ -26,17 +26,15 @@ Of note in design,
 - Plan I2C addresses and which bus is used
 - Stem I2C compress GPIO iMX and others, also on I2C3
 - Correctly crossing RX/TX signal lines
-- Can PD Controller control other chipsets or is it just I2C slave?
-- Ensure all pins are connected to GPIO Expander
+- Mux chips shutdown mode
+- Switch to <mark>CBTL04083</mark> USB 3.0 mux
 - Should there be Boot origin switches like EVK? (4 bits? EVK)
 - Power LED & Indicator LEDs for M.2 expansions
 - Adding second m.2 connector with mounting screw holder glued on
 - Second stage designing a 909 Smiley Board
-- Adding connectors SCCB, GPIO
 - Optional connectors debug uart / jtag
 - Connection option for Varscite board instead of Compulab
 - Annotations and Logo on the board
-- Mux X pairs
 - TEST The Mux pin configurations
 
 
@@ -50,7 +48,7 @@ Of note in design,
 - 2 * [Hirose USB-C CX80B1-24P](https://www.hirose.com/product/p/CL0480-0625-0-00)
 - 1 * microSD card slot (suggested Molex 5031821852) push-push, compact. [Mouser](https://www.mouser.ch/ProductDetail/Molex/503182-1852?qs=s7UCm7gO1bZmpyAhCKZ26g%3D%3D), [Molex](https://www.molex.com/molex/products/part-detail/memory_card_socket/5031821852)
 - 1 * [TPS65988](https://www.ti.com/product/TPS65988?keyMatch=TPS65988&tisearch=search-everything&usecase=GPN) Dual Port USB Type-C® and USB PD Controller, Power Switch, and High-Speed Multiplexer. [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/TPS65988DJRSHR?qs=sGAEpiMZZMv0NwlthflBiyrCPYKWtEb9w8lmLVKGFHI%3D)
-- 2 * [HD3SS3220  10-Gbps USB 3.1 Type-C 2:1 mux with DRP Controller](https://www.ti.com/product/HD3SS3220) [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/HD3SS3220IRNHR?qs=sGAEpiMZZMsyYdr3R27aV4Thfeh8oIeSp2btOUhwC5A%3D)
+- 2 * [CBTL04083 Multiplexer Switch ICs 3.3V CH 2:1](https://www.nxp.com/part/CBTL04083ABS#/) - [Mouser](https://www.mouser.ch/ProductDetail/NXP-Semiconductors/CBTL04083ABS518?qs=sGAEpiMZZMtRgJo%2FZ%2FMF7P%2Fv50GZnMfoakbaY6SsrwU%3D)
 - 2 * [HD3SS460](https://www.ti.com/product/HD3SS460?keyMatch=HD3SS460&tisearch=search-everything&usecase=GPN) 4 x 6 Channels USB Type-C Alternate Mode MUX. Connected to T-USB Host. [Mouser](https://www.mouser.ch/new/texas-instruments/ti-hd3ss460-switch/). [Dock Eval Kit](https://www.mouser.ch/ProductDetail/Texas-Instruments/USB-CTM-MINIDK-EVM?qs=vcbl%252BK4rRletdX9FWp9J9A%3D%3D)
 - 2 * push buttons (RESET / POWER)
 - 3 * PCA9555 I/O Expander
@@ -65,7 +63,7 @@ Of note in design,
 - 2 * [I-PEX 30PIN 0.4mm pitch 20525-030E-02](https://www.i-pex.com/product/cabline-ca)
 - 3 * [TE Connectivity 45PIN 0.3MM 571-4-2328724-5 FPC 3-2328724-5](https://www.te.com/usa-en/product-4-2328724-5.html) $0.41
 ProductDetail/Hirose-Connector/DF40C-34DS-04V51?qs=vcbW%252B4%252BSTIpg26DsEbj1iQ%3D%3D))
-- 4 * [6 pin Molex 5044490607](https://www.molex.com/molex/products/part-detail/pcb_headers/5044490607)
+- <mark>4 *</marked> [6 pin Molex 5044490607](https://www.molex.com/molex/products/part-detail/pcb_headers/5044490607)
 
 
 ## Other Components
@@ -74,7 +72,7 @@ Connectors placed on the board are,
 
 - 1 * 24C08 Carrier-board EEPROM. [Mouser](https://www.mouser.ch/ProductDetail/STMicroelectronics/M24C08-FMN6TP?qs=sGAEpiMZZMtXHE36kCvv38ceEodIXDQNqtU0Mm03QrY%3D)
 - 1 * TSM-120-01-F-DV Samtec 2*20 pins surface mounted .100 (Smiley model) [Mouser](https://www.mouser.ch/ProductDetail/Samtec/TSM-120-01-F-DV?qs=rU5fayqh%252BE2gtcIirjF3kA%3D%3D)
-- [SuperSpeed MUX PI5USB30213]() may be an option intead of HD3SS3220
+- [SuperSpeed MUX PI5USB30213]() may be an option intead of CBTL04083
 
 ![Ziloo Bridge Board 909b back](./ziloo-bridge-909b-back.png)
 
@@ -95,14 +93,18 @@ Voltages needed are 5V, 3V3, 2V8, 1V8. 2V8 is only needed for the camera module.
 In the specific case of CSI connectors being used without an i.MX8 module attached, the CSI input connectors must
 supply power, if no USB connector does.
 
-Pads on the board must be provided for attaching RTC battery.
+<mark>Pads on the board must be provided for attaching RTC battery.</mark>
 
 If no connected USB plug connected provides power, the board would have to be a power source. 
-Pads on the board must be provided for 5-20V PP_HV1/PP_HV2 directly connected to the PD Controller.
+This is not a role that the board will currently handle, but it should be possible to solder on
+the pieces needed.
+<mark>Pads on the board must be provided for 5-20V PP_HV1/PP_HV2 directly connected to the PD Controller.</mark>
+The TPS65988 seems to have support for powering exclusively via VBUS from USB, with System 5V/3.3V for backup.
+<mark>Provide Pads on the board for System 3.3V and System 5V connected to the PD Controller</mark>
 
 According to the UCM-IMX8PLUS Referene Guide the Supply Voltage is 3.45V to 4.4V. 
-This fits with charging/discharging of a LiPO battery which will be supported in the future.
-While 5V is relevant for power supply via USB, the board has no need 
+This fits with charging/discharging of a LiPO battery, which will be supported in the future.
+While 5V is relevant for power supply via USB, the board has no need for 5V level.
 
 
 ## PD Controller
@@ -141,7 +143,7 @@ The 45 pin debug connector and T-USB alt connectors can be used to test the chip
 
 ### Connect push buttons for power/reset
 
-Simple push buttons should be wired up to trigger reset or power off during press.
+<mark>Simple push buttons should be wired up to trigger reset or power off during press.</mark>
 
 
 ## Camera CSI Connectors
@@ -169,7 +171,7 @@ SCCB for CSI1 is connected to I2C5 voltage shifted.
 SCCB for CSI2 is connected to I2C6 voltage shifted.
 
 
-## I2C / I2S connectors
+## <mark>I2C / I2S connectors</mark>
 
 The I2C/I2S connectors sends the power from USB-C connectors away from the board as regulated 5V and 3V3/1V8.
 
@@ -201,15 +203,15 @@ The microphone I2S mapping is done by using AL2 mode for the SAI3 pads to get SA
 [Multiplexed Signal Pins](./ucm-imx8plus_multifunctional.pdf).
 The microphones on the 6 pins and 34 pins connector use SAI5_RX_DATA0.
 
-| Misc pin | SoM pin | i.MX pad      | Functionality     | ALT       |
-|----------|---------|---------------|-------------------|-----------|-------
-| 11       | P1.26   |  SAI3_TXD     |  SAI5_RX_DATA3    | ALT2      | 
-| 17       | P1.28   |  SAI3_RXD     |  SAI5_RX_DATA0    | ALT2      | Extras 
-| 15       | P1.30   |  SAI3_MCLK    |  SAI5_MCLK        | ALT2      | Extras 
-| 19       | P1.32   |  SAI3_RXC     |  SAI5_RXC         | ALT2      | Extras
-| 23       | P1.34   |  SAI3_RXFS    |  SAI5_RX_SYNC     | ALT2      | Extras 
-| 13       | P1.36   |  SAI3_TXC     |  SAI5_RX_DATA2    | ALT2      | 
-| 21       | P1.38   |  SAI3_TXFS    |  SAI5_RX_DATA1    | ALT2      | 
+| Misc pin | SoM pin | i.MX pad      | Functionality     | ALT       | On 6 pin connector |
+|----------|---------|---------------|-------------------|-----------|--------------------|
+| 11       | P1.26   |  SAI3_TXD     |  SAI5_RX_DATA3    | ALT2      |      |
+| 17       | P1.28   |  SAI3_RXD     |  SAI5_RX_DATA0    | ALT2      | DATA    |
+| 15       | P1.30   |  SAI3_MCLK    |  SAI5_MCLK        | ALT2      |      |
+| 19       | P1.32   |  SAI3_RXC     |  SAI5_RXC         | ALT2      | BCLK    |
+| 23       | P1.34   |  SAI3_RXFS    |  SAI5_RX_SYNC     | ALT2      | LRCLK    |
+| 13       | P1.36   |  SAI3_TXC     |  SAI5_RX_DATA2    | ALT2      |      |
+| 21       | P1.38   |  SAI3_TXFS    |  SAI5_RX_DATA1    | ALT2      |      |
 
 
 #### Speaker I2S mapping (SAI5)
@@ -217,15 +219,15 @@ The microphones on the 6 pins and 34 pins connector use SAI5_RX_DATA0.
 ENET1 are mapped as SAI5 and brought out as speaker 6 pins connector.
 [Multiplexed Signal Pins](./ucm-imx8plus_multifunctional.pdf).
 
-| Misc pin | SoM pin | i.MX pad              | Functionality     | ALT       |
-|----------|---------|-----------------------|-------------------|-----------|-------
-| 15       | P1.30   |  SAI3_MCLK            |  SAI5_MCLK        | ALT2      | Extras 
-|          | P2.53   | ENET1_RX_CTL          | SAI5_TXFS         | ALT       |
-|          | P2.55   | ENET1_RXC             | SAI5_TXC / BCLK   | ALT       |
-|          | P2.60   | ENET1_TD0             | SAI5_TXD0         | ALT       |
-|          | P2.63   | ENET1_TD2             | SAI5_TXD2         | ALT       |
-|          | P2.65   | ENET1_TD3             | SAI5_TXD3         | ALT       |
-|          | P2.76   | ENET1_nRST IO24       | SAI5_TXD1         | ALT       |
+| Misc pin | SoM pin | i.MX pad              | Functionality     | On 6 pin connector |
+|----------|---------|-----------------|-------------------|-----------|--------------------|
+| 15       | P1.30   |  SAI3_MCLK      |  SAI5_MCLK        | ALT2      |      | 
+|          | P2.53   | ENET1_RX_CTL    | SAI5_TXFS         | ALT       | LRCLK     |
+|          | P2.55   | ENET1_RXC       | SAI5_TXC / BCLK   | ALT       | BCLK     |
+|          | P2.60   | ENET1_TD0       | SAI5_TXD0         | ALT       | DATA     |
+|          | P2.63   | ENET1_TD2       | SAI5_TXD2         | ALT       |      |
+|          | P2.65   | ENET1_TD3       | SAI5_TXD3         | ALT       |      |
+|          | P2.76   | ENET1_nRST IO24 | SAI5_TXD1         | ALT       |      |
 
 
 ##### CAN1 / CAN2 mapping Soldering Pads
@@ -266,7 +268,7 @@ The board can boot from eMMC / SD or USB.
 
 The board has push buttons for POWER and RESET.
 
-The board has a power LED
+<mark>The board has a power LED</mark>
 
 
 
@@ -311,7 +313,6 @@ The USB 3.0 superspeed data pairs and SBU1/SBU2 are passed from USB-C connectors
 
 The Host USB-C connector is similarily connected.
 The HD3SS460 chips are controlled over I2C by the MCU using SYS I2C.
-The HD3SS3220 chips are controlled over I2C by the MCU using SYS I2C.
 
 One side of the RX/TX pins are carried to  the T-USB alt connector, and not connected to USB1 signals.
 (Should the side be muxed?)
@@ -321,13 +322,13 @@ One side of the RX/TX pins are carried to  the T-USB alt connector, and not conn
 :[T-USB Connector Mapping](../pinouts/T-USB_WITH_ALT_CONNECTOR_PINOUT.md)
 
 
-
 ### Multiplexing USB
 
 The i.MX8 has two USB busses. USB1(supports OTG) and USB2(Host mode only).
 
-The USB 3.0 superspeed USB1/USB2 from the SoM are multiplexed using HD3SS3220 and controlled by MUX_USB3_SEL pins.
+The USB 3.0 superspeed USB1/USB2 from the SoM are multiplexed using CBTL04083 and controlled by MUX_USB3_SEL pins.
 The USB-C connector Alt. mode is managed by HD3SS460.
+<mark>The default(SEL = low?) state is to connect USB2 to USB-C plug via HD3SS460.</mark>
 
 ![Connecting USB 3.0 data and Alt. Mode](./USB-C-alt-mux.jpg)
 
@@ -336,6 +337,11 @@ The USB-C connector USB 2.0 signals(A/B 6/7) are managed separately and multiple
 routing an Extra USB 2.0 signal selectively via the Debug Breakout connector.
 
 ![Connecting USB 2.0 data and Extra](./USB-2.0-extra-mux.jpg)
+
+| SEL  | Connect to         |
+|------|--------------------|
+| High | m.2                |
+| Low  | USB-C via HD3SS460 |
 
 
 ### Key E
@@ -403,6 +409,47 @@ The full 4 lanes are available on the debug connector and M.2 Key B.
 
 
 
+### <mark>Signal Interrupt(INT) pins</mark>
+
+Various chips have internal state changes that should cause interrupts by the SoM(CPU).
+It is essential that inputs are flagged so communication can be reliable.
+
+On the reference board these are triggered via USB1_TCPC_nINT(P1.60)
+It is used for USB-C orientation changes and I/O Expander 0 inputs.
+
+Events that we want to catch
+
+- T-USB OTG plug events
+- T-USB Host plug events
+- PD Controller state changed
+- Camera sensors input ready
+- I/O Expander input ready
+- m.2 connectors
+- PCIe
+
+Interrupts from the PD Controller are input to I/O Expander 0 (or 3). It in turn
+triggers an interrupt on EX0_nINT or EX_T_nINT.
+
+Interrupts from the Left and right cameras interrupt signal(ATT_INT) is connected
+to I/O Expander 0.
+It in turn triggers an interrupt on EX0_nINT.
+
+Direct/Indirect interrupt triggers
+
+| Chip           | Chip pin     | SoM pin       | Description               |
+|----------------|--------------|---------------|---------------------------|
+| PDA9555 EX 0   | INT          | EX0_nINT      | Original Expander - P1.60        |
+| PDA9555 EX 1   | INT          | EX_OH_nINT    | USB1 OTG and M.2 Key E - P1.59   |
+| PDA9555 EX 2   | INT          | EX_OH_nINT    | USB2 Host and M.2 Key B - P1.59  |
+| PDA9555 EX 3   | INT          | EX_T_nINT     | Separate T-USB module Expander - P1.98 |
+| PCIe m.2 Key B | WAKE#        | PCIE_WAKE_B   | m.2 Key B - P2.52                |
+| PCIe m.2 Key B | CLKREQ#      | PCIE_CLKREQ_B | m.2 Key B - P2.90                |
+| Left Sensors   | ATT_INT      | -             | Left Camera Module sensors |    
+| Right Sensors  | ATT_INT      | -             | Right Camera Module sensors |
+| PD I2C 1       | PD_CTL_INT_1 | -             | PD Controller   |   
+| PD I2C 2       | PD_CTL_INT_2 | -             | PD Controller   |   
+
+
 
 ### 8.1 Carrier Board Design Guidelines
 
@@ -468,7 +515,7 @@ OTG ALT
 :[45 pins T-USB OTG alt mode connector](../pinouts/T-USB_OTG_ALT_CONNECTOR.md)
 
 
-## I2S / I2C 6 pins connector
+## <mark>I2S / I2C 6 pins connector</mark>
 
 :[6 pins I2C I2S Connector](../pinouts/PW_I2C_I2S_CONNECTOR.md)
 
@@ -491,26 +538,29 @@ OTG ALT
 
 
 
-## Soldering Pads
+## <mark>Soldering Pads</mark>
 
-A number of connections should be broken out on the board as soldering pads
-
+A number of connections should be broken out on the board as soldering pads (no through hole)
 
 | Pin       | Function                |
 |-----------|-------------------------|
 | VSOM      | Output or Input         |
 | VCC_RTC   | Power input RTC battery |
+| PP_HV1    | PD Controller power     |   
+| PP_HV2    | PD Controller power     |   
+| VIN_5V    | PD Controller System 5V for PP1_CABLE, PP2_CABLE |
+| VIN_3V3   | PD Controller System 3.3V |
 | GND       |                         |
 | P1.33     | CAN2_TX                 |           
 | P1.49     | CAN2_RX                 |           
 | P1.51     | CAN1_RX                 |          
 | P1.53     | CAN1_TX                 |          
-| SAI5_TXC  | I2S Speaker Bit clock line  (BCLK/SCK)    |
-| SAI5_TXFS | I2S Mic Word clock line (WS/LRCLK)    |
-| SAI5_TXD0 | I2S Speaker data 1              |
-| SAI5_TXD1 | I2S Mic Input data 2        |
-| SAI5_TXD2 | I2S Mic Input data 3        |
-| SAI5_TXD3 | I2S Mic Input data 4        |
+| SAI5_TXC  | I2S Speaker Bit clock line  (BCLK/SCK)  P2.55  |
+| SAI5_TXFS | I2S Speaker Word clock line (WS/LRCLK)  P2.53  |
+| SAI5_TXD0 | I2S Speaker data 1  P2.60            |
+| SAI5_TXD1 | I2S Speaker data 2  P2.76      |
+| SAI5_TXD2 | I2S Speaker data 3  P2.63      |
+| SAI5_TXD3 | I2S Speaker data 4  P2.65      |
 
 
 ## M.2 B, E and Other Expansion Slots 

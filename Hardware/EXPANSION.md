@@ -65,7 +65,8 @@ According to documentation: Type refers to the signal direction:
 
 The system I/O expander controls mPCIe_PERST which resets PCIe.
 PCIE_CLKREQ_B is a direct pin on the SoM.
-USB1_SS_SEL is a direct pin on the SoM.
+PCIE_WAKE_B is a direct pin on the SoM. 
+
 
 TODO consider bootup default state of I/O Expanders. USB must not connect M.2 by default
 

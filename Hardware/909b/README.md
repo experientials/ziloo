@@ -51,12 +51,13 @@ Do an initial board diagram and layout and order the Development board from comp
 
 - Confirmation of BoM
 - T-USB power supply
-- PD Controller
+- PD Controller working as a power sink(not source)
 - Power Regulators
 - Power LED, Power and Reset buttons
 - Pads for connecting RTC battery
 - Pads for drawing out VIN+GND to external battery unit, or providing it back.
 - Pads for I2S output 4 bit
+- Pad for 5V power input (support sink mode)
 - 30 pin CSI connectors
 - 34 pin CSI connectors
 - 22 pin CSI connectors
