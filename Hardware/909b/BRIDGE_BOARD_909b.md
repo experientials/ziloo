@@ -53,7 +53,6 @@ Of note in design,
 - 2 * push buttons (RESET / POWER)
 - 3 * PCA9555 I/O Expander
 - 6 * [TS5USBC410 Dual 2:1 USB 2.0 Mux/DeMux Switch](../datasheets/USB/ts5usbc41.pdf). [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/TS5USBC410IYFFR?qs=sGAEpiMZZMutXGli8Ay4kPB6XEQFysSpdNErqZgdEYs%3D)
-- 
 
 
 ## Dev. Connectors
@@ -72,7 +71,9 @@ Connectors placed on the board are,
 
 - 1 * 24C08 Carrier-board EEPROM. [Mouser](https://www.mouser.ch/ProductDetail/STMicroelectronics/M24C08-FMN6TP?qs=sGAEpiMZZMtXHE36kCvv38ceEodIXDQNqtU0Mm03QrY%3D)
 - 1 * TSM-120-01-F-DV Samtec 2*20 pins surface mounted .100 (Smiley model) [Mouser](https://www.mouser.ch/ProductDetail/Samtec/TSM-120-01-F-DV?qs=rU5fayqh%252BE2gtcIirjF3kA%3D%3D)
-- [SuperSpeed MUX PI5USB30213]() may be an option intead of CBTL04083
+- [SuperSpeed MUX PI5USB30213A](https://www.diodes.com/part/view/PI5USB30213A/) may be an option intead of CBTL04083
+- [Alternate USB 2.0 Mux/DeMux](https://www.diodes.com/part/view/PI3USB102G/) [Mouser](https://www.mouser.ch/ProductDetail/Diodes-Incorporated/PI3USB102GZLEX?qs=mt7EBqA2jzg7v2qs76v1VQ%3D%3D) [JLCPCB part](https://jlcpcb.com/parts/componentSearch?isSearch=true&searchTxt=DF40C-60DS-0.4V)
+
 
 ![Ziloo Bridge Board 909b back](./ziloo-bridge-909b-back.png)
 
@@ -127,7 +128,7 @@ Dual Port USB Type-C® and USB PD Controller with Integrated Source and Sink Pow
 
 The TPS65988 is a highly integrated stand-alone Dual Port USB Type-C and Power Delivery (PD) controller providing cable plug and orientation detection for a single USB Type-C connector. Upon cable detection, the TPS65988 communicates on the CC wire using the USB PD protocol. When cable detection and USB PD negotiation are complete, the TPS65988 enables the appropriate power path and configures alternate mode settings for external multiplexers. The TPS65988 integrates fully managed power paths with robust protection for a complete USB-C PD solution. The TPS65988 also enables the appropriate power path and configures alternate mode settings for external multiplexers.
 
-![Wiring of TPS65988 from datasheet](../datasheets/USB/ref-TPS65988-diagram.png)
+![Wiring of TPS65988 from datasheet](../datasheets/Power/ref-TPS65988-diagram.png)
 
 Further information is found in the TPS65988 datasheet including reference implementation advice. The documents also include layout diagrams for the reference board.
 See 11.3 Stack-Up and Design Rules for advice on using 8-layer stacku-up PCB.

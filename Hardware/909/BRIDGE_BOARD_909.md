@@ -41,7 +41,7 @@ TPS65982 USB Type-C® and USB PD Controller, Power Switch, and High-Speed Multip
 
 The TPS65982 device is a stand-alone USB Type-C and Power Delivery (PD) controller providing cable- plug and orientation detection at the USB Type- C connector. Upon cable detection, the TPS65982 device communicates on the CC wire using the USB PD protocol. After successful USB PD negotiation is complete, the TPS65982 enables the appropriate power path and configures alternate mode settings for internal and (optional) external multiplexers.
 
-![Wiring of TPS65988 from datasheet](../datasheets/USB/ref-TPS65988-diagram.png)
+![Wiring of TPS65988 from datasheet](../datasheets/Power/ref-TPS65988-diagram.png)
 
 A minimal version of this setup should be placed on the 909 to handle power. I.E. No TUSB1044
 
