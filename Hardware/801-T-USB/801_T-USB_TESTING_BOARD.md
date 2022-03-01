@@ -7,6 +7,7 @@ The T-USB daughterboard has two functions
 - Provide data signals in the system over two USB-C connectors
 
 The T-USB board exposes two vertical USB-C sockets and connects to the carrier board through two 50 pin B2B connectors.
+These are routed ultimately through two USB-C connectors on testing board
 
 ![Ziloo 801 T-USB Board](./ziloo-801-T-USB.png)
 
@@ -25,19 +26,15 @@ To facilitate feature development two additional connectors are added.
 * Powering dev board from T-USB power output
 
 
-## Dev. Connectors
+## Board Components
 
-- 1 * MicroHDMI (suggested Molex 46765-1301) [Mouser](https://www.mouser.ch/ProductDetail/Molex/46765-1301?qs=sGAEpiMZZMt1iCLsaqcCFmQhPEZFSo0wUGorAW08d1I%3D) [Molex](https://www.molex.com/molex/products/part-detail/io_connectors/0467651301)
-- 3 * [TE Connectivity 45PIN 0.3MM 571-4-2328724-5 FPC 3-2328724-5](https://www.te.com/usa-en/product-4-2328724-5.html) $0.41
+- 2 * [TE Connectivity 45PIN 0.3MM 571-4-2328724-5 FPC 3-2328724-5](https://www.te.com/usa-en/product-4-2328724-5.html) $0.41
 ProductDetail/Hirose-Connector/DF40C-34DS-04V51?qs=vcbW%252B4%252BSTIpg26DsEbj1iQ%3D%3D))
-- <mark>4 *</marked> [6 pin Molex 5044490607](https://www.molex.com/molex/products/part-detail/pcb_headers/5044490607)
-- 2 * HD3SS3220
+- 2 * [HD3SS3220  10-Gbps USB 3.1 Type-C 2:1 mux with DRP Controller](https://www.ti.com/product/HD3SS3220) [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/HD3SS3220IRNHR?qs=sGAEpiMZZMsyYdr3R27aV4Thfeh8oIeSp2btOUhwC5A%3D)
+- 2 * USB-C connectors [DX07S024JA1R1300](https://www.jae.com/en/connectors/series/detail/product/id=66508) or [DX07S024JJ2R1300](https://www.mouser.ch/ProductDetail/JAE-Electronics/DX07S024JJ2R1300?qs=odmYgEirbwyfyaz1Tta0cQ%3D%3D) - [Mouser](https://www.mouser.ch/ProductDetail/JAE-Electronics/DX07S024JA1R1300?qs=sGAEpiMZZMulM8LPOQ%252BykzSQWeMShX%2FG9%2F%2FCSxm4Z%2Fy5DDnrKAaL8g%3D%3D) - 
 
-## Other Components
 
-Connectors placed on the board are,
-
-- 1 * TSM-120-01-F-DV Samtec 2*20 pins surface mounted .100 (Smiley model) [Mouser](https://www.mouser.ch/ProductDetail/Samtec/TSM-120-01-F-DV?qs=rU5fayqh%252BE2gtcIirjF3kA%3D%3D)
+## Notes......
 
 
 
@@ -49,6 +46,18 @@ Testing staged power and data enable when plugging in the module.
 
 Chip enable when plugged in. 100ms delay.
 
+
+## LEDs
+
+LEDs will test specific situations and test cases
+
+- Battery charging
+- Battery good
+- Battery dead
+- VSOM power on
+- VCC_RTC power on
+- System reset mode
+- System powering down
 
 
 ## Signals passed to USB-C connectors
@@ -102,21 +111,18 @@ The signals from the USB-C connectors are routed through a Ti HD3SS3220 to handl
 |     | GND        | Power    | Ground                               |         |        |
 
 
-
 50 pins for PD Controller -> Dev Board P21 + direct connects
 
 | Pin | Code           | Type     | Details                              | Voltage |  Misc    |
 |-----|----------------|----------|--------------------------------------|---------|---------|
-| 40  | I2C SCL    | I2C      | P1.99 SYS SCL                        |         | P21.7   |
-| 39  | I2C SDA    | I2C      | P1.97 SYS SDA                        |         | P21.5   |
+| 40  | I2C SCL        | I2C      | P1.99 SYS SCL                        |         | P21.7   |
+| 39  | I2C SDA        | I2C      | P1.97 SYS SDA                        |         | P21.5   |
 | 12  | EX0_nINT       | IRQ      | Interrupt signal (GPIO4_IO19)        |         | P21.30  |
 | 20  | VCC_RTC        | Power    | Low power mode supply                |         |   |
 | 21  | PWRBTN         | Boot     | Power button trigger                 |         |   |
 | 22  | ALT_BOOT       | Boot     | Alternate boot                       |         |   |
 | 23  |QSPI_BOOT_EN_3P3| Boot     | SPI boot                             |         |  P21.18   |
-|     | GND        | Power    | Ground                               |         |        |
-
-
+|     | GND            | Power    | Ground                               |         |        |
 
 
 50 pins for PD Controller -> Dev Board P10
@@ -132,33 +138,6 @@ The signals from the USB-C connectors are routed through a Ti HD3SS3220 to handl
 Header with 26 pins
 
 
-## Breakout of Charging Signals
-
-From 50 pins for PD Controller
-
-| Pin | Code       | Type     | Details                              | Voltage |  Misc    |
-|-----|------------|----------|--------------------------------------|---------|---------|
-| 9   | SWD_CLK      | Debug    | PD Controller GPIO12                 |         |         |
-| 10  | SWD_DAT      | Debug    | PD Controller GPIO13                 |         |         |
-| 33  | SPI_CS       | PD     | Programming/External flash directly  | 3.3V    |
-| 32  | SPI_CLK      | PD     | Programming/External flash directly  | 3.3V    |
-| 31  | SPI_MISO     | PD     | Programming/External flash directly  | 3.3V    |
-| 30  | SPI_MOSI     | PD     | Programming/External flash directly  | 3.3V    |
-| 24  | BAT_CE#      | Charger  |  Charge Enable Active-Low Input. Connect CE to a high logic level to place the battery charger in standby mode.  |         |    |
-| 25  | PD_VIN_EN    |          | Enable VIN_5V/3V3 from PWR_SYS (TBD) |         |    |
-|     | GND          | Power    | Ground                               |         |
-| 35  | VIN_3V3          |          | Supply for TPS64988 circuitry and I/O. Current 50 mA |   3.3V        |
-| 34  | SPI_3V3          | Power    | Power to the flash chip. Bridge connects to VIN_3V3      | 3.3V    |
-| 28  | VIN_5V     | Power    | System 5V power source (PPHV1, PPHV2, PP1_CABLE, PP2_CABLE). 500 mA. | 5V      |
-| 29  | VSOM         | Power    | Main power for board 3.45V - 4.5V    |         |         |
-| 50  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |
-| 49  | GND        | Power    | Ground                               |         |
-| 49  | GND        | Power    | Ground                               |         |
-
-
-Header with 12 pins
-
-
 ## Breakout of Power and Enable Pins
 
 These pins are from both 50 pins connectors
@@ -172,7 +151,32 @@ These pins are from both 50 pins connectors
 | 11  | VSOM         | Power    | Main power for board 3.45V - 4.5V    |         |         |
 | 49  | GND        | Power    | Ground                               |         |
 
-Header with 13 pins
+Header with 6 pins
+
+
+
+## Breakout of Charging Signals
+
+From 50 pins for PD Controller as a 16 pins header
+
+| Pin | Code         | Type     | Details                              | Voltage |  Misc    |
+|-----|--------------|----------|--------------------------------------|---------|---------|
+| 9   | SWD_CLK      | Debug    | PD Controller GPIO12                 |         |         |
+| 10  | SWD_DAT      | Debug    | PD Controller GPIO13                 |         |         |
+| 33  | SPI_CS       | PD       | Programming/External flash directly  | 3.3V    |
+| 32  | SPI_CLK      | PD       | Programming/External flash directly  | 3.3V    |
+| 31  | SPI_MISO     | PD       | Programming/External flash directly  | 3.3V    |
+| 30  | SPI_MOSI     | PD       | Programming/External flash directly  | 3.3V    |
+| 24  | BAT_CE#      | Charger  |  Charge Enable Active-Low Input. Connect to a high logic level to place the battery charger in standby mode.  |  |   |    
+|     | GND          | Power    | Ground                               |         |
+| 25  | PD_VIN_EN    |          | Enable VIN_5V/3V3 from PWR_SYS (TBD) |         |    |
+| 35  | VIN_3V3      |          | Supply for TPS64988 circuitry and I/O. Current 50 mA |   3.3V        |
+| 34  | SPI_3V3      | Power    | Power to the flash chip. Bridge connects to VIN_3V3      | 3.3V    |
+| 28  | VIN_5V       | Power    | System 5V power source (PPHV1, PPHV2, PP1_CABLE, PP2_CABLE). 500 mA. | 5V      |
+| 29  | VSOM         | Power    | Main power for board 3.45V - 4.5V    |         |         |
+| 50  | VSOM         | Power    | Main power for board 3.45V - 4.5V    |         |
+| 49  | GND          | Power    | Ground                               |         |
+| 49  | GND          | Power    | Ground                               |         |
 
 
 ## Signals **NOT** connected on 50 pin connectors
