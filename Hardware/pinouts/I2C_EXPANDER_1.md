@@ -5,6 +5,10 @@ The pins relate to USB1 OTG and M.2 Key E.
 
 The EX1 expander allows controlling T-USB maps,
 
+The 3 pins for each Alt. Mode controller determines how signals are mapped to USB-C high speed lines.
+Refer to the datasheet for HD3SS460 for full truth table. The regular USBSS setup is chosen by POL=L, AMSEL=M, EN=H.
+
+
 | Expander  | Connected to    |
 |-----------|-----------------|
 | EX1.0     | USB_O_ALT_EN    |

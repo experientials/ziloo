@@ -69,11 +69,12 @@ ProductDetail/Hirose-Connector/DF40C-34DS-04V51?qs=vcbW%252B4%252BSTIpg26DsEbj1i
 
 Connectors placed on the board are,
 
+- [PI6CG18200 clock](https://www.diodes.com/part/view/PI6CG18200?BackID=2328)
 - 1 * 24C08 Carrier-board EEPROM. [Mouser](https://www.mouser.ch/ProductDetail/STMicroelectronics/M24C08-FMN6TP?qs=sGAEpiMZZMtXHE36kCvv38ceEodIXDQNqtU0Mm03QrY%3D)
 - 1 * TSM-120-01-F-DV Samtec 2*20 pins surface mounted .100 (Smiley model) [Mouser](https://www.mouser.ch/ProductDetail/Samtec/TSM-120-01-F-DV?qs=rU5fayqh%252BE2gtcIirjF3kA%3D%3D)
 - [SuperSpeed MUX PI5USB30213A](https://www.diodes.com/part/view/PI5USB30213A/) may be an option intead of CBTL04083
 - [Alternate USB 2.0 Mux/DeMux](https://www.diodes.com/part/view/PI3USB102G/) [Mouser](https://www.mouser.ch/ProductDetail/Diodes-Incorporated/PI3USB102GZLEX?qs=mt7EBqA2jzg7v2qs76v1VQ%3D%3D) [JLCPCB part](https://jlcpcb.com/parts/componentSearch?isSearch=true&searchTxt=DF40C-60DS-0.4V)
-
+- 5 * TXB0108 voltage shifters 3.3V to 1.8V
 
 ![Ziloo Bridge Board 909b back](./ziloo-bridge-909b-back.png)
 
@@ -107,6 +108,52 @@ According to the UCM-IMX8PLUS Referene Guide the Supply Voltage is 3.45V to 4.4V
 This fits with charging/discharging of a LiPO battery, which will be supported in the future.
 While 5V is relevant for power supply via USB, the board has no need for 5V level.
 
+## <mark>System Power</mark>
+
+The system power is driven by the PD Controller. There is no need to power the board from other connectors than USB-C.
+
+From it 3V3, 2V8, and 1V8 are derived.
+
+- m.2 connectors are based on 3V3 and 1V8
+- Sound is based on 3V3 or 1V8
+- Cameras are 1V8, 2V8 and 3V3
+- HDMI can supply 5V / 50 mA
+- HDMI signal level is 5V
+- The 6 pin connector has 5V low current
+
+So there are in total 3 uses of 5V
+
+1. HDMI supply and signal (50 mA)
+2. VIN_5V supply (100 mA)
+3. 6 pin connectors (directly connected with VIN_5V)
+
+VIN_5V is optional and separate from the power on the board. It is supplied from the soldering pad/point.
+It is connected to PD Controller and 6 pin connectors.
+
+I suggest that the HDMI 5V is supplied by stepping up VSOM.
+
+I'm trying to understand the voltage diagram. It seems to have a lot of extra regulation.
+
+What is the difference between SYS_PWR and VSOM ?
+
+You have 5-20V_IN going to PA_PP_EXT / PB_PP_EXT and SYS_PWR. It this intended to drive the board?
+The board MUST work without power supplied to 5-20V_IN
+
+### Acceptance Criteria on Power
+
+- High voltage USB-C (20V / 12V / 9V) power supplies never produces more than 5V SYS_PWR when connected.
+- If one USB port receives power (5V) the other port can deliver power (5V).
+- VSOM is 3.45V to 4.4V
+- If a Apple Dedicated Charger 5V(1A BC1.2) is connected the board can draw 1A
+- If a CDP(5V, 1A) compatible charger is connected the board can draw 1A
+- If a CDP(5V, 3A) compatible charger is connected the board can draw 3A
+
+
+#### With Battery
+
+- If power is connected to USB the battery can charge
+- If no power is connected the system is battery powered
+
 
 ## PD Controller
 
@@ -131,7 +178,7 @@ The TPS65988 is a highly integrated stand-alone Dual Port USB Type-C and Power D
 ![Wiring of TPS65988 from datasheet](../datasheets/Power/ref-TPS65988-diagram.png)
 
 Further information is found in the TPS65988 datasheet including reference implementation advice. The documents also include layout diagrams for the reference board.
-See 11.3 Stack-Up and Design Rules for advice on using 8-layer stacku-up PCB.
+See 11.3 Stack-Up and Design Rules for advice on using 8-layer stackup PCB.
 
 A minimal version of this setup should be placed on the 909 to handle power. I.E. No TUSB1044
 

@@ -74,7 +74,7 @@ Do an initial board diagram and layout and order the Development board from comp
 
 Deliverables:
 
-- Diagrams + Board layout design files
+- Diagrams(.sch) + Board layout design files
 - Given a detailed spec; Identify if there are further open questions about the design of given the goals.
 - Review the choice of component and suggest alternative if needed.
 - Confirmation of BoM

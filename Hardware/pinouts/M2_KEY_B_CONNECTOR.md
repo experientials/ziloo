@@ -18,7 +18,7 @@
 | 21	    | CONFIG_0	|            |		  			                  | pad            |    |
 | 22	    |           | M2_I2S_DIN | 	GPIO6	M2_I2S_DIN                | MIC I2S DATA0  | 1.8V         |
 | 23	    | GPIO11    |            | 			NC			              | MIC I2S MCLK   | 1.8V         |
-| 24	    |           | M2_I2S_DOUT|	GPIO7	M2_I2S_DOUT			      | PWM_OUT1       | 1.8V         |
+| 24	    |           | M2_I2S_DOUT|	GPIO7	M2_I2S_DOUT			      | SPK I2S DATA0  | 1.8V         |
 | 25        | DPR       | 	         |   			                      | pad            |              |
 | 26	    |           | GPIO10     | 	  			                      | EX2.10         | 1.8V         |
 | 27	    | GND		|            | Ground	                          |                | GND          |

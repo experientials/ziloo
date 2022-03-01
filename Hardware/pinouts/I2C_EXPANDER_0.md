@@ -11,8 +11,8 @@ This first expander, which is also on the dev. board maps,
 | EX0.3     | PD_CTL_INT_1    |
 | EX0.4     | PD_CTL_INT_2     |
 | EX0.5     | PD_CTL_RESET     |
-| EX0.6     | LVDS_TOUCH_INT |
-| EX0.7     | LVDS_TOUCH_RESET |
+| EX0.6     |  |
+| EX0.7     |  |
 | EX0.8     | CSI1_PWR_DWN_B |
 | EX0.9     | LEFT_CAM_RESET  |
 | EX0.10    | LEFT_ATT_INT    |

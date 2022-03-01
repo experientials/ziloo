@@ -16,7 +16,10 @@ Connectors placed on the board are,
 
 - Power connector [JST SHR-03V-S CHM-1-2389](https://www.jst.com/products/crimp-style-connectors-wire-to-board-type/sh-connector/)
 
+UCM SoM module
 
+- Based on i.MX 8M Plus Dual (MIMX8ML3DVNKZAB) with NPU, ISP , VPU, HiFi 4, CAN-FD, Consumer and 2 A53 1.6GHz cores
+- 
 
 ## Camera Module 201 row connectors
 
