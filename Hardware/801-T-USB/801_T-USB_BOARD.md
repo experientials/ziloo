@@ -8,7 +8,7 @@ The T-USB daughterboard has two functions
 
 The T-USB board exposes two vertical USB-C sockets and connects to the carrier board through two 50 pin B2B connectors.
 
-![Ziloo 801 T-USB Board](./ziloo-801-T-USB.png)
+![Ziloo 801 T-USB Board](./T-USB-board.png)
 
 To facilitate feature development two additional connectors are added.
 
@@ -27,6 +27,7 @@ To facilitate feature development two additional connectors are added.
 - Enable VIN_5V/3V3 from PWR_SYS (TBD)
 - Attachment signal / VSOM enable
 - Detachment signal / Power down
+- Trickle charging wireless coil over secondary connection on BQ24165, can this be supported on BQ24250 ?
 
 
 ## Core Components
@@ -38,6 +39,7 @@ To facilitate feature development two additional connectors are added.
 - 1 * PCA9555 I/O Expander
 - 4 * [TS5USBC410 Dual 2:1 USB 2.0 Mux/DeMux Switch](../datasheets/USB/ts5usbc41.pdf). [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/TS5USBC410IYFFR?qs=sGAEpiMZZMutXGli8Ay4kPB6XEQFysSpdNErqZgdEYs%3D)
 - 1 * [BQ24250RGER battery charger](https://www.ti.com/product/BQ24250)  [$2 JLCPCB (4x4 mm package)](https://jlcpcb.com/parts/componentSearch?isSearch=true&searchTxt=BQ24250) [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/BQ24250RGER?qs=VqERlb%252BKohfBI76g9iGg8g%3D%3D)
+- 1 * [3 pin JST SH socket SM03B-SRSS-TB](https://www.jst-mfg.com/product/detail_e.php?series=231) - [JLCPCB](https://jlcpcb.com/parts/componentSearch?isSearch=true&searchTxt=SM03B-SRSS-TB) - [Farnell](https://ch.farnell.com/jst-japan-solderless-terminals/sm03b-srss-tb-lf-sn/stecker-90-3kont/dp/1679118?CMP=GRHB-SF-OEM) (Matched by JST PHR-3)
 
 
 ## Dev. Connectors
@@ -53,6 +55,8 @@ To facilitate feature development two additional connectors are added.
 - [Multi cell design with BQ25792](https://www.ti.com/product/BQ25792)
 - Optional SPI NOR flash 1Mbit 3.3V, 12MHz
 - 2 * TPS63030 buck/boost converters (pick cheaper alternative to up/down regulate with enable pin)
+- [BQ25253](https://www.ti.com/product/BQ24253)  $5 JLCPCB (2.4x2.4 mm package)
+- [ANX7688 USB-C HDMI bridge](https://www.analogix.com/en/products/convertersbridges/anx7688) replacing HD3SS460 for Host USB 3.0 Alt Mode. [ANX7688 on PinePhone](https://xnux.eu/devices/feature/anx7688.html). [Pinephone HDMI hot-plug-detection HW bug](https://xnux.eu/log/#045).
 
 
 ## Firmware Drivers
@@ -114,34 +118,7 @@ The board itself can be a source of 5V on one port, if it is a sink on the other
 
 ## System Power
 
-The system power is driven by the PD Controller. There is no need to power the board from other connectors than USB-C.
-
-From it 3V3, 2V8, and 1V8 are derived.
-
-- m.2 connectors are based on 3V3 and 1V8
-- Sound is based on 3V3 or 1V8
-- Cameras are 1V8, 2V8 and 3V3
-- HDMI can supply 5V / 50 mA
-- HDMI signal level is 5V
-- The 6 pin connector has 5V low current
-
-So there are in total 3 uses of 5V
-
-1. HDMI supply and signal (50 mA)
-2. VIN_5V supply (100 mA)
-3. 6 pin connectors (directly connected with VIN_5V)
-
-VIN_5V is optional and separate from the power on the board. It is supplied from the soldering pad/point.
-It is connected to PD Controller and 6 pin connectors.
-
-I suggest that the HDMI 5V is supplied by stepping up VSOM.
-
-I'm trying to understand the voltage diagram. It seems to have a lot of extra regulation.
-
-What is the difference between SYS_PWR and VSOM ?
-
-You have 5-20V_IN going to PA_PP_EXT / PB_PP_EXT and SYS_PWR. It this intended to drive the board?
-The board MUST work without power supplied to 5-20V_IN
+The system power is driven by the Battery Charger, while the charging power comes from the PD Controller. 
 
 
 ## Optional PD Controller Flash
@@ -189,8 +166,10 @@ Battery charging is an optional feature enabled by connecting a LiPO battery cel
 - Suspend on low power
 - Resume on good power
 
-!! I2C must be connected to I2C3, not SYS !!
-Or not!! with the PCIe clock being on address 0x68
+In reference board design the PCIe clock is configured to use I2C address 0x68 which is needed by the BQ24250RGER.
+On the Ziloo Bridge board the PCIe clock circuit has been reconfigured.
+
+![Sample Li-Po battery](./EHAO-34mm-50mm-8mm.png)
 
 
 ## Power output from Charging Controller
@@ -221,27 +200,19 @@ It will deliver a steady 3.5V level during precharge during the ~120 s.
 Drawing charger + PD = VSOM
 
 
-## Wireless power input
-
-Trickle charging over secondary connection on BQ24165
-
 ## Managed charging
 
-- [BQ24250RGER](https://www.ti.com/product/BQ24250)   $2 JLCPCB (4x4 mm packages)
-- [BQ25253](https://www.ti.com/product/BQ24253)  $5 JLCPCB (2.4x2.4 mm package)
+The bq24250 device has two modes of operation: 1) I2C mode, and 2) standalone mode. In I2C mode, the host adjusts the charge parameters and monitors the status of the charger operation. In standalone mode, the external resistor sets the input-current limit, and charge current limit. Standalone mode also serves as the default settings when a DCP adapter is present. It enters host mode while the I2C registers are accessed and the watchdog timer has not expired (if enabled). The battery is charged in four phases: trickle charge, pre-charge, constant current and constant voltage. In all charge phases, an internal control loop monitors the IC junction temperature and reduces the charge current if the internal temperature threshold is exceeded.
 
-BQ24250
-1-cell, 2-A, I2C controlled buck battery charger with 1uA in SYSOFF mode and TS disable function
 
 ![BQ24250 reference diagram](../datasheets/Power/ref-BQ24250-diagram.png)
 
-Connect battery via GND, TEMP (TS), PACK+ (BAT)
-
-Add LED to indicate charging is connected to STAT.
-
-Charge current ISET resistor 500mA / 1A / 2A (4 resistors in parallel?)
+Connect battery via GND, TEMP (TS), PACK+ (BAT). This is done over a 3 pin JST H 1mm pitch socket.
 
 #### Max input current limit
+
+The circuit will be in I2C mode rather than standalone so perhaps the programming with a resistor isn't important.
+The documentation seems to indicate that it's used as a fallback.
 
 Short ILIM to GND for default 2A input current(IN) limit.
 EN2 = Low
@@ -252,13 +223,14 @@ EN1 could be driven by extender to enable switching between 0.5A and 2A.
 R_ILIM = 270 / I_IC
 
 Does this mean that 4 resistors of 540 ohm in parallel with breakable soldering points would allow adjusting the board to a specific battery?
+Charge current ISET resistor 500mA / 1A / 2A (4 resistors in parallel?)
+
 
 
 #### Acceptance Criteria on Power With Battery
 
 - If power is connected to USB the battery can charge
 - If no power is connected the system is battery powered
-
 
 
 
@@ -277,7 +249,7 @@ takes advantage of this by detecting when both USBs are connected in the normal 
 
 The pins are individually connected to chipsets in order to allow multiplexing based on the situation.
 
-![USB OTG reference hookup](./USB-OTG-hookup.jpg)
+![USB OTG reference hookup](../909b/USB-OTG-hookup.jpg)
 
 :[T-USB Connector Mapping](../pinouts/T-USB_WITH_ALT_CONNECTOR_PINOUT.md)
 

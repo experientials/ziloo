@@ -1,5 +1,7 @@
 # 801 T-USB testing board
 
+This testing board hosts the 801 T-USB daughter board.
+
 The 801 is a bridge board that connects daughter boards. 801 T-USB is one such daughter board.
 
 The T-USB daughterboard has two functions
@@ -9,12 +11,29 @@ The T-USB daughterboard has two functions
 The T-USB board exposes two vertical USB-C sockets and connects to the carrier board through two 50 pin B2B connectors.
 These are routed ultimately through two USB-C connectors on testing board
 
-![Ziloo 801 T-USB Board](./ziloo-801-T-USB.png)
-
-To facilitate feature development two additional connectors are added.
+![Ziloo 801 T-USB Board](./ziloo-801-T-USB-test.png)
 
 
-### Testing board cases 
+
+## Board Components
+
+- 2 * [Hirose DF40-50DS-0.4V](https://www.hirose.com/en/product/p/CL0684-4009-0-51) mated height 1.5mm [Mouser](https://www.mouser.ch/ProductDetail/Hirose-Connector/DF40C-50DS-04V51?qs=sGAEpiMZZMthaSLPVp%252B4asSF8eu6nRoehAaVBEWyQ6A%3D) - [JLCPCB socket](https://jlcpcb.com/parts/componentSearch?isSearch=true&searchTxt=DF40C-50DS-0.4V)
+- 2 * [HD3SS3220  10-Gbps USB 3.1 Type-C 2:1 mux with DRP Controller](https://www.ti.com/product/HD3SS3220) [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/HD3SS3220IRNHR?qs=sGAEpiMZZMsyYdr3R27aV4Thfeh8oIeSp2btOUhwC5A%3D)
+- 2 * USB-C connectors [DX07S024JA1R1300](https://www.jae.com/en/connectors/series/detail/product/id=66508) or [DX07S024JJ2R1300](https://www.mouser.ch/ProductDetail/JAE-Electronics/DX07S024JJ2R1300?qs=odmYgEirbwyfyaz1Tta0cQ%3D%3D) - [Mouser](https://www.mouser.ch/ProductDetail/JAE-Electronics/DX07S024JA1R1300?qs=sGAEpiMZZMulM8LPOQ%252BykzSQWeMShX%2FG9%2F%2FCSxm4Z%2Fy5DDnrKAaL8g%3D%3D) - 
+- 3 * [Samtec TSW-116-14-T-S Header 16 pin](https://www.samtec.com/products/tsw-116-14-t-s) - [Mouser](https://www.mouser.ch/ProductDetail/Samtec/TSW-116-14-T-S?qs=iT52DjcXudt%2FVnGGDYuHrA%3D%3D)
+
+
+### Open notes
+
+Step up voltage 3.5V -> 5V
+
+Testing staged power and data enable when plugging in the module.
+
+Chip enable when plugged in. 100ms delay.
+
+# Testing with the board
+
+## Testing cases 
 
 * Routing UART over breakout connectors
 * VSOM load test
@@ -24,40 +43,66 @@ To facilitate feature development two additional connectors are added.
 * Triggering system reset
 * Detecting system reset
 * Powering dev board from T-USB power output
+* Simulating CONN_EN signal
+* High voltage USB-C (20V / 12V / 9V) power supplies never produces more than 5V SYS_PWR when connected.
+* If one USB port receives power (5V) the other port can deliver power (5V).
+* VSOM is 3.45V to 4.4V regardless of charger
+* If a Apple Dedicated Charger 5V(1A BC1.2) is connected the board can draw 1A
+* If a CDP(5V, 1A) compatible charger is connected the board can draw 1A
+* If a CDP(5V, 3A) compatible charger is connected the board can draw 3A
+* If power is connected to USB the battery can charge
+* If no power is connected the system is battery powered
+* USB 3.0 data signal can be passed through from T-USB OTG to testing board OTG, and reverse min. 250MB/sec
+* USB 3.0 data signal can be passed through from T-USB Host to testing board Host, and reverse min. 250MB/sec
+* USB 2.0 data signal can be passed through from T-USB OTG to testing board OTG, and reverse min. 35MB/sec
+* USB 2.0 data signal can be passed through from T-USB Host to testing board Host, and reverse min. 35MB/sec
+* Power and Data works through T-USB ports with 300 cm cable length.
+* USB signal jitter within accepted range (see USB 3.0 Electrical Compliance Methodology)
+
+Sample USB 3.0 data rates
+
+![Sample rates](./sk3500-u3-hdd-benchmark.png)
+
+USB Testing Matrix
+
+![USB Testing matrix](./USB-Type-testing-matrix.png)
 
 
-## Board Components
+Ideal testing equipment for USB 3.0 are [Loopback Plugs](https://www.passmark.com/products/usb3loopback/index.php).
 
-- 2 * [TE Connectivity 45PIN 0.3MM 571-4-2328724-5 FPC 3-2328724-5](https://www.te.com/usa-en/product-4-2328724-5.html) $0.41
-ProductDetail/Hirose-Connector/DF40C-34DS-04V51?qs=vcbW%252B4%252BSTIpg26DsEbj1iQ%3D%3D))
-- 2 * [HD3SS3220  10-Gbps USB 3.1 Type-C 2:1 mux with DRP Controller](https://www.ti.com/product/HD3SS3220) [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/HD3SS3220IRNHR?qs=sGAEpiMZZMsyYdr3R27aV4Thfeh8oIeSp2btOUhwC5A%3D)
-- 2 * USB-C connectors [DX07S024JA1R1300](https://www.jae.com/en/connectors/series/detail/product/id=66508) or [DX07S024JJ2R1300](https://www.mouser.ch/ProductDetail/JAE-Electronics/DX07S024JJ2R1300?qs=odmYgEirbwyfyaz1Tta0cQ%3D%3D) - [Mouser](https://www.mouser.ch/ProductDetail/JAE-Electronics/DX07S024JA1R1300?qs=sGAEpiMZZMulM8LPOQ%252BykzSQWeMShX%2FG9%2F%2FCSxm4Z%2Fy5DDnrKAaL8g%3D%3D) - 
+Testing articles,
 
-
-## Notes......
+- [What’s new in USB Power Delivery 3.0](https://www.testandmeasurementtips.com/whats-new-in-usb-power-delivery-3-0-faq/)
+- [A first look at USB 3.1 performance](https://techreport.com/review/27906/a-first-look-at-usb-3-1-performance/)
+- [Here's how fast USB 3.1 is in the real world](https://www.techspot.com/news/59982-here-how-fast-usb-31-real-world.html)
 
 
+## DIP switches
 
-Step up voltage 3.5V -> 5V
+To test cases a bank of 8 DIP switches allow enabling features
 
-
-
-Testing staged power and data enable when plugging in the module.
-
-Chip enable when plugged in. 100ms delay.
+* 4 * CONN_EN high/low/disconnected
+* BAT_CE# - Disable or disconnected
+* PD_VIN_EN - Enabled or disconnected
+* SPI_3V3 - Enable power to SPI memory, connect to LDO_3V3
 
 
 ## LEDs
 
 LEDs will test specific situations and test cases
 
-- Battery charging
-- Battery good
-- Battery dead
+- Battery STAT (BAT_STAT - BAT_LDO)
+- Battery power good (PWR_CHARGE above 4.3V)
 - VSOM power on
+- VSOM voltage >4.5V
 - VCC_RTC power on
+- Power on Reset POR_B_3P3
 - System reset mode
 - System powering down
+
+
+
+# Connecting the Board
 
 
 ## Signals passed to USB-C connectors
@@ -90,7 +135,7 @@ The signals from the USB-C connectors are routed through a Ti HD3SS3220 to handl
 | 20  | GND              | Power    | Ground                               |         |         
 
 
-## Signals for two 50 pin connectors from dev board
+## Signals for two 50 pin connectors from dev board (32 pins)
 
 50 pins for PD Controller -> Dev Board P20
 
@@ -135,12 +180,8 @@ The signals from the USB-C connectors are routed through a Ti HD3SS3220 to handl
 | 19  | PMIC_STBY_REQ  | Reset    | Standby mode input from Application processor. When high, device enters STANDBY mode. |     | P10.3  |
 |     | GND        | Power    | Ground                               |         |        |
 
-Header with 26 pins
 
-
-## Breakout of Power and Enable Pins
-
-These pins are from both 50 pins connectors
+These pins are from both 50 pins connectors reflecting the connector insertion corner pins
 
 | Pin | Code         | Type     | Details                              | Voltage | Misc    |
 |-----|--------------|----------|--------------------------------------|---------|---------|
@@ -150,8 +191,6 @@ These pins are from both 50 pins connectors
 | 26  | CONN_EN      | Enable | Signal + / GND to inform the T-USB board of being connected   |         |    |
 | 11  | VSOM         | Power    | Main power for board 3.45V - 4.5V    |         |         |
 | 49  | GND        | Power    | Ground                               |         |
-
-Header with 6 pins
 
 
 
@@ -167,10 +206,10 @@ From 50 pins for PD Controller as a 16 pins header
 | 32  | SPI_CLK      | PD       | Programming/External flash directly  | 3.3V    |
 | 31  | SPI_MISO     | PD       | Programming/External flash directly  | 3.3V    |
 | 30  | SPI_MOSI     | PD       | Programming/External flash directly  | 3.3V    |
-| 24  | BAT_CE#      | Charger  |  Charge Enable Active-Low Input. Connect to a high logic level to place the battery charger in standby mode.  |  |   |    
-|     | GND          | Power    | Ground                               |         |
+| 24  | BAT_CE#      | Charger  | Charge Enable Active-Low Input. Connect to a high logic level to place the battery charger in standby mode. | | |    
+| 24  | PWR_CHARGE   | Power    | Internal charging power              |         |
 | 25  | PD_VIN_EN    |          | Enable VIN_5V/3V3 from PWR_SYS (TBD) |         |    |
-| 35  | VIN_3V3      |          | Supply for TPS64988 circuitry and I/O. Current 50 mA |   3.3V        |
+| 29  | VIN_3V3      |          | Supply for TPS64988 circuitry and I/O. Current 50 mA |   3.3V        |
 | 34  | SPI_3V3      | Power    | Power to the flash chip. Bridge connects to VIN_3V3      | 3.3V    |
 | 28  | VIN_5V       | Power    | System 5V power source (PPHV1, PPHV2, PP1_CABLE, PP2_CABLE). 500 mA. | 5V      |
 | 29  | VSOM         | Power    | Main power for board 3.45V - 4.5V    |         |         |

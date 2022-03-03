@@ -4,6 +4,23 @@ The bridge board connects two camera modules, external connectors and [i.MX8M Pl
 The [909 model](./BRIDGE_BOARD_909.md) is a prototyping version of the bridge board, which connects to the [UMC-IMX8PLUS development board] rather than hosting the i.MX module directly.
 
 
+LEDs
+
+Yellow LED 591 nm
+https://www.mouser.ch/ProductDetail/Wurth-Elektronik/150040YS73220?qs=u16ybLDytRbUR0g9wyRFDQ%3D%3D
+
+How much luminosity? 3.3V, 5 mA - 20 mA (might be 260 Ohm to 65 Ohm)
+
+Calc resistor  https://eepower.com/resistor-guide/resistor-applications/resistor-for-led/#
+
+
+Test range of LED setups
+- Color nm
+- Hole size
+- PCB thickness
+- 
+
+
 Connectors placed on the board are,
 
 * [Hirose DF40C-100DS-0.4V](https://www.hirose.com/en/product/p/CL0684-4033-4-51)

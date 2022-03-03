@@ -22,7 +22,7 @@ Refer to the datasheet for HD3SS460 for full truth table. The regular USBSS setu
 | EX3.7     | T_USB_H_ALT_POL   |
 | EX3.8     | T_USB_H_ALT_AMSEL |
 | EX3.9     | T_USB_ALERT    |
-| EX3.10    | BAT_CHG_REVERSE    |
+| EX3.10    | BAT_CE    |
 | EX3.11    | BAT_INT            |
 | EX3.12    | OHX_MODE_BIT_0   |
 | EX3.13    | OHX_MODE_BIT_1   |
@@ -40,11 +40,4 @@ It may be combined with Alt Modes to be 3 bit.
 | 1         | USB1 A=Regular, B=Debug UARTs. USB2 3.0 Alt mode = JTAG
 
 
-
-Should enable only be over 50 pins connector ?
-
-Ouput  BAT_CHG_REVERSE
-Charge Status Open Drain Output. CHG is pulled low when a charge cycle starts and remains low while charging. CHG is high impedance when the charging terminates and when no supply exists. CHG does not indicate recharge cycles.
-
-
-
+EShould enable only be over 50 pins connector ?

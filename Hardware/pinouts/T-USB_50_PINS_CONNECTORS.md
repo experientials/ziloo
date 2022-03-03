@@ -15,12 +15,13 @@ Connector 2: PD Controller, Debug, USB 2.0
 | VCC_RTC | 600 mA       | 2    |
 | VIN_3V3 | 300 mA       | 1    |
 | VIN_5V  | 600 mA       | 2    |
+| LDO_3V3 | 300 mA       | 1    |
 
 
 #### Connector 1 high-speed data, close to SoM
 
 - 5 * GND
-- 5 * VSOM
+- 6 * VSOM
 
 One side
 
@@ -48,8 +49,8 @@ One side
 | 20  | GND              | Power    | Ground                               |         |
 | 21  |                  |          |                                    |         |
 | 23  |                  |          |                                    |         |
-| 24  |                  |          |                                    |         |
-| 25  |                  |          |                                    |         |
+| 24  | PWR_CHARGE       | Battery  | Internal charge current for testing  |         |
+| 25  | BAT_STAT         | Battery  | Internal charging status for testing |         |
 
 <mark>TODO remove EX3 exposure</mark>
 
@@ -75,10 +76,10 @@ Other side
 | 36  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |
 | 35  |              |        |                                    |         |
 | 34  |              |        |                                    |         |
-| 33  |              |        |                                    |         |
+| 33  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |
 | 32  |              |        |                                    |         |
 | 31  |              |        |                                    |         |
-| 30  |              |        |                                    |         |
+| 30  | BAT_LDO      | Battery| 4.9V 50mA LDO for STAT LED         |         |
 | 28  |              |        |                                    |         |
 | 27  |              |        |                                    |         |
 | 26  | CONN_EN      | Enable | Signal + / GND to inform the T-USB board of being connected   |         |    |
@@ -89,7 +90,7 @@ Could also be HDMI or PCIe
 #### Connector 2 PD controller, away from SoM
 
 - 2 * VSOM, 3 * GND, 1 * VCC_RTC, 1 * VIN_3V3
-- 2 * VSOM, 1 * GND, 1 * VCC_RTC, 2 * VIN_5V
+- 1 * VSOM, 1 * GND, 1 * VCC_RTC, 2 * VIN_5V, 1 * LDO_3V3
 
 One side
 
@@ -139,14 +140,14 @@ Other side
 | 39  | I2C SDA    | I2C      | P1.97 SYS SDA                        |         | P21.5   |
 | 38  | I2C3 SCL   | I2C      | Stem SCL                             |         | P21.2 ? |
 | 37  | I2C3 SDA   | I2C      | Stem SDA                             |         | P21.4 ? |
-| 36  | VCC_RTC    | Power    | Low power mode supply                |         |
-| 35  | VIN_3V3      |          | Supply for TPS64988 circuitry and I/O. Current 50 mA |   3.3V        |
+| 36  | VCC_RTC    | Power    | Low power mode supply                |         | |
+| 35  | LDO_3V3    | Power    | Supply for SPI Flash. Current 50 mA  | 3.3V    |  |
 | 34  | SPI_3V3      | Power    | Power to the flash chip. Bridge connects to VIN_3V3      | 3.3V    |
 | 33  | SPI_CS       | PD     | Programming/External flash directly  | 3.3V    |
 | 32  | SPI_CLK      | PD     | Programming/External flash directly  | 3.3V    |
 | 31  | SPI_MISO     | PD     | Programming/External flash directly  | 3.3V    |
 | 30  | SPI_MOSI     | PD     | Programming/External flash directly  | 3.3V    |
-| 29  | VSOM         | Power    | Main power for board 3.45V - 4.5V    |         |         |
+| 29  | VIN_3V3      |          | Supply for TPS64988 circuitry and I/O. Current 50 mA |   3.3V        |
 | 28  | VIN_5V       | Power    | System 5V power source (PPHV1, PPHV2, PP1_CABLE, PP2_CABLE). 500 mA. | 5V      |
 | 27  | VIN_5V       | Power    | System 5V power source (PPHV1, PPHV2, PP1_CABLE, PP2_CABLE). 500 mA. | 5V      |
 | 26  | CONN_EN      | Enable | Signal + / GND to inform the T-USB board of being connected   |         |    |

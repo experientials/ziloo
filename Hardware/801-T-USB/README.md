@@ -1,162 +1,102 @@
-# 801 T-USB daughterboard
+# 801 T-USB daughterboard Upwork task
 
 The T-USB daughterboard has two functions
 - Supply the system with power
+- Support smart future waking/suspend logic
 - Provide data signals in the system over two USB-C connectors
 
 The T-USB board exposes two vertical USB-C sockets and connects to the carrier board through two 50 pin B2B connectors.
+For future feature development the board also has two FPC breakout connectors.
 
 In addition to this board a matching **testing/breakout board must be designed**.
 
+We already have a development board designed so this tasks breaks out part of an existing design (909) on a dedicated baord (801 T-USB).
+
+The provided documentation includes
+
+- Detailed functionality, wiring, connections for T-USB board
+- Detailed functionality, wiring, connections for TESTING board
+- Functionality Testing cases
+- Reference diagram for Compulab development board
+- Reference diagram for 909 development board
+- Component datasheets
+
+![Ziloo 801 T-USB Board](./T-USB-board.png)
+
+![Ziloo 801 T-USB Board](./ziloo-801-T-USB-test.png)
 
 
-## USB PD Controller with TPS65988
+The board takes two USB-C connections with power and data.
 
-### Handling USB Connector
-
-The two USB ports may power the board. The powering is negotiated and handled by by TPS65988 (in future TPS65994AE).
-They also deliver data lanes which are multiplexed between the two USB busses on the i.MX8 module, m.2 connectors and T-USB alt connectors. This allows further development of alt mode connectivity.
-
-Power regulators receive power from USB connectors and supply the board with power.
-
-If one USB port delivers power to the board, the other one can consume power.
-
-See I/O expanders for control pins connected to PD Controller.
+- Supports 5V in and out
+- USB 2.0/3.0 data support
+- Rudimentary Alt. Mode support
+- Trickle charging & Fast Charging
+- With/Without Battery connected
+- Steady power output regardless of charging
+- Power output max. 4.5V 2.5A
 
 
-### Power supply TI chipset
+The essential BOM of the 801 T-USB Bridge Board is,
 
-Dual Port USB Type-C® and USB PD Controller with Integrated Source and Sink Power Path Supporting USB3 and Alternate Mode
-
-The TPS65988 is a highly integrated stand-alone Dual Port USB Type-C and Power Delivery (PD) controller providing cable plug and orientation detection for a single USB Type-C connector. Upon cable detection, the TPS65988 communicates on the CC wire using the USB PD protocol. When cable detection and USB PD negotiation are complete, the TPS65988 enables the appropriate power path and configures alternate mode settings for external multiplexers. The TPS65988 integrates fully managed power paths with robust protection for a complete USB-C PD solution. The TPS65988 also enables the appropriate power path and configures alternate mode settings for external multiplexers.
-
-![Wiring of TPS65988 from datasheet](../datasheets/Power/ref-TPS65988-diagram.png)
-
-Further information is found in the TPS65988 datasheet including reference implementation advice. The documents also include layout diagrams for the reference board.
-See 11.3 Stack-Up and Design Rules for advice on using 8-layer stacku-up PCB.
-
-A minimal version of this setup should be placed on the 909 to handle power. I.E. No TUSB1044
-
-The I2C Port 1 is connected to the SYS I2C. I2C Port 2 is for I2C3 stem.
-The I2C Port 3 is for Peripherals which so far are not identified.
-The I2C Port 1 & 2 interrupts are connected to I/O Expander Zero. (EX0.3 EX0.4)
-
-The 45 pin debug connector and T-USB alt connectors can be used to test the chipset and USB devices attached.
+- 2 * [Hirose DF40-50DP-0.4V](https://www.hirose.com/en/product/p/CL0684-4014-0-51)
+- 2 * [Hirose USB-C CX80B1-24P](https://www.hirose.com/product/p/CL0480-0625-0-00)
+- 1 * [TPS65988](https://www.ti.com/product/TPS65988?keyMatch=TPS65988&tisearch=search-everything&usecase=GPN) Dual Port USB Type-C® and USB PD Controller, Power Switch, and High-Speed Multiplexer. 
+- 2 * [HD3SS460](https://www.ti.com/product/HD3SS460?keyMatch=HD3SS460&tisearch=search-everything&usecase=GPN) 4 x 6 Channels USB Type-C Alternate Mode MUX. Connected to T-USB Host. 
+- 1 * PCA9555 I/O Expander
+- 4 * [TS5USBC410 Dual 2:1 USB 2.0 Mux/DeMux Switch](../datasheets/USB/ts5usbc41.pdf). [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/TS5USBC410IYFFR?qs=sGAEpiMZZMutXGli8Ay4kPB6XEQFysSpdNErqZgdEYs%3D)
+- 1 * [BQ24250RGER battery charger](https://www.ti.com/product/BQ24250)  
+- 1 * [3 pin JST SH socket SM03B-SRSS-TB](https://www.jst-mfg.com/product/detail_e.php?series=231) 
+- 2 * [TE Connectivity 45PIN 0.3MM 571-4-2328724-5 FPC 3-2328724-5](https://www.te.com/usa-en/product-4-2328724-5.html)
 
 
+Test board components,
 
-## Battery Charging with MCP73871
-
-- Simultaneously Power the System and
-Charge the Li-Ion Battery
-- Voltage Proportional Current Control (VPCC)
-ensures system load has priority over Li-Ion
-battery charge current
-- Low-Loss Power-Path Management with
-Ideal Diode Operation
-
-
-Charging Management
-• Automatic Recharge
-• Automatic End-of-Charge Control
-• Battery Cell Temperature Monitor (regulated charged based on)
-• Undervoltage Lockout (UVLO)
-
-
-• Complete Linear Charge Management Controller
-- Integrated Pass Transistors
-- Integrated Current Sense
-- Integrated Reverse Discharge Protection
-- Selectable Input Power Sources: USB Port or
-AC-DC Wall Adapter
-• Preset High Accuracy Charge Voltage Options:
-- 4.10V, 4.20V, 4.35V or 4.40V
-- ±0.5% Regulation Tolerance
-• Constant Current/Constant Voltage (CC/CV)
-Operation with Thermal Regulation
-• Maximum 1.8A Total Input Current Control
-• Resistor Programmable Fast Charge Current
-Control: 50 mA to 1A
-• Resistor Programmable Termination Set Point
-• Selectable USB Input Current Control
-- Absolute Maximum: 100 mA (L)/500 mA (H)
-• Safety Timer With Timer Enable/Disable Control
-• 0.1C Preconditioning for Deeply Depleted Cells
-• Low Battery Status Indicator (LBO)
-• Power Good Status Indicator (PG)
-• Charge Status and Fault Condition Indicators
-
-
-## USB Data Routing
+- 2 * [Hirose DF40-50DS-0.4V](https://www.hirose.com/en/product/p/CL0684-4009-0-51) mated height 1.5mm
+- 2 * [HD3SS3220  10-Gbps USB 3.1 Type-C 2:1 mux with DRP Controller](https://www.ti.com/product/HD3SS3220)
+- 2 * USB-C connectors [DX07S024JA1R1300](https://www.jae.com/en/connectors/series/detail/product/id=66508) or [DX07S024JJ2R1300](https://www.mouser.ch/ProductDetail/JAE-Electronics/DX07S024JJ2R1300?qs=odmYgEirbwyfyaz1Tta0cQ%3D%3D)
+- 3 * [Samtec TSW-116-14-T-S Header 16 pin](https://www.samtec.com/products/tsw-116-14-t-s)
 
 
 
+## Milestones:
 
-# Battery Charging
+The project is broken down in milestones to ensure a correct design.
 
-- Switch between trickle charge(0.1C) and fast charge(1.5C).
-- Charge strategy timout setting
-- Suspend on low power
-- Resume on good power
+### Initial board designs  $600
 
+Do an initial board diagram and layout with Eagle or Altium.
 
-## Power output from Charging Controller
+- Confirmation of BoM
+- PD Controller working as a power sink(not source)
+- Power Regulators
+- Power LED, Power and Reset buttons
+- 45 pin breakout connectors
+- USB-C sockets
+- Battery charger
+- Design both boards
 
-When operating with single cell Li-Ion batteries, output voltage range can be from 3.0V-4.2V. It is recommended not to operate at minimum battery voltage, to prolong a Li-Ion battery’s life. Please refer to the battery manufacturer’s data sheet or design guide for details.
+Deliverables:
 
-
-- VSOM output Main power for board 3.5V - 4.2V 
-- Direct power input pads support 4V - 6V
-
-The board will attempt to constantly supply power. Either from a 3.7V LiPO battery, 5V input solder pads, or USB power source.
-
-The system should attempt to detect low power and suspend or power down before 
-reaching VSOM 3.45V.
-
-## Wireless power input
-
-Trickle charging over secondary connection on BQ24165
-
-## Managed charging
-
-![Managed charging AN1088](MCP83831-flowchart.png)
-
-[BQ24250](https://www.ti.com/product/BQ24250)   $2 JLCPCB (4x4 mm packages)
-[BQ25253](https://www.ti.com/product/BQ24253)  $5 JLCPCB (2.4x2.4 mm package)
-
-bq2425x 2A Single-Input 2IC, Stand-Alone Switched-Mode Li-Ion Battery Charger With Power-Path Management
+- Diagrams(.sch) + Board layout design files
+- Gerber files
+- Review the choice of component and suggest alternative if needed.
+- Confirmation of BoM
+- Get production quotes with JLCPCB, PCBWAY etc. for 10pc, 100pcs, 1000pcs (assembled and basic)
 
 
-[BQ24165]()  [Mouser BQ24165RGET](https://www.mouser.ch/ProductDetail/Texas-Instruments/BQ24165RGET?qs=sGAEpiMZZMt1iCLsaqcCFmvmlE5K9qq28M%252BEliZU1c4%3D)
-Single cell
-System load
-I2C control interface
-Charge current 2.5A
-USB VBUS input
-Temp
-Power good and charging signals
-CE1 / CE2 triggers
+### Ordering test batch of boards $0
+
+We then do a test batch
 
 
-[BQ25882](https://www.ti.com/product/BQ25882)
-I2C 2 cell 2A Boost battery charger for USB input in a WCSP package with Power Path
-Delivers too high voltage 7V
+### Verification of design and fixes - $400
 
-[BQ25600]
-[Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/BQ25600YFFR?qs=sGAEpiMZZMv0NwlthflBi2Bt%252B4a%252B3ziicLPGTO1X%2F64%3D)
- JLPCB $1.5
+Receive the test boards and test the acceptance tests. Make sure all tests pass.
+Correct any issues after reviewing with me.
 
+Deliverables:
 
-## A typical implementation
-
-![Reference implementation from AN1260](MCP73871-ref-impl.png)
-
-
-## Thermistor
-
-Which thermistor should be used?
-
-TDK docs lists modesl
-- Type M703
-- Type S861
-- Type G1551
+- Diagrams(.sch) + Board layout design files
+- Gerber files
+- Testing report with measurements
