@@ -5,6 +5,19 @@ To develop install the following dependencies
 
 - [Raspberry Pi ext4 to f2fs](http://whitehorseplanet.org/gate/topics/documentation/public/howto_ext4_to_f2fs_root_partition_raspi.html)
 
+## Development boards note
+
+- [Download images for I-Pi SMARC IMX8M Plus](https://www.ipi.wiki/pages/downloads-imx8mplus)
+- [How to use wic for make sd card](https://community.nxp.com/t5/i-MX-Processors/Yocto-i-MX28-How-to-use-wic-for-make-sd-card/m-p/758764)
+
+
+```sh
+gunzip -c <IMAGE>.wic.gz | sudo dd of=/dev/sdX bs=1M  iflag=fullblock oflag=direct conv=fsync
+```
+
+Or use Balena Etcher
+
+
 
 ## Raspberry Pi 4
 
