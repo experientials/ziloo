@@ -1,0 +1,48 @@
+| Signal         | 801 T-USB | BHI260AB     | IS31FL3730 | SOM / MCU | PCA9555 | CAM connectors  | Breakout   |
+|----------------|-----------|--------------|------------|-----------|---------|-----------------|------------|
+| I2C3 SDA       |           | Host IF      | I2C3 SDA   | I2C3 SDA  |         |                 |            |
+| I2C3 SCL       |           | Host IF      | I2C3 SCL   | I2C3 SCL  |         |                 |            |
+| SYS SDA        |           |              |            | SYS SDA   | SDA 3V3 |                 |            |
+| SYS SCL        |           |              |            | SYS SCL   | SCL 3V3 |                 |            |
+| I2C5 SDA       |           | Master 3     |            | I2C5 SDA  |         | Left SCCB       |            |
+| I2C5 SCL       |           | Master 3     |            | I2C5 SCL  |         | Left SCCB       |            |
+| I2C6 SDA       |           | Master 2 SDX |            | I2C6 SDA  |         | Right SCCB      |            |
+| I2C6 SCL       |           | Master 2 SCX |            | I2C6 SCL  |         | Right SCCB      |            |
+| SPI SCK        |           | M1SCK        |            |           |         |                 | SPI SCK    |
+| SPI MOSI       |           | M1SDX        |            |           |         |                 | SPI MOSI   |
+| SPI MISO       |           | M1SDI        |            |           |         |                 | SPI MISO   |
+|                |           |              |            |           |         |                 |            |
+| EX0_nINT       |           |              |            |           | nINT    |                 |            |
+| EX0.2          |           |              |            |           |         |                 |            |
+| EX0.3          |           |              |            |           |         |                 |            |
+| EX0.4          |           | BN_H_INTN    |            |           |         | IMU_IRQ         |            |
+| EX0.5          |           | RESETN       |            |           |         | IMU_RESETN      |            |
+| EX0.6          |           | HOSTBOOT     |            |           |         | IMU_MODE        |            |
+| EX0.7          |           |              |            |           |         |                 |            |
+| EX0.8          |           |              |            |           |         | CSI1_PWR_DWN_B  |            |
+| EX0.9          |           |              |            |           |         | LEFT_CAM_RESET  |            |
+| EX0.10         |           |              |            |           |         | LEFT_ATT_INT    |            |
+| EX0.11         |           |              |            |           |         | LEFT_ATT_XSHUT  |            |
+| EX0.12         |           |              |            |           |         | CSI2_PWR_DWN_B  |            |
+| EX0.13         |           |              |            |           |         | RIGHT_CAM_RESET |            |
+| EX0.14         |           |              |            |           |         | RIGHT_ATT_INT   |            |
+| EX0.15         |           |              |            |           |         | RIGHT_ATT_XSHUT |            |
+|                |           | JTAG_CLK     |            |           |         |                 | JTAG_CLK   |
+|                |           | JTAG_DIO     |            |           |         |                 | JTAG_DIO   |
+|                |           |              | IN         |           |         |                 | LED_AUDIO  |
+|                |           |              | C_FILT     |           |         |                 | LED_FILTER |
+|                |           | MCSB1        |            |           |         |                 | GPIO       |
+|                |           | MCSB2        |            |           |         |                 | GPIO       |
+|                |           | MCSB3        |            |           |         |                 | GPIO       |
+|                |           | MCSB4        |            |           |         |                 | GPIO       |
+|                |           | M1SCX        |            |           |         |                 | M1SCX      |
+|                |           | M1SDX        |            |           |         |                 | M1SDX      |
+|                |           | M1SDI        |            |           |         |                 | M1SDI      |
+|                |           |              |            |           |         |                 |            |
+| Signal Level   |           |              | 3.3V       |           | 3.3V    |                 |            |
+| Standalone 1V8 |           | Consumes     |            |           |         | VCC_1V8         |            |
+| VCC_SOM        | Supplies  |              | Consumes   |           |         |                 | VCC_SOM    |
+| Powered 3V3    |           |              |            |           |         | AF_VDD          |            |
+| Powered 1V8    |           | Consumes     |            |           |         | DOVDD + VCC_1V8 |            |
+| Powered 2V8    |           |              |            |           |         | AVDD_2V8        |            |
+
