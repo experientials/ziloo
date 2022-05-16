@@ -1,9 +1,11 @@
 
-| Pin | Code       | Function  | Description                   | 
-|-----|------------|-----------|-------------------------------|
-|  1  | GND        |           |                               |
-|  2  | SAI5_MCLK  | SAI5_MCLK | Master Clock
-|  3  |	SPK_BCLK   | SAI5_TXC   | I2S BCLK	/ SCK          |
+The Sensors on these expansion triggers interrupt via EX_OH_nINT (GPIO1_IO0).
+
+| Pin | Code       | Function   | Description               | 
+|-----|------------|------------|---------------------------|
+|  1  | GND        |            |                           |
+|  2  | SAI5_MCLK  | SAI5_MCLK  | Master Clock              |
+|  3  |	SPK_BCLK   | SAI5_TXC   | I2S BCLK	/ SCK           |
 |  4  | SPK_LRCLK  | SAI5_TXFS  | I2S LRCLK                 | 
 |  5  | SPK_DATA0  | SAI5_TXD0  | I2S DATA                  | 
 |  6  | SPK_DATA1  | SAI5_TXD1  | I2S DATA                  | 
@@ -19,5 +21,18 @@
 | 16  | MIC_DATA3  | SAI5_RXD3  | I2S DATA                  | 
 | 17  | SCL        | I2C3_SCL   | I2C                       |
 | 18  | SDA        | I2C3_SDA   | I2C                       |
-| 19  | Reserved   |            |               |
+| 19  | GPIO1_IO0  | EX_OH_nINT | Interrupt pin             |
 | 20  | GND        | GND        | Power         |
+
+
+A future bigger/alternate connector would include:
+
+- SCLK
+- MISO
+- MOSI
+- ECSPI2_SS0
+- CAN1_RX / CAN1_TX
+- CAN2_RX / CAN2_TX
+- PWM1..3
+- VCC_RTC / Suspended Power
+- 5 * GPIO

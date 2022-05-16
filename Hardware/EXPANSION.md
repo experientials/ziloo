@@ -21,6 +21,18 @@ Features:
 :[40 pins GPIO Expansion](./pinouts/GPIO_HEADER.md)
 
 
+## 40 pins Backplate breakout Header (development)
+
+The Backplate breakout is available in place of the SOM connectors to connect directly from development boards to 919.
+
+Features:
+
+- MotionEngine IO
+- LED Matrix driver
+
+:[40 pins GPIO Backplate Header](./pinouts/BACK_GPIO_HEADER.md)
+
+
 ## Sound Connector
 
 It is not yet defined if the signal level is 1.8V or 3.3V. It will depend on NVCC_SAI5
@@ -75,9 +87,6 @@ TODO unallocated/GPIO pins from chipsets
 A dedicated I/O Expander controls addition pins on Key B.
 
 :[Expansion I/O Expander #2](./pinouts/I2C_EXPANDER_2.md)
-
-
-### M.2 Key B Pin allocations
 
 :[M.2 Key B Pin allocations](./pinouts/M2_KEY_B_CONNECTOR.md)
 

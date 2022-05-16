@@ -251,3 +251,6 @@ One side
 
 TODO remove EX3 exposure
 
+TODO Revised VSOM enable logic testing
+
+TODO RTC battery power switch logic?

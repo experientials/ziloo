@@ -34,6 +34,9 @@ Connectors placed on the board are,
 - 2 * [Molex 22PIN 0.5mm pitch 54548-2271](https://www.molex.com/molex/products/part-detail/ffc_fpc_connectors/0545482271)
 - 2 * [Hirose DF40C-34DS-0.4V](https://www.hirose.com/en/product/p/CL0684-4023-0-51) ([Mouser](https://www.mouser.ch/ProductDetail/Hirose-Connector/DF40C-34DS-04V51?qs=vcbW%252B4%252BSTIpg26DsEbj1iQ%3D%3D))
 - 1 * [TE Connectivity 45PIN 0.3MM 571-4-2328724-5 FPC 3-2328724-5](https://www.te.com/usa-en/product-4-2328724-5.html) $0.41
+- 1 * [Battery clip 2894TR](https://www.keyelco.com/product.cfm/product_id/14479/stepAccess/4610033) - [Mouser](https://www.mouser.ch/ProductDetail/Keystone-Electronics/2894?qs=u16ybLDytRb94n%2F3dXyVLQ%3D%3D) - [Alibaba](https://www.alibaba.com/product-detail/Custom-AAA-Lithium-Coin-Cell-Battery_62567779532.html?spm=a2700.galleryofferlist.normal_offer.d_title.634038883OQveK&s=p)
+- 1 * Renata CR1220 cell battery - [Alibaba CR1220](https://www.alibaba.com/product-detail/Cr1220-Cr1220-3V-Lithium-Battery-CR1220_1600201663177.html)
+- 3 * [Hirose DF40-20DS-0.4V](https://www.hirose.com/product/p/CL0684-4005-9-51) mated height 1.5mm [Mouser](https://www.mouser.ch/ProductDetail/Hirose-Connector/DF40HC35-20DS-04V51) - [JLCPCB socket](https://jlcpcb.com/parts/componentSearch)
 
 
 Alt Components
@@ -47,7 +50,9 @@ Alt Components
 - [Bivar SM0402YC 1mm x 0.5mm yellow](https://www.mouser.ch/ProductDetail/Bivar/SM0402YC)
 - [Lumex SML-LX0402SYC-TR 1mm x 0.5m yellow](https://www.mouser.ch/ProductDetail/Lumex/SML-LX0402SYC-TR)
 - [ROHM SML-P12YTT86R 1mm x 0.6nn yellow](https://www.mouser.ch/ProductDetail/ROHM-Semiconductor/SML-P12YTT86R)
-
+- [Alternate Cell Holder S8411-45R](https://www.harwin.com/products/S8411-45R/) - [Mouser](https://www.mouser.ch/ProductDetail/Harwin/S8411-45R?qs=Qom7kyPojXY6B0JhnWxDgQ%3D%3D)
+-  1 * [EEMB / Hillflower LIR1220 Li-ion 3.6V battery rechargeable](https://eemb.com/model/LIR1220.html) - [Alibaba](https://www.alibaba.com/product-detail/3-6V-Lithium-Ion-Rechargeable-Button_545419255.html) [.. or](https://www.alibaba.com/product-detail/Lir1220-3-6V-LIR1220-LIR2016-LIR2025_1600318842115.html)
+- 1 * [ML1220 3V rechargable battery](https://www.alibaba.com/product-detail/ML1220-3V-18mAh-lithium-aluminum-alloy_1600259520266.html)
  
 Articles
 
@@ -72,48 +77,83 @@ The 22 pin connector allows a Development board to be connected with a Raspberry
 The 34 pin connector allows attachment of a 201 Camera Module made for it.
 Signals will be transferred directly between the two connectors using voltage shifters
 
-The power supplied to the 34 pins connector can be driven by the 22 pin connector or the T-USB Power Module.
+The power supplied to the 34 pins connector can be driven by the 22 pin connector or the T-USB Power Module or the Power Module.
 These are down-regulated to 3V3, 2V8 and 1V8 from 3.7V - 5V. This downregulation can be shared between Left and Right.
 
-The 1.8V driving the Sensor I/O of the 201 modules
+The 1.8V driving the Sensor I/O of the 201 modules will also be supplied via the Self powered direct battery input.
 
-## Power
 
-The board can be powered by 1.8V via a directly attached battery which is down regulated. The self power input will power the Motion Engine
-and camera sensors with 1.8V. This can be used to run the board in an always on mode that records movement while disconnected.
+## Board Power
 
-When the Power module is connected it supplies VSOM which powers the MotionEngine, LED Matrix driver and camera modules.
-VSOM is down regulated from around 4V to 1V8, 2V8 and 3V3.
+The board can be powered by 3V+ via a directly attached battery, or a pin on back GPIO header, which is down regulated. 
+The self power input will power the Motion Engine and camera sensors with 1.8V. 
+This can be used to run the board in an always on mode that records movement while disconnected.
+The SELF_PWR input will be used to supply VCC_RTC.
+
+When the Power module is connected it supplies VSOM, which powers the MotionEngine, LED Matrix driver and camera modules.
+VSOM is down regulated from around 4V to 1V8, 2V8 and 3V3. When connected, no power is drawn from the battery on the bridge board.
 
 Voltage pins are
 
 * Self powered 2V+ input
-* Always on 1V8 output
+* Always on 1V8 output VCC_RTC
 * Powered 1V8 output
+* Powered 2V8 output
 * Powered 3V3 output
+* Powered 5V output
 * VSOM output
 
-Is it possible to support both 5V in and out on the GPIO pins? 5V input would be downregulated to 4V if power module isn't connected.
+[?] Is it possible to support both 5V in and out on the GPIO pins? 5V input would be downregulated to 4V if power module isn't connected.
 5V output would be upregulated VSOM.
+
+
+SELF_PWR
+Optional battery power input for driving the boards always on components while a power module isn't connected.
+Power might be supplied by a CR2032 or LIR1220 battery.
+This can be supplied by connecting to the pin on the backplane GPIO header or the RTC battery slot.
+
+VSOM
+Supplied by power module over multiple pins. When all pins are connected it is passed on to full-on mode components as VCC_FULL.
+
+VCC_RTC
+This powers always-on components on attached modules. It is sourced from any of the power module VCC_RTC or VSOM pins and downregulated.
+If the power module isn't connected or doesn't provide any power the fallback is SELF_PWR.
+
+Power module provides
+- No power
+- VCC_RTC only
+- Some VSOM pins
+- Full VSOM (all pins) 
+
+The power provided will force the system state to be
+- Off
+- Detached
+- Suspended (fully powered)
+- Running (fully powered)
+
+The battery connector may be change to use LIR1220(3.6V) or ML1220(3V), which are rechargable.
+Additional circuitry will be added to charge the battery from VCC_FULL(VSOM).
+
+
+### Electrical Characteristics
+
+| Parameter                         |  Symbol   |  Min   | Typ    | Max   | Unit   |
+|-----------------------------------|-----------|--------|--------|-------|--------|
+| Supply Voltage IMU Analog Domain  | IMU_VDD   | 1.71   | 1.8    | 3.6   | V      |
+| Supply Voltage IMU I/O Domain     | IMU_VDDIO | 1.71   | 1.8    | 1.89  | V      | 
+| MotionEngine running CPU/Sensing  |           | 0.5    | 1      | 2.8   | mA     |
+| LED Matrix chip                   | LED_VCC   | 2.7    |        | 5.5   | V      |
+| LED Matrix chip                   | LED_IOUT  |        | 40     |       | mA     |
 
 
 ## T-USB Power connectors
 
-The T-USB power module is connected using two 50 pin connectors. 
+:[Power Module Connection](../refs/POWER_MODULE_CONNECT.md)
 
-The connectors have detection pins that triggers the power over VSOM. Power must only be drawn from the power module when the 
-connectors are fully inserted.
+[?] Connector layout and pin orientation diagram.
+[?] Full power logic
 
-### Physical Connection Establishment
 
-When connecting the T-USB module to the Bridge Board VSOM must be supplied only when the module is fully inserted.
-This is done by responding to pins on both connectors being shorted by the bridge board side.
-
-- Delayed VSOM enable
-- Power down button / physical detect
-- CONN_EN pins are powered when the connectors are fully inserted
-- Only denable when all CONN_EN get signal
-- When detaching a lock is pressed to detach all modules
  
  
 ## LED layout
@@ -137,22 +177,16 @@ A sad smile uses the same multiplexer banks but with reverse polarity.
 
 LEDs are marked with identifiers on the connector side, but not on the front side.
 
+Leds should be oriented perpendicular to the line they are arranged on. The orientation on the 3D model doesn't reflect what is intended.
+
 
 ### LED Matrix driver
 
-The LEDs are controlled via a IS31FL3730 chip connected to SOM via I2C3 and MotionEngine via Host I2C.
-Vias around nose and hair
+The LEDs are controlled via a IS31FL3730 chip connected to SOM(I2C3) and MotionEngine(Host I2C) if Host IF connected to I2C3.
+Note that I2C3 is also broken out over the 20 pin Sound module connectors.
 
 It can be driven by 2.7V - 5.5V
 I/O can be up to Vcc+0.3V
-
-
-I2C3 breakout
-Power breakout
-
-Connecting IS31FL3730 on I2C3
-
-I2C3 on sound connector?
 
 ![LED matrix driver 7x9](./LED-matrix-7x9.png)
 
@@ -206,9 +240,33 @@ I assume the voltage is 1.8V. Winbond is apparently a tested example.
 
 ## I/O Expander 0
 
-Expander #0 combines control signals.
+Expander #0 combines control signals. It is drived by SYS I2C.
 
 :[I/O Expander 0](../pinouts/I2C_EXPANDER_0.md)
+
+
+## Edge Expansion connectors
+
+One the edge there are three 20 pin connectors that allow connecting expansion modules
+providing Sound/Sensor support.
+
+1.8V signals are needed for suspended state. Should it be 3.3V for audio?
+
+
+## 3D Model libraries
+
+https://kicad.github.io/packages3d/
+
+
+
+## Wiring
+
+Use this table to ensure correct board wiring.
+
+:[Wiring chips and connectors](./WIRING.md)
+
+
+# 919 Connector Pinouts
 
 
 ## Front facing GPIO header
@@ -231,31 +289,6 @@ Features:
 ## Back facing GPIO header
 
 :[40 pins GPIO Expansion](../pinouts/BACK_GPIO_HEADER.md)
-
-
-## 3D Model libraries
-
-https://kicad.github.io/packages3d/
-
-
-
-## Wiring
-
-:[Wiring chips and connectors](./WIRING.md)
-
-
-# 919 Connector Pinouts
-
-## Debugging Breakout connector
-
-:[Debugging Breakout connector](../pinouts/DEBUG_BREAKOUT_CONNECTOR_PINOUT.md)
-
-
-
-
-## <mark>I2S / I2C 6 pins connector</mark>
-
-:[6 pins I2C I2S Connector](../pinouts/PW_I2C_I2S_CONNECTOR.md)
 
 
 ## 50 pin B2B connectors

@@ -18,4 +18,4 @@ i.MX I2C3 adresses
 | Address    | Chipset  | Description               |
 |------------|----------|---------------------------|
 | 0x7E 0x7F  | TPS65988 |  PD Controller Port 2     |
-
+| 0x28       | BHI260AP | Motion Engine             |

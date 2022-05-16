@@ -10,24 +10,24 @@ Connector 2: PD Controller, Debug, USB 2.0
 
 | Power   |  Max Current | Pins |
 |---------|--------------|------|
-| VSOM    | 2.7 A        | 9    |
-| GND     | 2.7 A        | 9    |
+| VSOM    | 3.0 A        | 9    |
+| GND     | 3.0 A        | 9    |
 | VCC_RTC | 600 mA       | 2    |
 | VIN_3V3 | 300 mA       | 1    |
 | VIN_5V  | 600 mA       | 2    |
 | LDO_3V3 | 300 mA       | 1    |
 
 
-#### Connector 1 high-speed data, close to SoM
+#### Connector 1 high-speed data, close to Alt Mode Breakout connectors
 
-- 5 * GND
-- 6 * VSOM
+- 6 * GND
+- 7 * VSOM
 
 One side
 
-| Pin | Code             | Type     | Details                              | Voltage |
-|-----|------------------|----------|--------------------------------------|---------|
-| 1   | CONN_EN          | Enable | Signal + / GND to inform the T-USB board of being connected   |         |    |
+| Pin | Code             | Type     | Details                              | Voltage | Misc         |
+|-----|------------------|----------|--------------------------------------|---------|--------------|
+| 1   | VSOM             | Power    | Main power for board 3.45V - 4.5V    |         | Conn. detect |
 | 2   | USB1_RX_DP       | USB      | USB1 RX D+                           |         |
 | 3   | USB1_RX_DN       | USB      | USB1 RX D-                           |         |
 | 4   | GND              | Power    | Ground                               |         |
@@ -47,8 +47,8 @@ One side
 | 18  | T_USB_H_ALT_POL  | AltMode  | Exposed EX3                          |         |
 | 19  | T_USB_H_ALT_AMSEL| AltMode  | Exposed EX3                          |         |
 | 20  | GND              | Power    | Ground                               |         |
-| 21  |                  |          |                                    |         |
-| 23  |                  |          |                                    |         |
+| 21  |                  |          |                                      |         |
+| 23  |                  |          |                                      |         |
 | 24  | PWR_CHARGE       | Battery  | Internal charge current for testing  |         |
 | 25  | BAT_STAT         | Battery  | Internal charging status for testing |         |
 
@@ -74,20 +74,20 @@ Other side
 | 38  | LVD3+      | LVDS     | LVDS D3+                             |         |
 | 37  | LVD3-      | LVDS     | LVDS D3-                             |         |
 | 36  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |
-| 35  |              |        |                                    |         |
-| 34  |              |        |                                    |         |
-| 33  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |
+| 35  |              |        |                                      |         |
+| 34  |              |        |                                      |         |
+| 20  | GND        | Power    | Ground                               |         |
 | 32  |              |        |                                    |         |
 | 31  |              |        |                                    |         |
 | 30  | BAT_LDO      | Battery| 4.9V 50mA LDO for STAT LED         |         |
 | 28  |              |        |                                    |         |
 | 27  |              |        |                                    |         |
-| 26  | CONN_EN      | Enable | Signal + / GND to inform the T-USB board of being connected   |         |    |
+| 26  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |  Conn. detect |
 
-Could also be HDMI or PCIe
+Could also take in HDMI or PCIe lanes
 
 
-#### Connector 2 PD controller, away from SoM
+#### Connector 2 PD controller, close to power connectors
 
 - 2 * VSOM, 3 * GND, 1 * VCC_RTC, 1 * VIN_3V3
 - 1 * VSOM, 1 * GND, 1 * VCC_RTC, 2 * VIN_5V, 1 * LDO_3V3
@@ -96,7 +96,7 @@ One side
 
 | Pin | Code         | Type     | Details                              | Voltage | Misc    |
 |-----|--------------|----------|--------------------------------------|---------|---------|
-| 1   | CONN_EN      | Enable | Signal + / GND to inform the T-USB board of being connected   |         |   |
+| 1   | VSOM         | Power    | Main power for board 3.45V - 4.5V    |         | Conn. detect |
 | 2   | GND          | Power    | Ground                               |         |         |
 | 3   | USB1_DP      | USB      | USB1 D+                              |         |         |
 | 4   | USB1_DN      | USB      | USB1 D-                              |         |         |
@@ -106,11 +106,11 @@ One side
 | 8   | GND          | Power    | Ground                               |         |         |
 | 9   | SWD_CLK      | Debug    | PD Controller GPIO12                 |         |         |
 | 10  | SWD_DAT      | Debug    | PD Controller GPIO13                 |         |         |
-| 11  | VSOM         | Power    | Main power for board 3.45V - 4.5V    |         |         |
+| 11  | BOTH_VSOM    | Enable   | Signal from bridge board that VSOM is connected on both sides   |         |   |
 | 12  | EX0_nINT     | IRQ      | Interrupt signal (GPIO4_IO19)        |         | P21.30  |
 | 13  | EX_OH_nINT   | IRQ      | Interrupt signal (GPIO1_IO0)         |         | P20.12  |
 | 14  | EX_T_nINT    | IRQ      | Interrupt signal (GPIO1_IO1).        |         | P20.14  |
-| 15  | VSOM         | Power    | Main power for board 3.45V - 4.5V    |         |         |
+| 15  | VSOM_LOCK    | Power    | Main power for board 3.45V - 4.5V, if mechanical lock shorted    |         | Mech. lock |
 | 16  | SYS_RST_PMIC | Reset    | PMIC reset input pin. Internally pulled up with LDO1 power rail. Once low, PMIC performs reset. |         | P10.9   |
 | 17  | POR_B_3P3    | Reset    | Power On reset output pin. Open drain output requiring external pull up resistor. |    | P10.7 |
 | 18  | PMIC_ON_REQ  | Reset    | PMIC ON input from Application processor. When high, the device starts power on sequence. |     | P10.5   |
@@ -126,7 +126,7 @@ Other side
 
 | Pin | Code       | Type     | Details                              | Voltage |  Misc    |
 |-----|------------|----------|--------------------------------------|---------|---------|
-| 50  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |
+| 50  | RESERVED   |          | No Connect                           |         |         |
 | 49  | GND        | Power    | Ground                               |         |
 | 48  | UART1_TXD  | UART     | P1.72 UART1 Tx                       |         | P20.9   |
 | 47  | UART1_RXD  | UART     | P1.19 UART1 Rx                       |         | P20.11  |
@@ -142,13 +142,13 @@ Other side
 | 37  | I2C3 SDA   | I2C      | Stem SDA                             |         | P21.4 ? |
 | 36  | VCC_RTC    | Power    | Low power mode supply                |         | |
 | 35  | LDO_3V3    | Power    | Supply for SPI Flash. Current 50 mA  | 3.3V    |  |
-| 34  | SPI_3V3      | Power    | Power to the flash chip. Bridge connects to VIN_3V3      | 3.3V    |
-| 33  | SPI_CS       | PD     | Programming/External flash directly  | 3.3V    |
-| 32  | SPI_CLK      | PD     | Programming/External flash directly  | 3.3V    |
-| 31  | SPI_MISO     | PD     | Programming/External flash directly  | 3.3V    |
-| 30  | SPI_MOSI     | PD     | Programming/External flash directly  | 3.3V    |
-| 29  | VIN_3V3      |          | Supply for TPS64988 circuitry and I/O. Current 50 mA |   3.3V        |
-| 28  | VIN_5V       | Power    | System 5V power source (PPHV1, PPHV2, PP1_CABLE, PP2_CABLE). 500 mA. | 5V      |
-| 27  | VIN_5V       | Power    | System 5V power source (PPHV1, PPHV2, PP1_CABLE, PP2_CABLE). 500 mA. | 5V      |
-| 26  | CONN_EN      | Enable | Signal + / GND to inform the T-USB board of being connected   |         |    |
+| 34  | SPI_3V3    | Power    | Power to the flash chip. Bridge connects to VIN_3V3      | 3.3V    |
+| 33  | SPI_CS     | PD     | Programming/External flash directly  | 3.3V    |
+| 32  | SPI_CLK    | PD     | Programming/External flash directly  | 3.3V    |
+| 31  | SPI_MISO   | PD     | Programming/External flash directly  | 3.3V    |
+| 30  | SPI_MOSI   | PD     | Programming/External flash directly  | 3.3V    |
+| 29  | VIN_3V3    |          | Supply for TPS64988 circuitry and I/O. Current 50 mA |   3.3V        |
+| 28  | VIN_5V     | Power    | System 5V power source (PPHV1, PPHV2, PP1_CABLE, PP2_CABLE). 500 mA. | 5V      |
+| 27  | VIN_5V     | Power    | System 5V power source (PPHV1, PPHV2, PP1_CABLE, PP2_CABLE). 500 mA. | 5V      |
+| 26  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |  Conn. detect |
 

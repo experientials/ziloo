@@ -1,5 +1,4 @@
-The development board uses a single Expander. The 909 uses 3x PCA9555 to control more states.
-The 801 uses 5x PCA9555 to control more states.
+The development board uses a single Expander. The 801 and 909 uses 2x PCA9555 to control more states.
 This EX3 Combined T-USB control I/O Expander is placed on T-USB daughterboard.
 
 The EX3 expander input triggers interrupt via EX_T_nINT (GPIO1_IO1).
@@ -27,7 +26,7 @@ Refer to the datasheet for HD3SS460 for full truth table. The regular USBSS setu
 | EX3.12    | OHX_MODE_BIT_0   |
 | EX3.13    | OHX_MODE_BIT_1   |
 | EX3.14    | RESERVED (OHX_MODE_BIT_2)  |
-| EX3.15    |   |
+| EX3.15    | RESERVED GPIO4 on 65988 (HPD2)  |
 
 
 OTG and Host USB 2.0 connectivity options.

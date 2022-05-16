@@ -1,3 +1,4 @@
+![GPIO header](./front-face-gpio.png)
 
 | Left side                  | Function  |Pin |Pin | Function  | Right side           |
 |----------------------------|-----------|----|----|-----------|----------------------|
@@ -12,7 +13,7 @@
 |        Powering suspended  | VCC_RTC   | 17 | 18 | GPIO4_IO17|                      |
 | ECSPI2_MOSI / GPIO5_IO11   | MOSI      | 19 | 20 | GND       |                      |
 | ECSPI2_MISO / GPIO5_IO12   | MISO      | 21 | 22 | GPIO1_IO19| TD2                     |
-| ECSPI2_MOSI / GPIO5_IO10   | SCLK      | 23 | 24 | SPI CE0   | ECSPI2_SS0 / GPIO5_IO13 |
+| ECSPI2_SCLK / GPIO5_IO10   | SCLK      | 23 | 24 | SPI CE0   | ECSPI2_SS0 / GPIO5_IO13 |
 |                            | GPIO2_IO9 | 25 | 26 | QSPI BOOT | QSPI_BOOT_EN_3P3 |
 |                    SYS I2C | SYS SDA   | 27 | 28 | SYS SCL   | SYS I2C               |
 |     UART3_TXD / GPIO5_IO27 | UART3_TXD | 29 | 30 | GPIO5_IO26| UART3_RXD / GPIO5_IO26 |
@@ -21,4 +22,5 @@
 |     UART2_RXD / GPIO5_IO24 | GPIO5_IO24| 35 | 36 | CAN1_TX   | GPIO4_IO22           |
 |     UART2_TXD / GPIO5_IO25 | GPIO5_IO25| 37 | 38 | CAN2_RX   | GPIO4_IO27           |
 |                            | GND       | 39 | 40 | CAN2_TX   | GPIO4_IO26            |
+
 

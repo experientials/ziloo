@@ -1,4 +1,4 @@
-The development board uses a single Expander. The 909 and 801 uses 3x PCA9555 to control more states.
+The development board uses a single Expander. The 909 and 801 uses 2x PCA9555 to control more states.
 
 The EX1 expander input triggers interrupt via EX_OH_nINT (GPIO1_IO0).
 The pins relate to USB1 OTG and M.2 Key E.
@@ -11,9 +11,9 @@ Refer to the datasheet for HD3SS460 for full truth table. The regular USBSS setu
 
 | Expander  | Connected to    |
 |-----------|-----------------|
-| EX1.0     | USB_O_ALT_EN    |
-| EX1.1     | USB_O_ALT_POL   |
-| EX1.2     | USB_O_ALT_AMSEL |
+| EX1.0     |     |
+| EX1.1     |    |
+| EX1.2     |  |
 | EX1.3     | MUX_USB2_SEL    |
 | EX1.4     | MUX_USB3_SEL   |
 | EX1.5     | COEX4 |
