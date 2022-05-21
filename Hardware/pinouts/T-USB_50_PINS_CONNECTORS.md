@@ -10,8 +10,8 @@ Connector 2: PD Controller, Debug, USB 2.0
 
 | Power   |  Max Current | Pins |
 |---------|--------------|------|
-| VSOM    | 3.0 A        | 9    |
-| GND     | 3.0 A        | 9    |
+| VSOM    | 3.0 A        | 10   |
+| GND     | 3.0 A        | 10   |
 | VCC_RTC | 600 mA       | 2    |
 | VIN_3V3 | 300 mA       | 1    |
 | VIN_5V  | 600 mA       | 2    |
@@ -82,7 +82,7 @@ Other side
 | 30  | BAT_LDO      | Battery| 4.9V 50mA LDO for STAT LED         |         |
 | 28  |              |        |                                    |         |
 | 27  |              |        |                                    |         |
-| 26  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |  Conn. detect |
+| 26  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |
 
 Could also take in HDMI or PCIe lanes
 
@@ -126,7 +126,7 @@ Other side
 
 | Pin | Code       | Type     | Details                              | Voltage |  Misc    |
 |-----|------------|----------|--------------------------------------|---------|---------|
-| 50  | RESERVED   |          | No Connect                           |         |         |
+| 50  | PD_HRESET  |          | PD Controller HRESET (High)          |         |         |
 | 49  | GND        | Power    | Ground                               |         |
 | 48  | UART1_TXD  | UART     | P1.72 UART1 Tx                       |         | P20.9   |
 | 47  | UART1_RXD  | UART     | P1.19 UART1 Rx                       |         | P20.11  |
