@@ -78,7 +78,7 @@ Once the design is done we will order a few boards for me and yourself for testi
 
 ### Initial board designs  $800
 
-Do an initial board diagram and layout with Eagle or Altium.
+Do an initial T-USB board diagram and layout with Eagle or Altium.
 
 - Confirmation of BoM
 - PD Controller working as a power sink(not source)

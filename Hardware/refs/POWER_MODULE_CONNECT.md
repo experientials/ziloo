@@ -19,6 +19,8 @@ So there are in total two uses of 5V
 
 VIN_5V is optional and separate from the power on the board. It is supplied from the soldering pad/point.
 
+![Conceptual wiring of power module](../refs/POWER-MODULE-conceptual-wring.jpg)
+
 
 ### Physical T-USB Connection Establishment
 
@@ -46,8 +48,7 @@ activating until locked in place
 As the first step in the detachment of the power module the physical unlock button must be pressed which raises PMIC_STBY_REQ.
 The next step is to turn the back plate which will disconnect the conditional VSOM_LOCK pin.
 
-This requires logic on the 801/909 board.
-
+This requires logic on the 801/909/919 board. 
 
 ### Logic on Bridge board
 
@@ -55,7 +56,8 @@ The T-USB module is inserted onto the bridge board. As this gets inserted the br
 
 a) If at least one VSOM pin on both connectors is high, BOTH_VSOM is raised high by the bridge board.
 b) Directly connect VCC_RTC on T-USB connectors, soldering pad and System Module.
-c) If all 10 VSOM and VSOM_LOCK pins are supplying power, use it to power the System Module 
+c) If all 9 VSOM pins are supplying power, use it to power the System Module 
 d) If all 10 VSOM and VSOM_LOCK pins are supplying power, deliver upregulated 5V
-e) If all 10 VSOM and VSOM_LOCK pins are supplying power, deliver power to m.2 modules
-f) If some VSOM pins are powered deliver it to always running IMU on bridge board(not on 909c).
+e) If all 10 VSOM and VSOM_LOCK pins are supplying power, deliver 2.8V to camera modules
+f) If all 10 VSOM and VSOM_LOCK pins are supplying power, deliver power to m.2 modules
+g) If some VSOM pins are powered deliver it to always running circuits(like IMU) on bridge board(not on 909c).

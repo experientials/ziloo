@@ -6,13 +6,13 @@
 |-----|----------|--------------------|-----------|
 | 1   | M3SDA    | Left CSI1 I2C SDA  | SOM I2C5  |
 | 2   | M3SCL    | Left CSI1 I2C SCL  | SOM I2C5  |
-| 3   | HOSTBOOT | System Control     | EX0          |
+| 3   | HOSTBOOT | System Control     | EX0.6          |
 | 4   | QSPI_D0  | Flash              | Flash chip          |
 | 5   | QSPI_CLK | Flash              | Flash chip |
 | 6   | VREG     | Supply             | 1.8V          |
 | 7   | VDDIO    | Supply             | 1.8V ?          |
 | 8   | QSPI_D3  | Flash              | Flash chip |
-| 9   | RESETN   | System Control     | EX0.       |
+| 9   | RESETN   | System Control     | EX0.5       |
 | 10  | HIRQ     | Host I2C IRQ       | SOM I2C3 / EX0  |
 | 11  | HSDX     | Host I2C SDA       | SOM I2C3  |
 | 12  | VDDIO    | Supply             |           |
