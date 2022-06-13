@@ -17,37 +17,36 @@
 | 14  | OD+        | OTG D+                     |
 | 15  | OD-        | OTG D-                     |
 | 16  | GND        |                                          |
-| 17  |       |                     |
-| 18  |       |                     |
+| 17  | OX+        | OTG Extra 2.0 D+                     |
+| 18  | OX-        | OTG Extra 2.0 D-                     |
 | 19  | GND        |                     |
-| 20  | OX+        | OTG Extra 2.0 D+                     |
-| 21  | OX-        | OTG Extra 2.0 D-                     |
-| 22  | OXA_SEL    | Select OTG Extra A6/A7               | 
-| 23  | OXB_SEL    | Select OTG Extra B6/B7               |
-| 24  | GND        |                                          |
-| 25  |            |                        |
-| 26  |            |                        |
-| 27  | GND        |                     |
-| 28  | TR1+       | ETH0 TR 1+                      |
-| 29  | TR1-       | ETH0 TR 1-                      |
-| 30  | GND        |                     |
-| 31  | TR2+       | ETH0 TR 2+                      |
-| 32  | TR2-       | ETH0 TR 2-                      |
-| 33  | GND        |                     |
-| 34  | TR3+       | ETH0 TR 3+                      |
-| 35  | TR3-       | ETH0 TR 3-                      |
-| 36  | GND        |                     |
-| 37  | TR4+       | ETH0 TR 4+                      |
-| 38  | TR4-       | ETH0 TR 4-                      |
-| 39  | GND        |                     |
-| 40  | ETH0_LED_ACT  | LED_ACT |
-| 41  | ETH0_LINK-LED_10_100  | ETH0_LINK-LED_10_100                   |
-| 42  | I2C SCL    | P1.99 SYS SCL                      |
-| 43  | I2C SDA    | P1.97 SYS SDA                      |
-| 44  | UART1_TXD  | P1.72 UART1 Tx                      |
-| 45  | UART1_RXD  | P1.19 UART1 Rx                      |
+| 20  | STEM SCL         | I2C      | STEM SCL                             |         |              | GP17 I2C0   |
+| 21  | STEM SDA         | I2C      | STEM SDA                             |         |              | GP16 I2C0   |
+| 22  | STEM INT         | I2C      | Sensor interrupts                    |         |
+| 23  | NIGHT SCL        | I2C      | I2C6 SCL                             |         | P21.2 ? | GP19 I2C1.   |
+| 24  | NIGHT SDA        | I2C      | I2C6 SDA                             |         | P21.4 ? | GP18 I2C1.   |
+| 25  | NIGHT INT        | I2C      | Sensor interrupts                    |         |
+| 26  | SYS I2C SCL      | I2C      |                                      |         | GP15 I2C1.  |
+| 27  | SYS I2C SDA      | I2C      |                                      |         | GP14 I2C1.  |
+| 28  | GND              | Power    | Ground                               |         |
+| 29  | SWD CLK RP       |          |                                      |         |
+| 30  | SWD DAT RP       |          |                                      |         
+| 31  | GND        | Power    | Ground                               |         |
+| 32  | UART1_TXD  | UART     | P1.72 UART1 Tx                       |         | P20.9   | GP4 UART1    |
+| 33  | UART1_RXD  | UART     | P1.19 UART1 Rx                       |         | P20.11  | GP5 UART1    |
+| 34  | UART2_TXD  | UART     | UART2 Tx                             |         | P20.1   | GP8 UART1.   |
+| 35  | UART2_RXD  | UART     | UART2 Rx                             |         | P20.3   | GP9 UART1    |
+| 36  | UART3_TXD  | UART     | P1.61 UART3 Tx                       |         | P20.2   | GP12 UART0   |
+| 37  | UART3_RXD  | UART     | P1.21 UART3 Rx                       |         | P20.4   | GP13 UART0   |
+| 38  | UART4_TXD  | UART     | UART4 Tx                             |         | P20.8   | GP20 UART1 |
+| 39  | UART4_RXD  | UART     | UART4 Rx                             |         | P20.10  | GP21 UART1 |
+
+| 42  | SPI_CS     | RP2040   | Programming/External flash directly  | 3.3V    |   | GP29 SPI1 |
+| 43  | SPI_CLK    | RP2040   | Programming/External flash directly  | 3.3V    |   | GP26 SPI1 |
+| 44  | SPI_MISO   | RP2040   | Programming/External flash directly  | 3.3V    |   | GP28 SPI1 |
+| 45  | SPI_MOSI   | RP2040   | Programming/External flash directly  | 3.3V    |   | GP27 SPI1 |
 
 
-Compress GPIO with expander and stem I2C (wire I2C3 ?)
+
      
 

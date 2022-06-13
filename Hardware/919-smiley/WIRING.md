@@ -1,7 +1,7 @@
 | Signal         | 801 T-USB | BHI260AB     | IS31FL3730 | SOM / MCU | PCA9555 | CAM connectors  | Breakout   |
 |----------------|-----------|--------------|------------|-----------|---------|-----------------|------------|
-| STEM SDA       | Stem SDA  | Host IF      | I2C3 SDA   | I2C3 SDA  |         |                 |            |
-| STEM SCL       | Stem SCL  | Host IF      | I2C3 SCL   | I2C3 SCL  |         |                 |            |
+| STEM SDA       | Stem SDA  | Host IF      | STEM SDA   |           |         |                 |            |
+| STEM SCL       | Stem SCL  | Host IF      | STEM SCL   |           |         |                 |            |
 | SYS SDA        | SYS SDA   |              |            | SYS SDA   | SDA 3V3 |                 |            |
 | SYS SCL        | SYS SCL   |              |            | SYS SCL   | SCL 3V3 |                 |            |
 | I2C5 SDA       |           | Master 3     |            | I2C5 SDA  |         | Left SCCB       |            |

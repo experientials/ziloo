@@ -22,8 +22,7 @@ Leds should be oriented perpendicular to the line they are arranged on. The orie
 
 ### LED Matrix driver
 
-The LEDs are controlled via a IS31FL3730 chip connected to SOM(I2C3) and MotionEngine(Host I2C) if Host IF connected to I2C3.
-Note that I2C3 is also broken out over the 20 pin Sound module connectors.
+The LEDs are controlled via a IS31FL3730 chip connected to the Stem via STEM I2C.
 
 It can be driven by 2.7V - 5.5V
 I/O can be up to Vcc+0.3V

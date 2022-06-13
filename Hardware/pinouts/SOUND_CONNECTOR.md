@@ -19,11 +19,12 @@ The Sensors on these expansion triggers interrupt via EX_OH_nINT (GPIO1_IO0).
 | 14  | MIC_DATA1  | SAI5_RXD1  | I2S DATA                  | 
 | 15  | MIC_DATA2  | SAI5_RXD2  | I2S DATA                  | 
 | 16  | MIC_DATA3  | SAI5_RXD3  | I2S DATA                  | 
-| 17  | SCL        | I2C3_SCL   | I2C                       |
-| 18  | SDA        | I2C3_SDA   | I2C                       |
+| 17  | SCL        | I2C6_SCL   | I2C                       |
+| 18  | SDA        | I2C6_SDA   | I2C                       |
 | 19  | GPIO1_IO0  | EX_OH_nINT | Interrupt pin             |
 | 20  | GND        | GND        | Power         |
 
+Rename EX_OH_nINT ?
 
 A future bigger/alternate connector would include:
 

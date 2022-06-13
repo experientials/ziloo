@@ -4,12 +4,13 @@ This testing board hosts the 801 T-USB daughter board.
 
 The 801 is a bridge board that connects daughter boards. 801 T-USB is one such daughter board.
 
-The T-USB daughterboard has two functions
+The T-USB daughterboard has three functions
 - Supply the system with power
 - Provide data signals in the system over two USB-C connectors
+- Manage autonomous system functions and waking state
 
 The T-USB board exposes two vertical USB-C sockets and connects to the carrier board through two 50 pin B2B connectors.
-These are routed ultimately through two USB-C connectors on the testing board
+These are routed ultimately through two USB-C connectors on the testing board.
 
 The testing board can also be used to test the bridge board. For this purpose there are two plugs on the underside that connect
 directly to the sockets on the upperside apart from the VSOM pins.
@@ -34,9 +35,6 @@ Testing staged power and data enable when plugging in the module.
 
 Chip enable when plugged in. 100ms delay.
 
-TODO remove EX3 exposure
-
-TODO RTC battery power switch logic?
 
 
 # Testing with the board
@@ -199,9 +197,9 @@ Upper Power (10 pins)
 
 
 
-## Signals for two 50 pin connectors from dev board (13 + 8 + 5 pins)
+## Signals for two 50 pin connectors from dev board (9 + 10 + 5 pins)
 
-50 pins for PD Controller -> Dev Board P20 (13 pins)
+50 pins for PD Controller -> Dev Board P20 (9 pins)
 
 | Pin | Code       | Type     | Details                              | Voltage |  Misc    |
 |-----|------------|----------|--------------------------------------|---------|---------|
@@ -213,25 +211,25 @@ Upper Power (10 pins)
 | 43  | UART3_RXD  | UART     | P1.21 UART3 Rx                       |         | P20.4   |
 | 42  | UART4_TXD  | UART     | UART4 Tx                             |         | P20.8   |
 | 41  | UART4_RXD  | UART     | UART4 Rx                             |         | P20.10  |
-| 38  | I2C3 SCL   | I2C      | Stem SCL                             |         | P21.2 ? | - move to other connector ?
-| 37  | I2C3 SDA   | I2C      | Stem SDA                             |         | P21.4 ? |
-| 13  | EX_OH_nINT | IRQ      | Interrupt signal (GPIO1_IO0)         |         | P20.12  |
-| 14  | EX_T_nINT  | IRQ      | Interrupt signal (GPIO1_IO1).        |         | P20.14  |
 |     | GND        | Power    | Ground                               |         |        |
 
 
-50 pins for PD Controller -> Dev Board P21 + direct connects (8 pins)
+50 pins for PD Controller / Data -> Dev Board P21 + direct connects (10 pins (was 8))
 
 | Pin | Code           | Type     | Details                              | Voltage |  Misc    |
 |-----|----------------|----------|--------------------------------------|---------|---------|
-| 40  | I2C SCL        | I2C      | P1.99 SYS SCL                        |         | P21.7   |
-| 39  | I2C SDA        | I2C      | P1.97 SYS SDA                        |         | P21.5   |
+| 36  | NIGHT SCL      | I2C      | I2C6 SCL                             |         | P21.2        | GP19 I2C1.   |
+| 35  | NIGHT SDA      | I2C      | I2C6 SDA                             |         | P21.4        | GP18 I2C1.   |
+| 18  | SYS I2C SCL    | I2C      |                                      |         | P21.7        | GP15 I2C1.  |
+| 19  | SYS I2C SDA    | I2C      |                                      |         | P21.5        | GP14 I2C1.  |
 | 12  | EX0_nINT       | IRQ      | Interrupt signal (GPIO4_IO19)        |         | P21.30  |
 | 20  | VCC_RTC        | Power    | Low power mode supply                |         |   |
 | 21  | PWRBTN         | Boot     | Power button trigger                 |         |   |
 | 22  | ALT_BOOT       | Boot     | Alternate boot                       |         |   |
 | 23  |QSPI_BOOT_EN_3P3| Boot     | SPI boot                             |         |  P21.18   |
 |     | GND            | Power    | Ground                               |         |        |
+| 32  | CAN_RX         |          | CAN1_RX                            |         | P21.12       |
+| 31  | CAN_TX         |          | CAN1_TX                            |         | P21.14       |
 
 
 50 pins for PD Controller -> Dev Board P10 (5 pins)
@@ -246,7 +244,11 @@ Upper Power (10 pins)
 
 
 
-## Breakout of Charging Signals
+
+
+
+
+## Breakout of Charging / Data Signals
 
 From 50 pins for PD Controller -> programming (8 pins)
 
@@ -254,14 +256,14 @@ From 50 pins for PD Controller -> programming (8 pins)
 |-----|--------------|----------|--------------------------------------|---------|---------|
 | 9   | SWD_CLK      | Debug    | PD Controller GPIO12                 |         |         |
 | 10  | SWD_DAT      | Debug    | PD Controller GPIO13                 |         |         |
-| 33  | SPI_CS       | PD       | Programming/External flash directly  | 3.3V    |
-| 32  | SPI_CLK      | PD       | Programming/External flash directly  | 3.3V    |
-| 31  | SPI_MISO     | PD       | Programming/External flash directly  | 3.3V    |
-| 30  | SPI_MOSI     | PD       | Programming/External flash directly  | 3.3V    |
 | 50  | PD_HRESET    | PD       | PD Controller HRESET (High)          |         |         |
 |     | GND          | Power    | Ground                               |         |
+| 21  | SWD CLK RP       | RP2040   |                                      |         |
+| 23  | SWD DAT RP       | RP2040   |                                      |         |
+| 28  | UART_RP_TXD| Debug    |                                    |         |      | GP0.   |
+| 27  | UART_RP_RXD| Debug    |                                    |         |      | GP1    |
 
-From 50 pins for PD Controller -> Charging power (7 pins)
+From 50 pins for PD Controller / Data -> Charging power (9 pins)
 
 | Pin | Code         | Type     | Details                              | Voltage |  Misc    |
 |-----|--------------|----------|--------------------------------------|---------|---------|
@@ -271,7 +273,21 @@ From 50 pins for PD Controller -> Charging power (7 pins)
 | 29  | VIN_3V3      |          | Supply for TPS64988 circuitry and I/O. Current 50 mA |   3.3V        |
 | 34  | SPI_3V3      | Power    | Power to the flash chip. Bridge connects to VIN_3V3      | 3.3V    |
 | 28  | VIN_5V       | Power    | System 5V power source (PPHV1, PPHV2, PP1_CABLE, PP2_CABLE). 500 mA. | 5V      |
+| 24  | PWR_CHARGE   | Battery  | Internal charge current for testing  |         |
+| 25  | BAT_STAT     | Battery  | Internal charging status for testing |         |
 |     | GND          | Power    | Ground                               |         |
+
+
+From 50 pins -> Assorted Data (7 pins)
+
+| 33  | SPI_CS     | RP2040   | RP SPI  | 3.3V    |   | GP29 SPI1 |
+| 32  | SPI_CLK    | PD       | RP SPI  | 3.3V    |   | GP26 SPI |
+| 31  | SPI_MISO   | RP2040   | RP SPI  | 3.3V    |   | GP28 SPI |
+| 30  | SPI_MOSI   | RP2040   | RP SPI  | 3.3V    |   | GP27 SPI |
+| 17  | STEM SCL         | I2C      | STEM SCL                             |         |              | GP17 I2C0   |
+| 18  | STEM SDA         | I2C      | STEM SDA                             |         |              | GP16 I2C0   |
+| 19  | STEM INT         | I2C      | Sensor interrupts                    |         |
+
 
 
 ## Signals **NOT** connected on 50 pin connectors

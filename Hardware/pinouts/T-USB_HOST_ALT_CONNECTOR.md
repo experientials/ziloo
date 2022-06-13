@@ -40,12 +40,7 @@
 | 37  | LVD3+      | LVDS D3+                      |
 | 38  | LVD3-      | LVDS D3-                      |
 | 39  | GND        |                     |
-| 40  | TOUCH_INT  | LVDS TOUCH INT EX0.6                   |
-| 41  | TOUCH_RST  | LVDS TOUCH Reset EX0.7                   |
-| 42  | I2C SCL    | SYS SCL                      |
-| 43  | I2C SDA    | SYS SDA                      |
-| 44  | UART3_TXD  | P1.61 UART3 Tx                      |
-| 45  | UART3_RXD  | P1.21 UART3 Rx                      |
-
 
      
+| 28  | UART_RP…TXD. | Debug  |                                    |         |      | GP0.   |
+| 27  | UART…RP…RXD. | Debug. |                                    |         |      | GP1    |

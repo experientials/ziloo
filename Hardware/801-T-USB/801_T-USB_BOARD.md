@@ -2,11 +2,13 @@
 
 The 801 is a bridge board that connects daughter boards. 801 T-USB is one such daughter board.
 
-The T-USB daughterboard has two functions
+The T-USB daughterboard has three functions
 - Supply the system with power
 - Provide data signals in the system over two USB-C connectors
+- Manage autonomous system functions and waking state
 
 The T-USB board exposes two vertical USB-C sockets and connects to the carrier board through two 50 pin B2B connectors.
+Two 45 pin debug connectors provides options to experiment with USB-C Alt. mode and connect a Stem MCU for Autonomous functions.
 
 ![Ziloo 801 T-USB Board](./T-USB-board.png)
 
@@ -66,6 +68,8 @@ To facilitate feature development two additional connectors are added.
 
 - [TPS65988 Linux](https://github.com/torvalds/linux/tree/1bff7d7e8c487b9b0ceab70b43b781f1d45f55eb/drivers/usb/typec/tipd)
 - [BQ2425x Linux](https://github.com/torvalds/linux/blob/master/drivers/power/supply/bq24257_charger.c)
+- [MC6470 Linux](https://github.com/mcubemems/mCube_mc6470_mc7030_mcu_driver)
+
 
 # Data Routing
 
@@ -137,12 +141,6 @@ The system power is driven by the Battery Charger, while the charging power come
 :[Power Module Connection](../refs/POWER_MODULE_CONNECT.md)
 
 [?] connectors for the two buttons
-
-
-## Optional PD Controller Flash
-
-The board features a slot for solderign on a 1MBit NOR Flash connected to the SPI pins of the TPS65988 PD Controller.
-The flash pins are exposed on one of the 50 pins connectors to enable direct programming and reading via testing board.
 
 
 

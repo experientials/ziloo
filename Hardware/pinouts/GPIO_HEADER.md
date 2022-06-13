@@ -23,4 +23,4 @@
 |     UART2_TXD / GPIO5_IO25 | GPIO5_IO25| 37 | 38 | CAN2_RX   | GPIO4_IO27           |
 |                            | GND       | 39 | 40 | CAN2_TX   | GPIO4_IO26            |
 
-
+I2C3 replaced with I2C6

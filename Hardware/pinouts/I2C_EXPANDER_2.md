@@ -5,8 +5,6 @@ The pins relate to USB2 Host and M.2 Key B.
 
 The EX2 expander allows controlling T-USB maps,
 
-The 3 pins for each Alt. Mode controller determines how signals are mapped to USB-C high speed lines.
-Refer to the datasheet for HD3SS460 for full truth table. The regular USBSS setup is chosen by POL=L, AMSEL=M, EN=H.
 
 
 | Expander  | Connected to    |
@@ -19,7 +17,6 @@ Refer to the datasheet for HD3SS460 for full truth table. The regular USBSS setu
 | EX2.5     | M2B_PWROFF |
 | EX2.6     | RESET#      |
 | EX2.7     | ALERT / I2C_IRQ    |
-| EX2.8     | GPIO4 on 65988 (HPD2) |
 | EX2.9     | LED / DAS / DSS                |
 | EX2.10    | W_DISABLE_2#                |
 | EX2.11    | W_DISABLE#                |

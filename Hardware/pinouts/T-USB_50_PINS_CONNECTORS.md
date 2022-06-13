@@ -25,8 +25,8 @@ Connector 2: PD Controller, Debug, USB 2.0
 
 One side
 
-| Pin | Code             | Type     | Details                              | Voltage | Misc         |
-|-----|------------------|----------|--------------------------------------|---------|--------------|
+| Pin | Code             | Type     | Details                              | Voltage | Misc         | MCU pin. |
+|-----|------------------|----------|--------------------------------------|---------|--------------|——————————|
 | 1   | VSOM             | Power    | Main power for board 3.45V - 4.5V    |         | Conn. detect |
 | 2   | USB1_RX_DP       | USB      | USB1 RX D+                           |         |
 | 3   | USB1_RX_DN       | USB      | USB1 RX D-                           |         |
@@ -40,25 +40,22 @@ One side
 | 11  | USB1_TX_DP       | USB      | USB2 TX D+                           |         |
 | 12  | USB1_TX_DN       | USB      | USB2 TX D-                           |         |
 | 13  | GND              | Power    | Ground                               |         |
-| 14  | T_USB_O_ALT_EN   | AltMode  | Exposed EX3                          |         |
-| 15  | T_USB_O_ALT_POL  | AltMode  | Exposed EX3                          |         |
-| 16  | T_USB_O_ALT_AMSEL| AltMode  | Exposed EX3                          |         |
-| 17  | T_USB_H_ALT_EN   | AltMode  | Exposed EX3                          |         |
-| 18  | T_USB_H_ALT_POL  | AltMode  | Exposed EX3                          |         |
-| 19  | T_USB_H_ALT_AMSEL| AltMode  | Exposed EX3                          |         |
+|     |                  |
+| 17  | STEM SCL         | I2C      | STEM SCL                             |         |              | GP17 I2C0   |
+| 18  | STEM SDA         | I2C      | STEM SDA                             |         |              | GP16 I2C0   |
+| 19  | STEM INT         | I2C      | Sensor interrupts                    |         |
 | 20  | GND              | Power    | Ground                               |         |
-| 21  |                  |          |                                      |         |
-| 23  |                  |          |                                      |         |
+| 21  | SWD CLK RP       | RP2040   |                                      |         |
+| 23  | SWD DAT RP       | RP2040   |                                      |         |
 | 24  | PWR_CHARGE       | Battery  | Internal charge current for testing  |         |
 | 25  | BAT_STAT         | Battery  | Internal charging status for testing |         |
 
-<mark>TODO remove EX3 exposure</mark>
 
 
 Other side
 
-| Pin | Code       | Type     | Details                              | Voltage |
-|-----|------------|----------|--------------------------------------|---------|
+| Pin | Code       | Type     | Details                              | Voltage | Misc         | MCU pin. |
+|-----|------------|----------|--------------------------------------|---------|——————————————|—————————-|
 | 50  | LVCLK+     | LVDS     | LVDS CLK+                            |         |
 | 49  | LVCLK-     | LVDS     | LVDS CLK-                            |         |
 | 48  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |
@@ -74,23 +71,23 @@ Other side
 | 38  | LVD3+      | LVDS     | LVDS D3+                             |         |
 | 37  | LVD3-      | LVDS     | LVDS D3-                             |         |
 | 36  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |
-| 35  |              |        |                                      |         |
-| 34  |              |        |                                      |         |
+| 35  |            |          |                                      |         |
+| 34  |            |          |                                      |         |
 | 20  | GND        | Power    | Ground                               |         |
-| 32  |              |        |                                    |         |
-| 31  |              |        |                                    |         |
-| 30  | BAT_LDO      | Battery| 4.9V 50mA LDO for STAT LED         |         |
-| 28  |              |        |                                    |         |
-| 27  |              |        |                                    |         |
+| 32  | CAN_RX     |          | CAN1_RX                            |         | P21.12       |
+| 31  | CAN_TX     |          | CAN1_TX                            |         | P21.14       |
+| 30  | BAT_LDO    | Battery  | 4.9V 50mA LDO for STAT LED         |         |
+| 28  | UART_RP_TXD| Debug    |                                    |         |      | GP0.   |
+| 27  | UART_RP_RXD| Debug    |                                    |         |      | GP1    |
 | 26  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |
 
-Could also take in HDMI or PCIe lanes
+Could also take in HDMI or PCIe lanes instead of LVDS
 
 
 #### Connector 2 PD controller, close to power connectors
 
 - 2 * VSOM, 3 * GND, 1 * VCC_RTC, 1 * VIN_3V3
-- 1 * VSOM, 1 * GND, 1 * VCC_RTC, 2 * VIN_5V, 1 * LDO_3V3
+- 1 * VSOM, 1 * GND, 2 * VIN_5V, 1 * LDO_3V3
 
 One side
 
@@ -107,9 +104,9 @@ One side
 | 9   | SWD_CLK      | Debug    | PD Controller GPIO12                 |         |         |
 | 10  | SWD_DAT      | Debug    | PD Controller GPIO13                 |         |         |
 | 11  | BOTH_VSOM    | Enable   | Signal from bridge board that VSOM is connected on both sides   |         |   |
-| 12  | EX0_nINT     | IRQ      | Interrupt signal (GPIO4_IO19)        |         | P21.30  |
-| 13  | EX_OH_nINT   | IRQ      | Interrupt signal (GPIO1_IO0)         |         | P20.12  |
-| 14  | EX_T_nINT    | IRQ      | Interrupt signal (GPIO1_IO1).        |         | P20.14  |
+| 12  |              |          |       |         |   |
+| 18  | SYS I2C SCL  | I2C      |                                      |         | P21.7        | GP15 I2C1.  |
+| 19  | SYS I2C SDA  | I2C      |                                      |         | P21.5        | GP14 I2C1.  |
 | 15  | VSOM_LOCK    | Power    | Main power for board 3.45V - 4.5V, if mechanical lock shorted    |         | Mech. lock |
 | 16  | SYS_RST_PMIC | Reset    | PMIC reset input pin. Internally pulled up with LDO1 power rail. Once low, PMIC performs reset. |         | P10.9   |
 | 17  | POR_B_3P3    | Reset    | Power On reset output pin. Open drain output requiring external pull up resistor. |    | P10.7 |
@@ -119,34 +116,34 @@ One side
 | 21  | PWRBTN       | Boot     | Power button trigger                 |         |   |
 | 22  | ALT_BOOT     | Boot     | Alternate boot                       |         |   |
 | 23  | QSPI_BOOT_EN_3P3| Boot  | SPI boot                             |         |  P21.18   |
-| 24  | BAT_CE#      | Charger  |  Charge Enable Active-Low Input. Connect CE to a high logic level to place the battery charger in standby mode.  |         |    |
+| 24  | BAT_CE#      | Charger  | Charge Enable Active-Low. Connect CE to a high logic level to place the battery charger in standby mode.  |      |    |
 | 25  | PD_VIN_EN    |          | Enable VIN_5V/3V3 from PWR_SYS (TBD) |         |    |
 
 Other side
 
-| Pin | Code       | Type     | Details                              | Voltage |  Misc    |
-|-----|------------|----------|--------------------------------------|---------|---------|
+| Pin | Code       | Type     | Details                              | Voltage |  Misc   | mcu pin |
+|-----|------------|----------|--------------------------------------|---------|---------|————————-|
 | 50  | PD_HRESET  |          | PD Controller HRESET (High)          |         |         |
 | 49  | GND        | Power    | Ground                               |         |
-| 48  | UART1_TXD  | UART     | P1.72 UART1 Tx                       |         | P20.9   |
-| 47  | UART1_RXD  | UART     | P1.19 UART1 Rx                       |         | P20.11  |
-| 46  | UART2_TXD  | UART     | UART2 Tx                             |         | P20.1   |
-| 45  | UART2_RXD  | UART     | UART2 Rx                             |         | P20.3   |
-| 44  | UART3_TXD  | UART     | P1.61 UART3 Tx                       |         | P20.2   |
-| 43  | UART3_RXD  | UART     | P1.21 UART3 Rx                       |         | P20.4   |
-| 42  | UART4_TXD  | UART     | UART4 Tx                             |         | P20.8   |
-| 41  | UART4_RXD  | UART     | UART4 Rx                             |         | P20.10  |
-| 40  | I2C SCL    | I2C      | P1.99 SYS SCL                        |         | P21.7   |
-| 39  | I2C SDA    | I2C      | P1.97 SYS SDA                        |         | P21.5   |
-| 38  | I2C3 SCL   | I2C      | Stem SCL                             |         | P21.2 ? |
-| 37  | I2C3 SDA   | I2C      | Stem SDA                             |         | P21.4 ? |
-| 36  | VCC_RTC    | Power    | Low power mode supply                |         | |
-| 35  | LDO_3V3    | Power    | Supply for SPI Flash. Current 50 mA  | 3.3V    |  |
-| 34  | SPI_3V3    | Power    | Power to the flash chip. Bridge connects to VIN_3V3      | 3.3V    |
-| 33  | SPI_CS     | PD     | Programming/External flash directly  | 3.3V    |
-| 32  | SPI_CLK    | PD     | Programming/External flash directly  | 3.3V    |
-| 31  | SPI_MISO   | PD     | Programming/External flash directly  | 3.3V    |
-| 30  | SPI_MOSI   | PD     | Programming/External flash directly  | 3.3V    |
+| 48  | UART1_TXD  | UART     | P1.72 UART1 Tx                       |         | P20.9   | GP4 UART1    |
+| 47  | UART1_RXD  | UART     | P1.19 UART1 Rx                       |         | P20.11  | GP5 UART1    |
+| 46  | UART2_TXD  | UART     | UART2 Tx                             |         | P20.1   | GP8 UART1.   |
+| 45  | UART2_RXD  | UART     | UART2 Rx                             |         | P20.3   | GP9 UART1    |
+| 44  | UART3_TXD  | UART     | P1.61 UART3 Tx                       |         | P20.2   | GP12 UART0   |
+| 43  | UART3_RXD  | UART     | P1.21 UART3 Rx                       |         | P20.4   | GP13 UART0   |
+| 42  | UART4_TXD  | UART     | UART4 Tx                             |         | P20.8   | GP20 UART1 |
+| 41  | UART4_RXD  | UART     | UART4 Rx                             |         | P20.10  | GP21 UART1 |
+| 40  | MIC_CLK    | Sensor   | frontboard mic          |         |    |    |
+| 39  | MIC_DATA   | Sensor   |                         |         |    |    |
+| 38  | MIC_INT    | Sensor   |                              |         |  ? |    |
+| 37  | MOTION_INT | Sensor   | frontboard motion mic on stem I2C |   |  ? |    |
+| 36  | NIGHT SCL        | I2C      | I2C6 SCL                             |         | P21.2        | GP19 I2C1.   |
+| 35  | NIGHT SDA        | I2C      | I2C6 SDA                             |         | P21.4        | GP18 I2C1.   |
+| 34  | NIGHT INT        | I2C      | Sensor interrupts                    |         |
+| 33  | SPI_CS     | RP2040   | RP SPI  | 3.3V    |   | GP29 SPI1 |
+| 32  | SPI_CLK    | PD       | RP SPI  | 3.3V    |   | GP26 SPI |
+| 31  | SPI_MISO   | RP2040   | RP SPI  | 3.3V    |   | GP28 SPI |
+| 30  | SPI_MOSI   | RP2040   | RP SPI  | 3.3V    |   | GP27 SPI |
 | 29  | VIN_3V3    |          | Supply for TPS64988 circuitry and I/O. Current 50 mA |   3.3V        |
 | 28  | VIN_5V     | Power    | System 5V power source (PPHV1, PPHV2, PP1_CABLE, PP2_CABLE). 500 mA. | 5V      |
 | 27  | VIN_5V     | Power    | System 5V power source (PPHV1, PPHV2, PP1_CABLE, PP2_CABLE). 500 mA. | 5V      |

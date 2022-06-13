@@ -215,7 +215,7 @@ https://kicad.github.io/packages3d/
 
 ### Data to/from the Power Module
 
-- I2C3, SYS I2C
+- STEM, SYS I2C
 - USB data Host/OTG
 - LVDS data
 - UARTx_xXD
@@ -230,7 +230,7 @@ https://kicad.github.io/packages3d/
 - GND
 - PWRBTN, ALT_BOOT, QSPI_BOOT_EN_3P3
 - SYS_RST_PMIC, PMIC_ON_REQ, PMIC_STBY_REQ
-- EX_OH_nINT, EX_T_nINT, EX0_nINT
+- EX0_nINT
 
 
 ### I2C EEPROM

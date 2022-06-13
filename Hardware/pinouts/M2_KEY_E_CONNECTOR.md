@@ -7,7 +7,7 @@
 | 3	        | USB D+    |            | USB data pair positive             | USB D+         | 		|
 | 4	        | 	        | +3.3V	     | 3.3 V power supply from main board |                | 3.3V          |
 | 5	        | USB D-	|            | USB data pair negative	          | USB D-         |     |			
-| 6	        | 	        | M2B_PWROFF | Card PWR OFF                       |	EX2.5          | 1.8/3.3   |
+| 6	        | 	        | M2E_PWROFF | Card PWR OFF                       |	EX1.5          | 1.8/3.3   |
 | 7	        | GND		|            | Ground                             |                | GND	|
 | 8         |           | M2_I2S_CLK | GPIO5	M2_I2S_CLK                | MIC I2S        | 1.8V          |
 | 9 	    | SDIO CLK  |            | SDIO	        		              | SD1 CLK        | 1.8V         |
@@ -71,6 +71,5 @@
 | 74        | 	        | VRES       | Power	VRES			          |                | +3.3V         |
 | 75	    | GND		|            | Ground                             |                | GND	|
 
-
-
+I2C3 replaced with I2C6
 

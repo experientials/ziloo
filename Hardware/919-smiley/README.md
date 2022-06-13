@@ -1,17 +1,16 @@
 # Upwork task
 
 The 919 is a board facing the user holding daughter boards on the back side.
-It contains a Bosch Sensortech 32 bit RISC processor that monitors 3D movement using a gyroscope and accelerometer.
-It communicates with the Host MCU via the Stem I2C bus (I2C3 for the MCU daughterboard). 
-It connects to a [i.MX 8 SoM](https://www.compulab.com/products/computer-on-modules/ucm-imx8m-plus-nxp-i-mx-8m-plus-som-system-on-module-computer/) main board via various cables. Power is primarily received via the T-USB sub-module.
-It has sockets and holes for two camera modules that are also routed to the SoM main board.
+It contains a MEMSIC mCube MC6470 3D movement sensor with a gyroscope and accelerometer, which is managed by the Stem MCU on the T-USB board.
+It communicates with the Stem MCU via the Stem I2C bus, and the SoM i.MX 8 via the SYS I2C. 
+It exposes system control signals via the SYS I2C GPIO Expander 0.
 
-A second chip is optional BMM150 to provide a magnetometer.
+It has sockets and holes for two camera modules that are also routed to the SoM main board.
 
 The 919 is made for experimentation. It will be used to join connected modules,
 
 1) 4 camera connectors for stereo cameras
-2) Dual USB-C submodule that provides power and data connectivity.
+2) Dual USB-C submodule that provides autonomy, power and data connectivity.
 3) Connectors for i.MX8 SoM
 4) Sound modules
 
