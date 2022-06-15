@@ -26,60 +26,60 @@ Connector 2: PD Controller, Debug, USB 2.0
 One side
 
 | Pin | Code             | Type     | Details                              | Voltage | Misc         | MCU pin. |
-|-----|------------------|----------|--------------------------------------|---------|--------------|——————————|
-| 1   | VSOM             | Power    | Main power for board 3.45V - 4.5V    |         | Conn. detect |
-| 2   | USB1_RX_DP       | USB      | USB1 RX D+                           |         |
-| 3   | USB1_RX_DN       | USB      | USB1 RX D-                           |         |
-| 4   | GND              | Power    | Ground                               |         |
-| 5   | USB1_TX_DP       | USB      | USB1 TX D+                           |         |
-| 6   | USB1_TX_DN       | USB      | USB1 TX D-                           |         |
-| 7   | GND              | Power    | Ground                               |         |
-| 8   | USB1_RX_DP       | USB      | USB2 RX D+                           |         |
-| 9   | USB1_RX_DN       | USB      | USB2 RX D-                           |         |
-| 10  | GND              | Power    | Ground                               |         |
-| 11  | USB1_TX_DP       | USB      | USB2 TX D+                           |         |
-| 12  | USB1_TX_DN       | USB      | USB2 TX D-                           |         |
-| 13  | GND              | Power    | Ground                               |         |
-|     |                  |
+|-----|------------------|----------|--------------------------------------|---------|--------------|----------|
+| 1   | VSOM             | Power    | Main power for board 3.45V - 4.5V    |         | Conn. detect |          |
+| 2   | USB1_RX_DP       | USB      | USB1 RX D+ (OTG)                     |         |              |          |
+| 3   | USB1_RX_DN       | USB      | USB1 RX D- (OTG)                     |         |              |          |
+| 4   | GND              | Power    | Ground                               |         |              |          |
+| 5   | USB1_TX_DP       | USB      | USB1 TX D+ (OTG)                     |         |              |          |
+| 6   | USB1_TX_DN       | USB      | USB1 TX D- (OTG)                     |         |              |          |
+| 7   | GND              | Power    | Ground                               |         |              |          |
+| 8   | USB2_RX_DP       | USB      | USB2 RX D+  (Host)                   |         |              |          |
+| 9   | USB2_RX_DN       | USB      | USB2 RX D-  (Host)                   |         |              |          |
+| 10  | GND              | Power    | Ground                               |         |              |          |
+| 11  | USB2_TX_DP       | USB      | USB2 TX D+  (Host)                   |         |              |          |
+| 12  | USB2_TX_DN       | USB      | USB2 TX D-  (Host)                   |         |              |          |
+| 13  | GND              | Power    | Ground                               |         |              |          |
+|     |                  |          |                                      |         |              |             | 
 | 17  | STEM SCL         | I2C      | STEM SCL                             |         |              | GP17 I2C0   |
 | 18  | STEM SDA         | I2C      | STEM SDA                             |         |              | GP16 I2C0   |
-| 19  | STEM INT         | I2C      | Sensor interrupts                    |         |
-| 20  | GND              | Power    | Ground                               |         |
-| 21  | SWD CLK RP       | RP2040   |                                      |         |
-| 23  | SWD DAT RP       | RP2040   |                                      |         |
-| 24  | PWR_CHARGE       | Battery  | Internal charge current for testing  |         |
-| 25  | BAT_STAT         | Battery  | Internal charging status for testing |         |
+| 19  | STEM INT         | I2C      | Sensor interrupts                    |         |              |          |
+| 20  | GND              | Power    | Ground                               |         |              |          |
+| 21  | SWD CLK RP       | RP2040   |                                      |         |              |          |
+| 23  | SWD DAT RP       | RP2040   |                                      |         |              |          |
+| 24  | PWR_CHARGE       | Battery  | Internal charge current for testing  |         |              |          |
+| 25  | BAT_STAT         | Battery  | Internal charging status for testing |         |              |          |
 
 
 
 Other side
 
 | Pin | Code       | Type     | Details                              | Voltage | Misc         | MCU pin. |
-|-----|------------|----------|--------------------------------------|---------|——————————————|—————————-|
-| 50  | LVCLK+     | LVDS     | LVDS CLK+                            |         |
-| 49  | LVCLK-     | LVDS     | LVDS CLK-                            |         |
-| 48  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |
-| 47  | LVD0+      | LVDS     | LVDS D0+                             |         |
-| 46  | LVD0-      | LVDS     | LVDS D0-                             |         |
-| 45  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |
-| 44  | LVD1+      | LVDS     | LVDS D1+                             |         |
-| 43  | LVD1-      | LVDS     | LVDS D1-                             |         |
-| 42  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |
-| 41  | LVD2+      | LVDS     | LVDS D2+                             |         |
-| 40  | LVD2-      | LVDS     | LVDS D2-                             |         |
-| 39  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |
-| 38  | LVD3+      | LVDS     | LVDS D3+                             |         |
-| 37  | LVD3-      | LVDS     | LVDS D3-                             |         |
-| 36  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |
-| 35  |            |          |                                      |         |
-| 34  |            |          |                                      |         |
-| 20  | GND        | Power    | Ground                               |         |
-| 32  | CAN_RX     |          | CAN1_RX                            |         | P21.12       |
-| 31  | CAN_TX     |          | CAN1_TX                            |         | P21.14       |
-| 30  | BAT_LDO    | Battery  | 4.9V 50mA LDO for STAT LED         |         |
-| 28  | UART_RP_TXD| Debug    |                                    |         |      | GP0.   |
-| 27  | UART_RP_RXD| Debug    |                                    |         |      | GP1    |
-| 26  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |
+|-----|------------|----------|--------------------------------------|---------|--------------|----------|
+| 50  | LVCLK+     | LVDS     | LVDS CLK+                            |         |              |          |
+| 49  | LVCLK-     | LVDS     | LVDS CLK-                            |         |              |          |
+| 48  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |              |          |
+| 47  | LVD0+      | LVDS     | LVDS D0+                             |         |              |          |
+| 46  | LVD0-      | LVDS     | LVDS D0-                             |         |              |          |
+| 45  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |              |          |
+| 44  | LVD1+      | LVDS     | LVDS D1+                             |         |              |          |
+| 43  | LVD1-      | LVDS     | LVDS D1-                             |         |              |          |
+| 42  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |              |          |
+| 41  | LVD2+      | LVDS     | LVDS D2+                             |         |              |          |
+| 40  | LVD2-      | LVDS     | LVDS D2-                             |         |              |          |
+| 39  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |              |          |
+| 38  | LVD3+      | LVDS     | LVDS D3+                             |         |              |          |
+| 37  | LVD3-      | LVDS     | LVDS D3-                             |         |              |          |
+| 36  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |              |          |
+| 35  |            |          |                                      |         |              |          |
+| 34  |            |          |                                      |         |              |          |
+| 20  | GND        | Power    | Ground                               |         |              |          |
+| 32  | CAN_RX     |          | CAN1_RX                              |         | P21.12       |          |
+| 31  | CAN_TX     |          | CAN1_TX                              |         | P21.14       |          |
+| 30  | BAT_LDO    | Battery  | 4.9V 50mA LDO for STAT LED           |         |              |          |
+| 28  | UART_RP_TXD| Debug    |                                      |         |              | GP0.     |
+| 27  | UART_RP_RXD| Debug    |                                      |         |              | GP1      |
+| 26  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |              |          |
 
 Could also take in HDMI or PCIe lanes instead of LVDS
 
@@ -91,20 +91,20 @@ Could also take in HDMI or PCIe lanes instead of LVDS
 
 One side
 
-| Pin | Code         | Type     | Details                              | Voltage | Misc    |
-|-----|--------------|----------|--------------------------------------|---------|---------|
+| Pin | Code         | Type     | Details                              | Voltage | Misc         |
+|-----|--------------|----------|--------------------------------------|---------|--------------|
 | 1   | VSOM         | Power    | Main power for board 3.45V - 4.5V    |         | Conn. detect |
-| 2   | GND          | Power    | Ground                               |         |         |
-| 3   | USB1_DP      | USB      | USB1 D+                              |         |         |
-| 4   | USB1_DN      | USB      | USB1 D-                              |         |         |
-| 5   | GND          | Power    | Ground                               |         |         |
-| 6   | USB2_DP      | USB      | USB2 D+                              |         |         |
-| 7   | USB2_DN      | USB      | USB2 D-                              |         |         |
-| 8   | GND          | Power    | Ground                               |         |         |
-| 9   | SWD_CLK      | Debug    | PD Controller GPIO12                 |         |         |
-| 10  | SWD_DAT      | Debug    | PD Controller GPIO13                 |         |         |
-| 11  | BOTH_VSOM    | Enable   | Signal from bridge board that VSOM is connected on both sides   |         |   |
-| 12  |              |          |       |         |   |
+| 2   | GND          | Power    | Ground                               |         |              |
+| 3   | USB1_DP      | USB      | USB1 D+                              |         |              |
+| 4   | USB1_DN      | USB      | USB1 D-                              |         |              |
+| 5   | GND          | Power    | Ground                               |         |              |
+| 6   | USB2_DP      | USB      | USB2 D+                              |         |              |
+| 7   | USB2_DN      | USB      | USB2 D-                              |         |              |
+| 8   | GND          | Power    | Ground                               |         |              |
+| 9   | SWD_CLK      | Debug    | PD Controller GPIO12                 |         |              |
+| 10  | SWD_DAT      | Debug    | PD Controller GPIO13                 |         |              |
+| 11  | BOTH_VSOM    | Enable   | Bridge board signal;VSOM connected on both sides |         |   |
+| 12  |              |          |                                      |         |              |             |
 | 18  | SYS I2C SCL  | I2C      |                                      |         | P21.7        | GP15 I2C1.  |
 | 19  | SYS I2C SDA  | I2C      |                                      |         | P21.5        | GP14 I2C1.  |
 | 15  | VSOM_LOCK    | Power    | Main power for board 3.45V - 4.5V, if mechanical lock shorted    |         | Mech. lock |
@@ -122,9 +122,9 @@ One side
 Other side
 
 | Pin | Code       | Type     | Details                              | Voltage |  Misc   | mcu pin |
-|-----|------------|----------|--------------------------------------|---------|---------|————————-|
-| 50  | PD_HRESET  |          | PD Controller HRESET (High)          |         |         |
-| 49  | GND        | Power    | Ground                               |         |
+|-----|------------|----------|--------------------------------------|---------|---------|---------|
+| 50  | PD_HRESET  |          | PD Controller HRESET (High)          |         |         |         |
+| 49  | GND        | Power    | Ground                               |         |         |         |
 | 48  | UART1_TXD  | UART     | P1.72 UART1 Tx                       |         | P20.9   | GP4 UART1    |
 | 47  | UART1_RXD  | UART     | P1.19 UART1 Rx                       |         | P20.11  | GP5 UART1    |
 | 46  | UART2_TXD  | UART     | UART2 Tx                             |         | P20.1   | GP8 UART1.   |
@@ -133,19 +133,19 @@ Other side
 | 43  | UART3_RXD  | UART     | P1.21 UART3 Rx                       |         | P20.4   | GP13 UART0   |
 | 42  | UART4_TXD  | UART     | UART4 Tx                             |         | P20.8   | GP20 UART1 |
 | 41  | UART4_RXD  | UART     | UART4 Rx                             |         | P20.10  | GP21 UART1 |
-| 40  | MIC_CLK    | Sensor   | frontboard mic          |         |    |    |
-| 39  | MIC_DATA   | Sensor   |                         |         |    |    |
-| 38  | MIC_INT    | Sensor   |                              |         |  ? |    |
-| 37  | MOTION_INT | Sensor   | frontboard motion mic on stem I2C |   |  ? |    |
-| 36  | NIGHT SCL        | I2C      | I2C6 SCL                             |         | P21.2        | GP19 I2C1.   |
-| 35  | NIGHT SDA        | I2C      | I2C6 SDA                             |         | P21.4        | GP18 I2C1.   |
-| 34  | NIGHT INT        | I2C      | Sensor interrupts                    |         |
-| 33  | SPI_CS     | RP2040   | RP SPI  | 3.3V    |   | GP29 SPI1 |
-| 32  | SPI_CLK    | PD       | RP SPI  | 3.3V    |   | GP26 SPI |
-| 31  | SPI_MISO   | RP2040   | RP SPI  | 3.3V    |   | GP28 SPI |
-| 30  | SPI_MOSI   | RP2040   | RP SPI  | 3.3V    |   | GP27 SPI |
-| 29  | VIN_3V3    |          | Supply for TPS64988 circuitry and I/O. Current 50 mA |   3.3V        |
-| 28  | VIN_5V     | Power    | System 5V power source (PPHV1, PPHV2, PP1_CABLE, PP2_CABLE). 500 mA. | 5V      |
-| 27  | VIN_5V     | Power    | System 5V power source (PPHV1, PPHV2, PP1_CABLE, PP2_CABLE). 500 mA. | 5V      |
-| 26  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |  Conn. detect |
+| 40  | MIC_CLK    | Sensor   | frontboard mic                       |         |         |    |
+| 39  | MIC_DATA   | Sensor   |                                      |         |         |    |
+| 38  | MIC_INT    | Sensor   |                                      |         |  ?      |    |
+| 37  | MOTION_INT | Sensor   | frontboard motion mic on stem I2C    |         |  ?      |    |
+| 36  | NIGHT SCL  | I2C      | I2C6 SCL                             |         | P21.2   | GP19 I2C1.   |
+| 35  | NIGHT SDA  | I2C      | I2C6 SDA                             |         | P21.4   | GP18 I2C1.   |
+| 34  | NIGHT INT  | I2C      | Sensor interrupts                    |         |         |         |
+| 33  | SPI_CS     | RP2040   | RP SPI                               | 3.3V    |         | GP29 SPI1 |
+| 32  | SPI_CLK    | PD       | RP SPI                               | 3.3V    |         | GP26 SPI |
+| 31  | SPI_MISO   | RP2040   | RP SPI                               | 3.3V    |         | GP28 SPI |
+| 30  | SPI_MOSI   | RP2040   | RP SPI                               | 3.3V    |         | GP27 SPI |
+| 29  | VIN_3V3    |          | Supply for TPS64988 circuitry and I/O. Current 50 mA |   3.3V        |     |    |
+| 28  | VIN_5V     | Power    | System 5V power source (PPHV1, PPHV2, PP1_CABLE, PP2_CABLE). 500 mA. | 5V      |    |     |
+| 27  | VIN_5V     | Power    | System 5V power source (PPHV1, PPHV2, PP1_CABLE, PP2_CABLE). 500 mA. | 5V      |    |     |
+| 26  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |  Conn. detect |     |
 

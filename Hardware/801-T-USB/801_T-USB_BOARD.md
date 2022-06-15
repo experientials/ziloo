@@ -159,6 +159,13 @@ Expander #3 combines control signals.
 
 :[Combined T-USB control I/O Expander](../pinouts/I2C_EXPANDER_3.md)
 
+## I2C adressing
+
+:[Stem I2C addresses](../pinouts/STEM_I2C_ADDRESSES.md)
+
+:[SYS I2C addresses](../pinouts/SYS_I2C_ADDRESSES.md)
+
+The Night I2C bus is just connected between 45 pin ALT_CONNECTOR and the 50 pin connector.
 
 
 # Battery Charging
