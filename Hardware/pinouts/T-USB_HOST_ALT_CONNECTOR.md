@@ -22,8 +22,8 @@
 | 19  | GND        |                     |
 | 20  | HX+        | Host Extra 2.0 D+                     |
 | 21  | HX-        | Host Extra 2.0 D-                     |
-| 22  | HXA_SEL    | Select Host Extra A6/A7               | 
-| 23  | HXB_SEL    | Select Host Extra B6/B7               |
+| 22  |            |     |
+| 23  |            |      |
 | 24  | GND        |                                          |
 | 25  | LVCLK+     | LVDS CLK+                      |
 | 26  | LVCLK-     | LVDS CLK-                      |
@@ -40,7 +40,5 @@
 | 37  | LVD3+      | LVDS D3+                      |
 | 38  | LVD3-      | LVDS D3-                      |
 | 39  | GND        |                     |
-
-     
-| 28  | UART_RP…TXD. | Debug  |                                    |         |      | GP0.   |
-| 27  | UART…RP…RXD. | Debug. |                                    |         |      | GP1    |
+| 44  | UART_RP…TXD. | Debug  |                                    |         |      | GP0.   |
+| 45  | UART…RP…RXD. | Debug. |                                    |         |      | GP1    |

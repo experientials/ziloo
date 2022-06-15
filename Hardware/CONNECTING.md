@@ -59,3 +59,32 @@ When in recovery mode an MSC disk is provided over USB 2.0 for updating the firm
 
 
 Hard reset 
+
+
+
+## Connection modes
+
+You can connect USB cables to Ziloo in different ways depending on your needs. Normally you would connect your Computer or iPad to the OTG socket(the horizontal bar of the T) and devices such as a Display, keyboard or mouse to Host(the vertical bar of the T). It you plug **Ziloo** into **The Stand**
+it will use the Plural mode where additional connections are available.
+
+T-USB OTG 2.0 data,
+- off (Autonomous MCU USB talks to Occi MCU USB1)
+- Autonomous MCU USB (A and B)
+- Occi MCU USB1 (only B)
+- Plural; OTG-A connects Autonomous MCU USB, OTG-B connects Extra OTG USB
+
+T-USB Host 2.0 data,
+- off
+- Autonomous MCU USB
+- Occi MCU USB2 (only B)
+- Plural; Host-A connects Autonomous MCU USB, Host-B connects Extra Host USB
+
+T-USB OTG 3.0 data,
+- off
+- Occi MCU USB1
+- Ox- / Ox+
+
+T-USB Host 3.0 data,
+- off
+- Occi MCU USB2
+- Hx- / Hx+

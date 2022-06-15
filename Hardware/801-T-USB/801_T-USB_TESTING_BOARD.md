@@ -280,13 +280,15 @@ From 50 pins for PD Controller / Data -> Charging power (9 pins)
 
 From 50 pins -> Assorted Data (7 pins)
 
-| 33  | SPI_CS     | RP2040   | RP SPI  | 3.3V    |   | GP29 SPI1 |
-| 32  | SPI_CLK    | PD       | RP SPI  | 3.3V    |   | GP26 SPI |
-| 31  | SPI_MISO   | RP2040   | RP SPI  | 3.3V    |   | GP28 SPI |
-| 30  | SPI_MOSI   | RP2040   | RP SPI  | 3.3V    |   | GP27 SPI |
-| 17  | STEM SCL         | I2C      | STEM SCL                             |         |              | GP17 I2C0   |
-| 18  | STEM SDA         | I2C      | STEM SDA                             |         |              | GP16 I2C0   |
-| 19  | STEM INT         | I2C      | Sensor interrupts                    |         |
+| Pin | Code         | Type     | Details                              | Voltage |  Misc    |
+|-----|--------------|----------|--------------------------------------|---------|---------|
+| 33  | SPI_CS       | RP2040   | RP SPI                               | 3.3V    |   | GP29 SPI1 |
+| 32  | SPI_CLK      | PD       | RP SPI                               | 3.3V    |   | GP26 SPI |
+| 31  | SPI_MISO     | RP2040   | RP SPI                               | 3.3V    |   | GP28 SPI |
+| 30  | SPI_MOSI     | RP2040   | RP SPI                               | 3.3V    |   | GP27 SPI |
+| 17  | STEM SCL     | I2C      | STEM SCL                             |         |              | GP17 I2C0   |
+| 18  | STEM SDA     | I2C      | STEM SDA                             |         |              | GP16 I2C0   |
+| 19  | STEM INT     | I2C      | Sensor interrupts                    |         |
 
 
 

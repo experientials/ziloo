@@ -5,7 +5,7 @@ The 801 is a bridge board that connects daughter boards. 801 T-USB is one such d
 The T-USB daughterboard has three functions
 - Supply the system with power
 - Provide data signals in the system over two USB-C connectors
-- Manage autonomous system functions and waking state
+- Manage autonomous system functions and waking state with an attached MCU.
 
 The T-USB board exposes two vertical USB-C sockets and connects to the carrier board through two 50 pin B2B connectors.
 Two 45 pin debug connectors provides options to experiment with USB-C Alt. mode and connect a Stem MCU for Autonomous functions.
@@ -84,6 +84,9 @@ In the base setup without added logic the board routes USB 3.0/2.0 data through 
 
 ![Ziloo 801 T-USB Board](./ziloo-801-T-USB-connectors.png)
 
+![High level data](./T-USB-high-level.png)
+
+
 ### Board
 
 66 mm x 24 mm
@@ -98,7 +101,9 @@ Components on the underside can be max 0.5mm thick. They can be placed above the
 
 ### Multiplexing USB
 
-The board has two USB busses 2.0 and 3.0. USB1(supports OTG) and USB2(Host mode only).
+The board has two types USB busses 2.0 and 3.0 for both of the USB-C connectors.
+One off-board source are USB from the bridge board the module attaches to.
+The Bridge boards supplies USB1(supports OTG) and USB2(Host mode only).
 
 USB 3.0 is multiplexed as part of USB-C orientation support and is multiplexed between normal and alternate mode.
 With additional hardware the OTG USB 3.0 side can be made to support HDMI/DP in Alt. mode.
@@ -107,17 +112,11 @@ The USB-C connector Alt. mode is managed by HD3SS460.
 ![Connecting USB 3.0 data and Alt. Mode](./USB-C-alt-mux.png)
 
 The USB-C connector USB 2.0 signals(A/B 6/7) are managed separately and multiplexed using TS5USBC41. This allows
-routing an Extra USB 2.0 signal selectively via the Debug Breakout connector. 
+routing Stem MCU USB 2.0 and Extra USB 2.0 signals selectively via the Debug Breakout connector. 
+The default for Mux A is Stem MCU.
+The default for Mux B is Mux A.
 
-![Connecting USB 2.0 data and Extra](./USB-2.0-extra-mux.png)
-
-<mark>The default(SEL = low?) state is to connect USB-C 2.0 line to the 50 pin PD Control Connector.</mark>
-
-| SEL  | Connect to         |
-|------|--------------------|
-| High | m.2                |
-| Low  | USB-C 2.0 via 50 pin connector |
-
+![Connecting USB 2.0 data, stem and Extra](./USB-2.0-tri-mux.jpg)
 
 
 # Power Supply
@@ -283,7 +282,7 @@ The pins are individually connected to chipsets in order to allow multiplexing b
 
 ## T-USB alt mode connectors
 
-These connectors(only on the 909 model) enables experimentation with alternate modes and directional pins.
+These connectors(only on the development model) enables experimentation with alternate modes and directional pins.
 
 Host ALT
 

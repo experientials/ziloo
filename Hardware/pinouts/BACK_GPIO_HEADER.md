@@ -18,10 +18,10 @@
 |                    SYS I2C | SYS SDA   | 27 | 28 | SYS SCL   | SYS I2C              |
 |           Self powered 2V+ | SELF_PWR  | 29 | 30 | GPIO5_IO26| IMU MCSB4            |
 |                     LED IN | LED_AUDIO | 31 | 32 |           | GPIO5_IO3            |
-|                 LED C_FILT | LED_FILTER| 33 | 34 |           |                 |
+|                 LED C_FILT | LED_FILTER| 33 | 34 | MIC_INT   |                 |
 |          T-USB 50 pins LDO | BAT_LDO   | 35 | 36 |           | GPIO4_IO22           |
-|              T-USB 50 pins | LDO_3V3   | 37 | 38 |           |                 |
-|              T-USB 50 pins | SPI_3V3   | 39 | 40 |           |               |
+|              T-USB 50 pins | LDO_3V3   | 37 | 38 | MIC_DAT   |                 |
+|              T-USB 50 pins | SPI_3V3   | 39 | 40 | MIC_CLK   |               |
 
 I2C3 replaced with I2C6
 

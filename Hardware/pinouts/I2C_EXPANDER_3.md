@@ -23,27 +23,23 @@ The regular USBSS setup is chosen by POL=L, AMSEL=M, EN=H.
 | EX3.9     | T_USB_ALERT    |
 | EX3.10    | BAT_CE    |
 | EX3.11    | BAT_INT            |
-| EX3.12    | OHX_MODE_BIT_0   |
-| EX3.13    | OHX_MODE_BIT_1   |
+| EX3.12    | Select Host Extra A6/A7 (HXA_SEL)  |
+| EX3.13    | Select Host Extra B6/B7 (HXB_SEL)  |
 | EX3.14    | Select OTG Extra A6/A7 (OXA_SEL)  |
 | EX3.15    | Select OTG Extra B6/B7 (OXB_SEL)  |
 
-
-OTG and Host USB 2.0 connectivity options.
-2 bit switching of USB 2.0 mode.
-It may be combined with Alt Modes to be 3 bit.
-
-| OHX MODE  | Signal combination |
-|-----------|--------------------|
-| 0         | Regular USB 2.0 data on USB1/USB2 A/B |
-| 1         | USB1 A=Regular, B=Debug UARTs. USB2 3.0 Alt mode = JTAG
-
-
-No outlet:
-
-| EX1.8     | GPIO3 on 65988 (HPD1) |
-| EX2.8     | GPIO4 on 65988 (HPD2) |
+How to set the OTG USB 2.0 modes by enabling pins for the two TS5USB41
+ 
+| Mode     | mode bits | A: OE  | A: SEL1/2 | B: OE  | B: SEL1/2 |
+|----------|-----------|--------|-----------|--------|-----------|
+| off      | 0 0       | H      |           | H      |           |
+| Auto USB | 0 1       | L      | 0         | L      | 0         |
+| Occi USB | 1 0       | L      | 1         | H      |           |
+| Plural   | 1 1       | L      | 0         | L      | 1         |
 
 
-
-
+T-USB OTG 2.0 data,
+- off (Autonomous MCU USB talks to Occi MCU USB1)
+- Autonomous MCU USB (A and B)
+- Occi MCU USB1 (only A)
+- Plural; OTG-A connects Autonomous MCU USB, OTG-B connects Extra OTG USB
