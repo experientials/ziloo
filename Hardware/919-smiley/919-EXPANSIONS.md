@@ -28,11 +28,11 @@ This is how it looks with the modules mounted:
 ![Back with daughter boards](./919-smiley-back-face-all-boards.png)
 
 
-## I/O Expander 5
+## I/O Expander 6
 
-Expander #5 combines control signals for the m.2 connectors. It is driven by SYS I2C. 
+Expander #6 combines control signals for the m.2 connectors. It is driven by SYS I2C. 
 
-:[I/O Expander 5](../pinouts/I2C_EXPANDER_5.md)
+:[I/O Expander 6](../pinouts/I2C_EXPANDER_6.md)
 
 
 # USB Data and m.2 Module Wiring

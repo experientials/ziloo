@@ -31,7 +31,7 @@ To facilitate feature development two additional connectors are added.
 - Attachment signal / VSOM enable
 - Detachment signal / Power down
 - Trickle charging wireless coil over secondary connection on BQ24165, can this be supported on BQ24250 ?
-
+- Reset button for RP, TPS, LiPo charger.
 
 ## Core Components
 
@@ -107,7 +107,8 @@ The Bridge boards supplies USB1(supports OTG) and USB2(Host mode only).
 
 USB 3.0 is multiplexed as part of USB-C orientation support and is multiplexed between normal and alternate mode.
 With additional hardware the OTG USB 3.0 side can be made to support HDMI/DP in Alt. mode.
-The USB-C connector Alt. mode is managed by HD3SS460.
+The USB-C connector Alt. mode is managed by HD3SS460. The wiring is done very much like the diagram at
+page 1 of the datasheet.
 
 ![Connecting USB 3.0 data and Alt. Mode](./USB-C-alt-mux.png)
 
@@ -158,6 +159,7 @@ The system power is driven by the Battery Charger, while the charging power come
 Expander #3 combines control signals.
 
 :[Combined T-USB control I/O Expander](../pinouts/I2C_EXPANDER_3.md)
+
 
 ## I2C adressing
 

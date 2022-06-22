@@ -87,7 +87,7 @@ Could also take in HDMI or PCIe lanes instead of LVDS
 #### Connector 2 PD controller, close to power connectors
 
 - 2 * VSOM, 3 * GND, 1 * VCC_RTC, 1 * VIN_3V3
-- 1 * VSOM, 1 * GND, 2 * VIN_5V, 1 * LDO_3V3
+- 1 * VSOM, 1 * GND, 2 * VIN_5V
 
 One side
 
@@ -104,7 +104,7 @@ One side
 | 9   | SWD_CLK      | Debug    | PD Controller GPIO12                 |         |              |
 | 10  | SWD_DAT      | Debug    | PD Controller GPIO13                 |         |              |
 | 11  | BOTH_VSOM    | Enable   | Bridge board signal;VSOM connected on both sides |         |   |
-| 12  |              |          |                                      |         |              |             |
+| 12  |              | Future   |                                      |         |              |             |
 | 18  | SYS I2C SCL  | I2C      |                                      |         | P21.7        | GP15 I2C1.  |
 | 19  | SYS I2C SDA  | I2C      |                                      |         | P21.5        | GP14 I2C1.  |
 | 15  | VSOM_LOCK    | Power    | Main power for board 3.45V - 4.5V, if mechanical lock shorted    |         | Mech. lock |
@@ -117,13 +117,13 @@ One side
 | 22  | ALT_BOOT     | Boot     | Alternate boot                       |         |   |
 | 23  | QSPI_BOOT_EN_3P3| Boot  | SPI boot                             |         |  P21.18   |
 | 24  | BAT_CE#      | Charger  | Charge Enable Active-Low. Connect CE to a high logic level to place the battery charger in standby mode.  |      |    |
-| 25  | PD_VIN_EN    |          | Enable VIN_5V/3V3 from PWR_SYS (TBD) |         |    |
+| 25  | PD_VIN_EN    | Future   | Enable VIN_5V/3V3 from PWR_SYS (TBD) |         |    |
 
 Other side
 
 | Pin | Code       | Type     | Details                              | Voltage |  Misc   | mcu pin |
 |-----|------------|----------|--------------------------------------|---------|---------|---------|
-| 50  | PD_HRESET  |          | PD Controller HRESET (High)          |         |         |         |
+| 50  | PD_HRESET  | Future   | PD Controller HRESET (High)          |         |         |         |
 | 49  | GND        | Power    | Ground                               |         |         |         |
 | 48  | UART1_TXD  | UART     | P1.72 UART1 Tx                       |         | P20.9   | GP4 UART1    |
 | 47  | UART1_RXD  | UART     | P1.19 UART1 Rx                       |         | P20.11  | GP5 UART1    |
@@ -141,9 +141,9 @@ Other side
 | 35  | NIGHT SDA  | I2C      | I2C6 SDA                             |         | P21.4   | GP18 I2C1.   |
 | 34  | NIGHT INT  | I2C      | Sensor interrupts                    |         |         |         |
 | 33  | SPI_CS     | RP2040   | RP SPI                               | 3.3V    |         | GP29 SPI1 |
-| 32  | SPI_CLK    | PD       | RP SPI                               | 3.3V    |         | GP26 SPI |
+| 32  | SPI_CLK    | RP2040   | RP SPI                               | 3.3V    |         | GP10 SPI |
 | 31  | SPI_MISO   | RP2040   | RP SPI                               | 3.3V    |         | GP28 SPI |
-| 30  | SPI_MOSI   | RP2040   | RP SPI                               | 3.3V    |         | GP27 SPI |
+| 30  | SPI_MOSI   | RP2040   | RP SPI                               | 3.3V    |         | GP11 SPI |
 | 29  | VIN_3V3    |          | Supply for TPS64988 circuitry and I/O. Current 50 mA |   3.3V        |     |    |
 | 28  | VIN_5V     | Power    | System 5V power source (PPHV1, PPHV2, PP1_CABLE, PP2_CABLE). 500 mA. | 5V      |    |     |
 | 27  | VIN_5V     | Power    | System 5V power source (PPHV1, PPHV2, PP1_CABLE, PP2_CABLE). 500 mA. | 5V      |    |     |

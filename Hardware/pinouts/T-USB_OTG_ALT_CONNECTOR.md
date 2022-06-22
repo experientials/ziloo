@@ -1,38 +1,38 @@
 
-| Pin | Code       | Description                              | 
-|-----|------------|------------------------------------------|
-|  1  | 3V3        |                                          |
-|  2  | SBU2       | OTG AUX+ / SBU2                     |
-|  3  | SBU1       | OTG AUX- / SBU1                     |
-|  4  | 3V3        |                                          |
-|  5  | OA+        | OTG A+                     |
-|  6  | OA-        | OTG A-                     |
-|  7  | 3V3        |                                          |
-|  8  | OB+        | OTG B+                     |
-|  9  | HB-        | OTG B-                     |
-| 10  | 3V3        |                                          |
-| 11  | OC+        | OTG C+                     |
-| 12  | OC-        | OTG C-                     |
-| 13  | 3V3        |                                          |
-| 14  | OD+        | OTG D+                     |
-| 15  | OD-        | OTG D-                     |
-| 16  | GND        |                                          |
-| 17  | OX+        | OTG Extra 2.0 D+                     |
-| 18  | OX-        | OTG Extra 2.0 D-                     |
-| 19  | MCU_D+     | Stem MCU 2.0 D+                      | 
-| 20  | MCU_D-     | Stem MCU 2.0 D-                      |
+| Pin | Code       | Category | Description                              | Voltage | SoM pin  | MCU pin   |
+|-----|------------|----------|------------------------------------------|---------|----------|-----------|
+|  1  | 3V3        | Power    |                                          |
+|  2  | SBU2       | USB      | OTG AUX+ / SBU2                          |
+|  3  | SBU1       | USB      | OTG AUX- / SBU1                          |
+|  4  | 3V3        |                                                     |
+|  5  | OA+        | USB      | OTG A+                                   |
+|  6  | OA-        | USB      | OTG A-                                   |
+|  7  | 3V3        |                                                     |
+|  8  | OB+        | USB      | OTG B+                                   |
+|  9  | HB-        | USB      | OTG B-                                   |
+| 10  | 3V3        |                                                     |
+| 11  | OC+        | USB      | OTG C+                                   | 
+| 12  | OC-        | USB      | OTG C-                                   |
+| 13  | 3V3        |                                                     |
+| 14  | OD+        | USB      | OTG D+                                   |
+| 15  | OD-        | USB      | OTG D-                                   |
+| 16  | GND        |                                                     |
+| 17  | OX+        | USB      | OTG Extra 2.0 D+                     |
+| 18  | OX-        | USB      | OTG Extra 2.0 D-                     |
+| 19  | MCU_D+     | USB      | Stem MCU 2.0 D+                      | 
+| 20  | MCU_D-     | USB      | Stem MCU 2.0 D-                      |
 | 21  | GND        |                     |
-| 22  | STEM SCL         | I2C      | STEM SCL                             |         |              | GP17 I2C0   |
-| 23  | STEM SDA         | I2C      | STEM SDA                             |         |              | GP16 I2C0   |
-| 24  | STEM INT         | I2C      | Sensor interrupts                    |         |
-| 25  | NIGHT SCL        | I2C      | I2C6 SCL                             |         | P21.2 ? | GP19 I2C1.   |
-| 26  | NIGHT SDA        | I2C      | I2C6 SDA                             |         | P21.4 ? | GP18 I2C1.   |
-| 27  | NIGHT INT        | I2C      | Sensor interrupts                    |         |
-| 28  | SYS I2C SCL      | I2C      |                                      |         | GP15 I2C1.  |
-| 29  | SYS I2C SDA      | I2C      |                                      |         | GP14 I2C1.  |
-| 30  | GND              | Power    | Ground                               |         |
-| 31  | SWD CLK RP       |          |                                      |         |
-| 32  | SWD DAT RP       |          |                                      |         
+| 22  | STEM SCL   | I2C      | STEM SCL                             |         |              | GP17 I2C0   |
+| 23  | STEM SDA   | I2C      | STEM SDA                             |         |              | GP16 I2C0   |
+| 24  | STEM INT   | I2C      | Sensor interrupts                    |         |
+| 25  | NIGHT SCL  | I2C      | I2C6 SCL                             |         | P21.2 ? | GP19 I2C1.   |
+| 26  | NIGHT SDA  | I2C      | I2C6 SDA                             |         | P21.4 ? | GP18 I2C1.   |
+| 27  | NIGHT INT  | I2C      | Sensor interrupts                    |         |
+| 28  | SYS I2C SCL| I2C      |                                      |         | GP15 I2C1.  |
+| 29  | SYS I2C SDA| I2C      |                                      |         | GP14 I2C1.  |
+| 30  | GND        | Power    | Ground                               |         |
+| 31  | SWD CLK RP |          |                                      |         |
+| 32  | SWD DAT RP |          |                                      |         
 | 33  | GND        | Power    | Ground                               |         |
 | 34  | UART1_TXD  | UART     | P1.72 UART1 Tx                       |         | P20.9   | GP4 UART1    |
 | 35  | UART1_RXD  | UART     | P1.19 UART1 Rx                       |         | P20.11  | GP5 UART1    |

@@ -19,7 +19,7 @@ The production version 701 will have the SoM daughtercard and other components w
 
 Components
 
-- 1 * [MEMSIC mCube MC6470](https://www.bosch-sensortec.com/products/smart-sensors/bhi260ap/) - [Mouser](https://www.mouser.ch/ProductDetail/MEMSIC/MC6470?qs=u6%2FIMcj1sDuOjN54xX4NKQ%3D%3D)
+- 1 * [MEMSIC mCube MC6470](https://mcubemems.com/product/mc6470-6-axis-ecompass/) - [Mouser](https://www.mouser.ch/ProductDetail/MEMSIC/MC6470?qs=u6%2FIMcj1sDuOjN54xX4NKQ%3D%3D)
 - 1 * [IS31FL3730 8x8 matrix output](https://www.mouser.ch/ProductDetail/Lumissil/IS31FL3730-QFLS2-TR)
 - 2 * [PCA9555 I/O Expander HVQFN24 package](https://www.nxp.com/part/PCA9555D)
 - 1 * [TXB0108YZPR2 8-Bit Bidirectional Voltage-Level Shifter with Auto Direction Sensing and +/-15-kV ESD Protect 20-DSBGA -40 to 85](https://www.ti.com/store/ti/en/p/product/?p=TXB0108YZPR2) - [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/TXB0108YZPR2?qs=PqoDHHvF64977Sea9xf4wg%3D%3D)

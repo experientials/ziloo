@@ -20,12 +20,12 @@
 | 17  |	PWRBTN          | Power Button SoM            |         |
 | 18  | QSPI_BOOT_EN_3P3| FLEXSPI BOOT                |      |
 | 19  | ALT_BOOT        | PB_ALT_BOOT                 |
-| 20  | MIC_BCLK / SCK  | I2S Mic Bit clock line  (RXC) P1.32   | 1.8V |
-| 21  | MIC_WS / LRCLK  | I2S Mic Word clock line (RXFS) P1.34   | 1.8V |
-| 22  | MIC_SDATA1      | I2S Mic data 1  P1.28            | 1.8V |
-| 23  | MIC_SDATA2      | I2S Mic Input data 2  P1.38       | 1.8V |
-| 24  | MIC_SDATA3      | I2S Mic Input data 3  P1.36      | 1.8V |
-| 25  | MIC_SDATA4      | I2S Mic Input data 4  P1.26      | 1.8V |
+| 20  |                 |     |   |
+| 21  |                 |               |      |
+| 22  | CAN2_TX         | <mark>CAN bus 2</mark>  P1.33            | 3.3V    |
+| 23  | CAN2_RX         | <mark>CAN bus 2</mark>  P1.49            | 3.3V    |
+| 24  | CAN1_RX         | <mark>CAN bus 1</mark>  P1.51            | 3.3V    |
+| 25  | CAN1_TX         | <mark>CAN bus 1</mark>  P1.53            | 3.3V    |
 | 26  |	ECSPI2_MISO     | SPI2 MISO                    |         |
 | 27  |	ECSPI2_SCLK     | SPI2 Clock                    |         |
 | 28  |	ECSPI2_SS0      | SPI2 SS0                    |         |

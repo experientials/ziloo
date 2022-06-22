@@ -71,4 +71,4 @@
 | 74        | 	        | VRES       | Power	VRES			          |               | +3.3V         |
 | 75        | CONFIG_2  |            | Defines Module Type	NC	           |              |               |
 
-I2C3 replaced with I2C6
+<mark>I2C3 replaced with I2C6</mark>
