@@ -112,8 +112,13 @@ page 1 of the datasheet.
 
 ![Connecting USB 3.0 data and Alt. Mode](./USB-C-alt-mux.png)
 
-The USB-C connector USB 2.0 signals(A/B 6/7) are managed separately and multiplexed using TS5USBC41. This allows
-routing Stem MCU USB 2.0 and Extra USB 2.0 signals selectively via the Debug Breakout connector. 
+Each of the two USB-C connector USB 2.0 signals(A/B 6/7) are managed separately and multiplexed using TS5USBC41. 
+This allows routing Stem MCU USB 2.0, System Module(OTG or Host) USB 2.0 and Extra USB 2.0(Alt Breakout connector) signals selectively via a 4 pins on a single USB-C connector. 
+
+The switching is done using nXA_SEL and nXB_SEL, where I assume that the default state is low.
+Mux A switches between the Stem MCU USB 2.0 signals and the System Module USB 2.0 signals.
+Mux B switches between the output of Mux A and the Extra USB 2.0 from the Alt Breakout connector.
+
 The default for Mux A is Stem MCU.
 The default for Mux B is Mux A.
 

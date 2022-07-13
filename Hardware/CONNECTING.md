@@ -60,6 +60,7 @@ When in recovery mode an MSC disk is provided over USB 2.0 for updating the firm
 
 Hard reset 
 
+When the i.MX SoM is in recovery mode `mfgtool` can be used to directly upgrade the firmware(in eMMC).
 
 
 ## Connection modes
@@ -88,3 +89,59 @@ T-USB Host 3.0 data,
 - off
 - Occi MCU USB2
 - Hx- / Hx+
+
+
+Host
+- Plugging in a USB stick to update Ziloo
+
+OTG
+- MSC uploading firmware
+
+
+## Future Connectivity Options
+
+tcp/ip
+bluetooth comms
+
+
+### BLE Protocol Design Strategy
+
+[Bluetooth Low Energy Serial: A Valid Design Strategy?](https://punchthrough.com/serial-over-ble/)
+
+* Start with a Serial over BLE strategy and extract functionality as needed.
+* Any value that will need to be accessed quickly by the central should have a readable characteristic that the peripheral always keeps up to date.
+* Bulk background transfers, such as logs or firmware updates, should have their own characteristics, so they don’t clog up communication related to the user experience.
+* Status information that changes quickly should be grouped so that the information can be considered a snapshot of a single point in time. This is extremely useful when working with systems where data from multiple kinds of sensors is needed to describe the device’s status.
+* Information that is not of use to the current client should be transferred through a different characteristic or should have the ability for the client to turn the information on or off based on its interests. This way, the client can control what information it receives.
+* Information that can be of value to other systems should be exposed through standard Bluetooth Profiles. (Information such as battery level, temperature, etc.).
+
+
+### Command Line Sample Code
+
+* [Command Line Interface library](https://infocenter.nordicsemi.com/topic/com.nordic.infocenter.sdk5.v15.2.0/lib_cli.html)
+
+* [Command Line Interface (CLI) Example](https://infocenter.nordicsemi.com/topic/com.nordic.infocenter.sdk5.v15.2.0/cli_example.html)
+
+https://infocenter.nordicsemi.com/index.jsp?topic=%2Fcom.nordic.infocenter.sdk5.v15.2.0%2Flib_cli.html&cp=4_0_0_3_10
+
+
+### USB Mass Storage and Sound Streaming
+
+* [usb-cdc-acm](https://github.com/NordicPlayground/node-usb-cdc-acm)
+* [USB CDC ACM Example](https://infocenter.nordicsemi.com/topic/com.nordic.infocenter.sdk5.v15.2.0/usbd_cdc_acm_example.html)
+
+
+### WebUSB
+
+[WebUSB ChromeStatus](https://www.chromestatus.com/feature/5651917954875392)
+
+[Web IDL](https://heycam.github.io/webidl/#idl-octet)
+
+
+### Sample code
+
+* [UART Example](https://infocenter.nordicsemi.com/index.jsp?topic=%2Fcom.nordic.infocenter.sdk5.v15.0.0%2Fuart_example.html)
+* [Experimental: BLE Interactive Command Line Interface Example](https://infocenter.nordicsemi.com/topic/com.nordic.infocenter.sdk5.v15.0.0/ble_sdk_app_interactive.html)
+* [Programming SoftDevices](https://infocenter.nordicsemi.com/index.jsp?topic=%2Fcom.nordic.infocenter.sdk5.v15.0.0%2Fgetting_started_softdevice.html&anchor=getting_started_sd)
+* [ble_nus_init_t Struct Reference](https://infocenter.nordicsemi.com/index.jsp?topic=%2Fcom.nordic.infocenter.sdk5.v14.0.0%2Fble_sdk_app_nus_eval.html)
+
