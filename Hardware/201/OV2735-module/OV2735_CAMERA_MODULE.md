@@ -107,9 +107,9 @@ Notations printed on the FFC
 
 ## Pinouts: Hirose DF40 single eye connector 34 pins
 
-![Pinouts for connector](./OV2735-module-connector-pinouts.png)
+![Pinouts for connector](../../pinouts/OV2735-module-connector-pinouts.png)
 
-:[Camera Module 201 connector](./pinouts/CAMERA_MODULE_CONNECTOR_PINOUT.md)
+:[Camera Module 201 connector](../../pinouts/CAMERA_MODULE_CONNECTOR_PINOUT.md)
 
 
 ## Lenses for testing
