@@ -22,8 +22,8 @@
 | 19  | GND        |                     |
 | 20  | HX+        | Host Extra 2.0 D+                     |
 | 21  | HX-        | Host Extra 2.0 D-                     |
-| 22  | HXA_SEL    | Select Host Extra A6/A7               | 
-| 23  | HXB_SEL    | Select Host Extra B6/B7               |
+| 22  |            |     |
+| 23  |            |      |
 | 24  | GND        |                                          |
 | 25  | LVCLK+     | LVDS CLK+                      |
 | 26  | LVCLK-     | LVDS CLK-                      |
@@ -40,12 +40,5 @@
 | 37  | LVD3+      | LVDS D3+                      |
 | 38  | LVD3-      | LVDS D3-                      |
 | 39  | GND        |                     |
-| 40  | TOUCH_INT  | LVDS TOUCH INT EX0.6                   |
-| 41  | TOUCH_RST  | LVDS TOUCH Reset EX0.7                   |
-| 42  | I2C SCL    | SYS SCL                      |
-| 43  | I2C SDA    | SYS SDA                      |
-| 44  | UART3_TXD  | P1.61 UART3 Tx                      |
-| 45  | UART3_RXD  | P1.21 UART3 Rx                      |
-
-
-     
+| 44  | UART_RP…TXD. | Debug  |                                    |         |      | GP0.   |
+| 45  | UART…RP…RXD. | Debug. |                                    |         |      | GP1    |

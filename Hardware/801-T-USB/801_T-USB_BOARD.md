@@ -2,11 +2,13 @@
 
 The 801 is a bridge board that connects daughter boards. 801 T-USB is one such daughter board.
 
-The T-USB daughterboard has two functions
+The T-USB daughterboard has three functions
 - Supply the system with power
 - Provide data signals in the system over two USB-C connectors
+- Manage autonomous system functions and waking state with an attached MCU.
 
 The T-USB board exposes two vertical USB-C sockets and connects to the carrier board through two 50 pin B2B connectors.
+Two 45 pin debug connectors provides options to experiment with USB-C Alt. mode and connect a Stem MCU for Autonomous functions.
 
 ![Ziloo 801 T-USB Board](./T-USB-board.png)
 
@@ -15,10 +17,11 @@ To facilitate feature development two additional connectors are added.
 
 ### Open points
 
+- connectors for the two buttons; Lock and detach
 - Which GPIO receives interrupt
 - Mux chips shutdown mode
 - Power LED & Indicator LEDs
-- Add battery connector with temp. sensor
+- Add battery connector with temp. sensor JESDA?
 - Optional connectors debug uart / jtag
 - Annotations and Logo on the board
 - TEST The Mux pin configurations
@@ -28,7 +31,7 @@ To facilitate feature development two additional connectors are added.
 - Attachment signal / VSOM enable
 - Detachment signal / Power down
 - Trickle charging wireless coil over secondary connection on BQ24165, can this be supported on BQ24250 ?
-
+- Reset button for RP, TPS, LiPo charger.
 
 ## Core Components
 
@@ -36,10 +39,10 @@ To facilitate feature development two additional connectors are added.
 - 2 * [Hirose USB-C CX80B1-24P](https://www.hirose.com/product/p/CL0480-0625-0-00)
 - 1 * [TPS65988](https://www.ti.com/product/TPS65988?keyMatch=TPS65988&tisearch=search-everything&usecase=GPN) Dual Port USB Type-C® and USB PD Controller, Power Switch, and High-Speed Multiplexer. [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/TPS65988DJRSHR?qs=sGAEpiMZZMv0NwlthflBiyrCPYKWtEb9w8lmLVKGFHI%3D)
 - 2 * [HD3SS460](https://www.ti.com/product/HD3SS460?keyMatch=HD3SS460&tisearch=search-everything&usecase=GPN) 4 x 6 Channels USB Type-C Alternate Mode MUX. Connected to T-USB Host. [Mouser](https://www.mouser.ch/new/texas-instruments/ti-hd3ss460-switch/). [Dock Eval Kit](https://www.mouser.ch/ProductDetail/Texas-Instruments/USB-CTM-MINIDK-EVM?qs=vcbl%252BK4rRletdX9FWp9J9A%3D%3D)
-- 1 * PCA9555 I/O Expander
+- 1 * [PCA9555 I/O Expander HVQFN24 package](https://www.nxp.com/part/PCA9555D) $1.74/1pcs $0.64/1000pcs
 - 4 * [TS5USBC410 Dual 2:1 USB 2.0 Mux/DeMux Switch](../datasheets/USB/ts5usbc41.pdf). [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/TS5USBC410IYFFR?qs=sGAEpiMZZMutXGli8Ay4kPB6XEQFysSpdNErqZgdEYs%3D)
 - 1 * [BQ24250RGER battery charger](https://www.ti.com/product/BQ24250)  [$2 JLCPCB (4x4 mm package)](https://jlcpcb.com/parts/componentSearch?isSearch=true&searchTxt=BQ24250) [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/BQ24250RGER?qs=VqERlb%252BKohfBI76g9iGg8g%3D%3D)
-- 1 * [3 pin JST SH socket SM03B-SRSS-TB](https://www.jst-mfg.com/product/detail_e.php?series=231) - [JLCPCB](https://jlcpcb.com/parts/componentSearch?isSearch=true&searchTxt=SM03B-SRSS-TB) - [Farnell](https://ch.farnell.com/jst-japan-solderless-terminals/sm03b-srss-tb-lf-sn/stecker-90-3kont/dp/1679118?CMP=GRHB-SF-OEM) (Matched by JST PHR-3)
+- 2 * [3 pin JST SH socket SM03B-SRSS-TB](https://www.jst-mfg.com/product/detail_e.php?series=231) - [JLCPCB](https://jlcpcb.com/parts/componentSearch?isSearch=true&searchTxt=SM03B-SRSS-TB) - [Farnell](https://ch.farnell.com/jst-japan-solderless-terminals/sm03b-srss-tb-lf-sn/stecker-90-3kont/dp/1679118?CMP=GRHB-SF-OEM) (Matched by JST PHR-3)
 
 
 ## Dev. Connectors
@@ -57,12 +60,16 @@ To facilitate feature development two additional connectors are added.
 - 2 * TPS63030 buck/boost converters (pick cheaper alternative to up/down regulate with enable pin)
 - [BQ25253](https://www.ti.com/product/BQ24253)  $5 JLCPCB (2.4x2.4 mm package)
 - [ANX7688 USB-C HDMI bridge](https://www.analogix.com/en/products/convertersbridges/anx7688) replacing HD3SS460 for Host USB 3.0 Alt Mode. [ANX7688 on PinePhone](https://xnux.eu/devices/feature/anx7688.html). [Pinephone HDMI hot-plug-detection HW bug](https://xnux.eu/log/#045).
+- [Panasonic AXT534124 socket/receptacle]() - [Mouser](https://www.mouser.ch/ProductDetail/Panasonic-Industrial-Devices/AXT534124/?qs=2rFUEsTwVNxdSFw7IuWdSA==)
+- [BM29B-6DP/2-0.35V(51) 6 pin Board to Board power connector](https://www.mouser.ch/ProductDetail/Hirose-Connector/BM29B-6DP-2-0.35V51?qs=Cb2nCFKsA8rUbAFx2SRDGg%3D%3D)
 
 
 ## Firmware Drivers
 
 - [TPS65988 Linux](https://github.com/torvalds/linux/tree/1bff7d7e8c487b9b0ceab70b43b781f1d45f55eb/drivers/usb/typec/tipd)
 - [BQ2425x Linux](https://github.com/torvalds/linux/blob/master/drivers/power/supply/bq24257_charger.c)
+- [MC6470 Linux](https://github.com/mcubemems/mCube_mc6470_mc7030_mcu_driver)
+
 
 # Data Routing
 
@@ -77,29 +84,45 @@ In the base setup without added logic the board routes USB 3.0/2.0 data through 
 
 ![Ziloo 801 T-USB Board](./ziloo-801-T-USB-connectors.png)
 
+![High level data](./T-USB-high-level.png)
+
+
+### Board
+
+66 mm x 24 mm
+
+The two 50 pin connectors are placed with a gap of 16 mm between their midpoint.
+These two connectors are vertically centered on the center of the vertical USB-C connector.
+
+The two 45 pin data breakouts are placed on one edge with a 2 mm gap.
+
+Components on the underside can be max 0.5mm thick. They can be placed above the horizontal USB-C.
+
 
 ### Multiplexing USB
 
-The board has two USB busses 2.0 and 3.0. USB1(supports OTG) and USB2(Host mode only).
+The board has two types USB busses 2.0 and 3.0 for both of the USB-C connectors.
+One off-board source are USB from the bridge board the module attaches to.
+The Bridge boards supplies USB1(supports OTG) and USB2(Host mode only).
 
 USB 3.0 is multiplexed as part of USB-C orientation support and is multiplexed between normal and alternate mode.
 With additional hardware the OTG USB 3.0 side can be made to support HDMI/DP in Alt. mode.
-The USB-C connector Alt. mode is managed by HD3SS460.
+The USB-C connector Alt. mode is managed by HD3SS460. The wiring is done very much like the diagram at
+page 1 of the datasheet.
 
 ![Connecting USB 3.0 data and Alt. Mode](./USB-C-alt-mux.png)
 
-The USB-C connector USB 2.0 signals(A/B 6/7) are managed separately and multiplexed using TS5USBC41. This allows
-routing an Extra USB 2.0 signal selectively via the Debug Breakout connector. 
+Each of the two USB-C connector USB 2.0 signals(A/B 6/7) are managed separately and multiplexed using TS5USBC41. 
+This allows routing Stem MCU USB 2.0, System Module(OTG or Host) USB 2.0 and Extra USB 2.0(Alt Breakout connector) signals selectively via a 4 pins on a single USB-C connector. 
 
-![Connecting USB 2.0 data and Extra](./USB-2.0-extra-mux.png)
+The switching is done using nXA_SEL and nXB_SEL, where I assume that the default state is low.
+Mux A switches between the Stem MCU USB 2.0 signals and the System Module USB 2.0 signals.
+Mux B switches between the output of Mux A and the Extra USB 2.0 from the Alt Breakout connector.
 
-<mark>The default(SEL = low?) state is to connect USB-C 2.0 line to the 50 pin PD Control Connector.</mark>
+The default for Mux A is Stem MCU.
+The default for Mux B is Mux A.
 
-| SEL  | Connect to         |
-|------|--------------------|
-| High | m.2                |
-| Low  | USB-C 2.0 via 50 pin connector |
-
+![Connecting USB 2.0 data, stem and Extra](./USB-2.0-tri-mux.jpg)
 
 
 # Power Supply
@@ -120,23 +143,10 @@ The board itself can be a source of 5V on one port, if it is a sink on the other
 
 The system power is driven by the Battery Charger, while the charging power comes from the PD Controller. 
 
+:[Power Module Connection](../refs/POWER_MODULE_CONNECT.md)
 
-## Optional PD Controller Flash
+[?] connectors for the two buttons
 
-The board features a slot for solderign on a 1MBit NOR Flash connected to the SPI pins of the TPS65988 PD Controller.
-The flash pins are exposed on one of the 50 pins connectors to enable direct programming and reading via testing board.
-
-
-## Physical Connection Establishment
-
-When connecting the T-USB module to the Bridge Board VSOM must be supplied only when the module is fully inserted.
-This is done by responding to pins on both connectors being shorted by the bridge board side.
-
-- Delayed VSOM enable
-- Power down button / physical detect
-- CONN_EN pins are powered when the connectors are fully inserted
-- Only denable when all CONN_EN get signal
-- When detaching a lock is pressed to detach all modules
 
 
 ## Acceptance Criteria on Power
@@ -155,6 +165,14 @@ Expander #3 combines control signals.
 
 :[Combined T-USB control I/O Expander](../pinouts/I2C_EXPANDER_3.md)
 
+
+## I2C adressing
+
+:[Stem I2C addresses](../pinouts/STEM_I2C_ADDRESSES.md)
+
+:[SYS I2C addresses](../pinouts/SYS_I2C_ADDRESSES.md)
+
+The Night I2C bus is just connected between 45 pin ALT_CONNECTOR and the 50 pin connector.
 
 
 # Battery Charging
@@ -204,10 +222,8 @@ Drawing charger + PD = VSOM
 
 The bq24250 device has two modes of operation: 1) I2C mode, and 2) standalone mode. In I2C mode, the host adjusts the charge parameters and monitors the status of the charger operation. In standalone mode, the external resistor sets the input-current limit, and charge current limit. Standalone mode also serves as the default settings when a DCP adapter is present. It enters host mode while the I2C registers are accessed and the watchdog timer has not expired (if enabled). The battery is charged in four phases: trickle charge, pre-charge, constant current and constant voltage. In all charge phases, an internal control loop monitors the IC junction temperature and reduces the charge current if the internal temperature threshold is exceeded.
 
-
 ![BQ24250 reference diagram](../datasheets/Power/ref-BQ24250-diagram.png)
 
-Connect battery via GND, TEMP (TS), PACK+ (BAT). This is done over a 3 pin JST H 1mm pitch socket.
 
 #### Max input current limit
 
@@ -236,6 +252,29 @@ Charge current ISET resistor 500mA / 1A / 2A (4 resistors in parallel?)
 
 # 801 T-USB Connector Pinouts
 
+## 3 pin Power Enable Connector
+
+The connector must be oriented along the board to allow packing of battery and board.
+
+| Pin          |                                                                  |
+|--------------|------------------------------------------------------------------|
+| VSOM_LOCK    | When raised high it signals the backplate is locked in           |
+| VSOM         | General board power                                              |
+| SHUTDOWN_BTN | When raised it signals a request to runtime modules to shut down |
+
+
+## 3 pin Battery Connector
+
+Connect battery via GND, TEMP (TS), PACK+ (BAT). This is done over a 3 pin JST H 1mm pitch socket.
+The connector must be oriented along the board to allow packing of battery and board.
+
+| Pin          |                                                  |
+|--------------|--------------------------------------------------|
+| GND          | Ground Black  |
+| TS           | TEMP  White   |
+| BAT          | PACK+ Red     |
+
+
 ## 50 pin B2B connectors
 
 :[DF40 50 pin connectors](../pinouts/T-USB_50_PINS_CONNECTORS.md)
@@ -257,7 +296,7 @@ The pins are individually connected to chipsets in order to allow multiplexing b
 
 ## T-USB alt mode connectors
 
-These connectors(only on the 909 model) enables experimentation with alternate modes and directional pins.
+These connectors(only on the development model) enables experimentation with alternate modes and directional pins.
 
 Host ALT
 
@@ -275,7 +314,7 @@ A number of connections should be broken out on the board as soldering pads (no 
 | Pin       | Function                |
 |-----------|-------------------------|
 | VSOM      | Output or Input         |
-| VCC_RTC   | Power input RTC battery |
+| VCC_RTC   | Power input RTC battery 1.8V |
 | PP_HV1    | PD Controller power     |   
 | PP_HV2    | PD Controller power     |   
 | VIN_5V    | PD Controller System 5V for PP1_CABLE, PP2_CABLE |

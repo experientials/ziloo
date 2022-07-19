@@ -18,6 +18,26 @@ gunzip -c <IMAGE>.wic.gz | sudo dd of=/dev/sdX bs=1M  iflag=fullblock oflag=dire
 Or use Balena Etcher
 
 
+## Development Environment
+
+1. [Visual Studio Code](https://code.visualstudio.com/) (1.33.1)
+2. Visual Studio Code Extension: [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) (0.22.1)
+3. Visual Studio Code Extension: [CMake Tools](https://marketplace.visualstudio.com/items?itemName=vector-of-bool.cmake-tools) (1.1.3)
+4. Visual Studio Code Extension: [Cortex-Debug](https://marketplace.visualstudio.com/items?itemName=marus25.cortex-debug) (0.2.3)
+5. [SEGGER J-Link](https://www.segger.com/downloads/jlink#J-LinkSoftwareAndDocumentationPack)
+6. CMakeLists.txt
+7. cmake-kits.json
+8. launch.json
+9. settings.json
+
+
+[USING CMAKE FOR NORDIC NRF52 PROJECTS](https://www.nrbtech.io/blog/2020/1/4/using-cmake-for-nordic-nrf52-projects).
+
+[how to install gcc-arm-none-eabi at Mojave MacOS
+](https://stackoverflow.com/questions/59861085/how-to-install-gcc-arm-none-eabi-at-mojave-macos).
+
+[How to Set up the Open Source IDE for nRF5x Development](https://www.polidea.com/blog/how-to-set-up-the-open-source-ide-for-nrf5x-development/).
+
 
 ## Raspberry Pi 4
 

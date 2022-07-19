@@ -63,9 +63,22 @@ Test board components,
 
 The project is broken down in milestones to ensure a correct design.
 
-### Initial board designs  $600
+### Testing board design $300
 
-Do an initial board diagram and layout with Eagle or Altium.
+Do a design for the testing board and layout with Eagle or Altium
+
+- Precise placement of USB-C socket holes
+- Preciese placement of upper and under 50 pin connectors
+- Breakout connectors can be arranged differently
+- USB breakout connectors should be as suggested
+- The breakout part of the board can be enlarged if needed
+
+Once the design is done we will order a few boards for me and yourself for testing.
+
+
+### Initial board designs  $800
+
+Do an initial T-USB board diagram and layout with Eagle or Altium.
 
 - Confirmation of BoM
 - PD Controller working as a power sink(not source)
@@ -87,7 +100,7 @@ Deliverables:
 
 ### Ordering test batch of boards $0
 
-We then do a test batch
+We then do a test batch of 801 T-USB boards
 
 
 ### Verification of design and fixes - $400
