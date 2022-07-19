@@ -5,7 +5,7 @@ For production of faceboards a designation of 701 is used.
 
 It contains a MEMSIC mCube MC6470 3D movement sensor with a gyroscope and accelerometer, which is managed by the Stem MCU on the T-USB board.
 It communicates with the Stem MCU via the Stem I2C bus, and the SoM i.MX 8 via the SYS I2C. 
-It exposes system control signals via the SYS I2C GPIO Expander 0.
+It exposes system control signals via the SYS I2C GPIO Expander 0 and 4.
 
 Connectors are present to support attachment of two camera modules.
 
@@ -65,8 +65,14 @@ Alt Components [not currently used]
 - [Alternate Cell Holder S8411-45R](https://www.harwin.com/products/S8411-45R/) - [Mouser](https://www.mouser.ch/ProductDetail/Harwin/S8411-45R?qs=Qom7kyPojXY6B0JhnWxDgQ%3D%3D)
 -  1 * [EEMB / Hillflower LIR1220 Li-ion 3.6V battery rechargeable](https://eemb.com/model/LIR1220.html) - [Alibaba](https://www.alibaba.com/product-detail/3-6V-Lithium-Ion-Rechargeable-Button_545419255.html) [.. or](https://www.alibaba.com/product-detail/Lir1220-3-6V-LIR1220-LIR2016-LIR2025_1600318842115.html)
 - 1 * [ML1220 3V rechargable battery](https://www.alibaba.com/product-detail/ML1220-3V-18mAh-lithium-aluminum-alloy_1600259520266.html)
+
+Daughterboard for SD Card
+
+- [Micro-SD for Nintendo Switch](https://www.alibaba.com/product-detail/Micro-Sd-Micro-SD-Tf-Card_1600413305365.html?spm=a2700.galleryofferlist.normal_offer.d_title.787c5185xMVwwb) 
+
+Plan is to source a daughterboard for SD Card building on existing.
  
- 
+
 Articles
 
 - [Led PCB Circuit Board](https://www.raypcb.com/led-pcb-board/)
@@ -80,8 +86,6 @@ Articles
 - [Novel control strategy for synchronous PWM on a matrix converter](https://www.researchgate.net/publication/224077571_Novel_control_strategy_for_synchronous_PWM_on_a_matrix_converter)
 - [Adafruit 16x9 Charlieplexed PWM LED Matrix Driver - IS31FL3731](https://www.adafruit.com/product/2946)
 - https://community.bosch-sensortec.com/t5/MEMS-sensors-forum/BNO055-vs-BHI260AB-fusion-accuracy/td-p/24263
-
-.
 
 
 ## Camera connectors
@@ -107,7 +111,6 @@ The 1.8V driving the Sensor I/O of the 201 modules will also be supplied via the
 The board can be powered by 3V+ via a directly attached battery, or a pin on back GPIO header, which is down regulated. 
 The self power input will power the Motion Engine and camera sensors with 1.8V. 
 This can be used to run the board in an always on mode that records movement while disconnected from the power module.
-The SELF_PWR input will be used to supply VCC_RTC pins.
 
 When the Power module is connected it supplies VSOM, which powers the MotionEngine, LED Matrix driver and camera modules.
 VSOM is down regulated from around 4V to 1V8, 2V8 and 3V3. When connected, no power is drawn from the battery on the bridge board.
@@ -122,21 +125,15 @@ Voltage pins are
 * Powered 5V output
 * VSOM output
 
-[?] Is it possible to support both 5V in and out on the GPIO pins? 5V input would be downregulated to 4V if power module isn't connected.
+[?] Is it possible to support both 5V in and out on the GPIO header? 5V input would be downregulated to 4V if power module isn't connected.
 5V output would be upregulated VSOM.
 
-
-SELF_PWR
-Optional battery power input for driving the boards always on components while a power module isn't connected.
-Power might be supplied by a CR2032 or LIR1220 battery.
-This can be supplied by connecting to the pin on the backplane GPIO header or the RTC battery slot.
 
 VSOM
 Supplied by power module over multiple pins. When all pins are connected it is passed on to full-on mode components as VCC_FULL.
 
 VCC_RTC
-This powers always-on components on attached modules. It is sourced from any of the power module VCC_RTC or VSOM pins and downregulated.
-If the power module isn't connected or doesn't provide any power the fallback is SELF_PWR.
+This powers always-on components on attached modules. It is sourced from any of the power module VCC_RTC (1V8), or VSOM pins and downregulated.
 
 Power module provides either,
 - No power
@@ -238,6 +235,19 @@ https://kicad.github.io/packages3d/
 Add an EEPROM like 24C08 present on the UCM carrier board.
 
 
+### Front facing GPIO header decoration
+
+Exposed copper is routed around the GPIO header with certain objectives.
+
+1) It aims to look brain like by being bulb shaped and avoiding straight lines.
+2) The routing is gold plated and as exposed as possible considering risk of shorts
+3) Ground routing is extended for decoration
+4) Connection to back GPIO header where possible.
+
+![Decor front and back](./decor/decor-front-and-back.png)
+
+Note that the two GPIO headers are oriented so pins 1 and 39 are aligned side by side on the two.
+The specific layout is in the KiCAD project in [Decor](./decor/Decor/).
 
 
 # 919 Connector Pinouts
@@ -246,16 +256,6 @@ Add an EEPROM like 24C08 present on the UCM carrier board.
 ## Front facing GPIO header
 
 The GPIO header is made to be compatible with RPi expansion hardware. It has fewer GND pins which are mapped to GPIO or receiving pins.
-
-Features:
-
-- Spare GPIOs
-- SPI Image Boot
-- Power 5V / 3V3 / 1V8 / RTC
-- SPI / SAI7 I2S Out
-- Stem and System I2C
-- UART1 / UART3
-- PWM1..3
 
 :[40 pins GPIO Expansion](../pinouts/GPIO_HEADER.md)
 

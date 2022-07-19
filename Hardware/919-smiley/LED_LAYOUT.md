@@ -1,10 +1,20 @@
 LEDs are laid out as eyebrows and a mouth. They are connected to the multiplexer as 7 sets of 9 LEDs (7x9 mode).
-1) Brow x 2
-1) Eye sides x 2 (reverse of brow signal)
-3) Smile x 2
-5) Sad x 2 (reverse of smile signal)
-7) Cheeks, split 4 left 4 right.
-7) O x 6 (reverse of cheeks)
+
+#### Orientation A rows:
+
+0) Left Brow
+1) Right Brow
+2) Left side smile
+3) Right side smile
+4) Cheeks, split 4 left 4 right. (8)
+
+#### Oritentation B (reverse) rows:
+
+0) Left Eyes to the side
+1) Right Eyes to the side
+2) Left side sad mouth
+3) Right side sad mouth
+4) O mouth (6)
 
 
 ![919 Smiley Layout](./919-smiley-front-face.png)

@@ -77,7 +77,7 @@ Other side
 | 32  | CAN_RX     |          | CAN1_RX                              |         | P21.12       |          |
 | 31  | CAN_TX     |          | CAN1_TX                              |         | P21.14       |          |
 | 30  | BAT_LDO    | Battery  | 4.9V 50mA LDO for STAT LED           |         |              |          |
-| 28  | UART_RP_TXD| Debug    |                                      |         |              | GP0.     |
+| 28  | UART_RP_TXD| Debug    |                                      |         |              | GP0      |
 | 27  | UART_RP_RXD| Debug    |                                      |         |              | GP1      |
 | 26  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |              |          |
 
@@ -149,3 +149,4 @@ Other side
 | 27  | VIN_5V     | Power    | System 5V power source (PPHV1, PPHV2, PP1_CABLE, PP2_CABLE). 500 mA. | 5V      |    |     |
 | 26  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |  Conn. detect |     |
 
+SPI pins will be exchanged for SDIO (MIC_INT / MOTION_INT / PD_HRESET likely to go away)

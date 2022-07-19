@@ -223,7 +223,7 @@ Upper Power (10 pins)
 | 18  | SYS I2C SCL    | I2C      |                                      |         | P21.7        | GP15 I2C1.  |
 | 19  | SYS I2C SDA    | I2C      |                                      |         | P21.5        | GP14 I2C1.  |
 | 12  | EX0_nINT       | IRQ      | Interrupt signal (GPIO4_IO19)        |         | P21.30  |
-| 20  | VCC_RTC        | Power    | Low power mode supply                |         |   |
+| 20  | VCC_RTC        | Power    | Low power mode supply                | 1.8V    |   |
 | 21  | PWRBTN         | Boot     | Power button trigger                 |         |   |
 | 22  | ALT_BOOT       | Boot     | Alternate boot                       |         |   |
 | 23  |QSPI_BOOT_EN_3P3| Boot     | SPI boot                             |         |  P21.18   |

@@ -314,7 +314,7 @@ A number of connections should be broken out on the board as soldering pads (no 
 | Pin       | Function                |
 |-----------|-------------------------|
 | VSOM      | Output or Input         |
-| VCC_RTC   | Power input RTC battery |
+| VCC_RTC   | Power input RTC battery 1.8V |
 | PP_HV1    | PD Controller power     |   
 | PP_HV2    | PD Controller power     |   
 | VIN_5V    | PD Controller System 5V for PP1_CABLE, PP2_CABLE |

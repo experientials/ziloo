@@ -1,34 +1,26 @@
-![Back GPIO header](./back-face-gpio.png)
+![Back GPIO header](../pinouts/back-face-gpio.png)
 
-| Left side                  | Function  |Pin |Pin | Function  | Right side                |
-|----------------------------|-----------|----|----|-----------|---------------------------|
-|                            | 3V3       | 1  | 2  | VSOM      | VSOM when fully connected |
-|     I2C3_SDA / GPIO5_IO19  | SDA 3     | 3  | 4  | VSOM      | VSOM when fully connected |
-|     I2C3_SCL / GPIO5_IO18  | SCL 3     | 5  | 6  | GND       |                           |
-|            STEM SDA / MOSI | HSDX      | 7  | 8  | JTAG_CLK  | IMU JTAG                  |
-|                            | GND       | 9  | 10 | JTAG_DIO  | IMU JTAG                  |
-|            STEM SCL / SCK  | HSCX      | 11 | 12 | SWD_CLK   | PD SWD                    |
-|                   IMU nINT | GPIO4_IO19| 13 | 14 | SWD_DAT   | PD SWD                    |
-|       IMU Host MISO / ADR0 | HSDO      | 15 | 16 | HCSB      | IMU Select I2C / SPI      |
-|        Powering suspended  | VCC_RTC   | 17 | 18 | GPIO4_IO17|                           |
-|                  STEM_MOSI | MOSI      | 19 | 20 | GND       |                           |
-|                  STEM_MISO | MISO      | 21 | 22 | GPIO      | IMU MCSB2                 |
-|                  STEM_CLK  | SCLK      | 23 | 24 | SPI CE0   | STEM_SPI_CS               |
-|                            | GPIO2_IO9 | 25 | 26 | GPIO      | IMU MCSB3            |
-|                    SYS I2C | SYS SDA   | 27 | 28 | SYS SCL   | SYS I2C              |
-|           Self powered 2V+ | SELF_PWR  | 29 | 30 | GPIO5_IO26| IMU MCSB4            |
-|                     LED IN | LED_AUDIO | 31 | 32 |           | GPIO5_IO3            |
-|                 LED C_FILT | LED_FILTER| 33 | 34 | MIC_INT   |                 |
-|          T-USB 50 pins LDO | BAT_LDO   | 35 | 36 |           | GPIO4_IO22           |
-|              T-USB 50 pins | LDO_3V3   | 37 | 38 | MIC_DAT   |                 |
-|              T-USB 50 pins | SPI_3V3   | 39 | 40 | MIC_CLK   |               |
-
-I2C3 replaced with I2C6
+| Left side                  | Function  |Pin |Pin | Function  | Right side           |
+|----------------------------|-----------|----|----|-----------|----------------------|
+|  When VSOM fully connected | 3V3_ON    | 1  | 2  | VCC_FULL  | When VSOM fully connected  |
+|       I2C3 SDA / STEM_SDA  | SDA       | 3  | 4  | VCC_FULL  | When VSOM fully connected |
+|       I2C3 SCL / STEM_SCL  | SCL       | 5  | 6  | GND       |                      |
+|                   STEM_INT | INT       | 7  | 8  | TxD       | UART2 TxD            |
+|                            | GND       | 9  | 10 | RxD       | UART2 RxD            |
+|                            |           | 11 | 12 | SWD       | SWDCLK for T-USB     |
+|     SDIO DAT3 / GPIO2_IO18 | SDIO      | 13 | 14 | SWD       | SWDIO for T-USB      |
+|      SDIO CLK / GPIO2_IO13 | SDIO      | 15 | 16 | SDIO      | SDIO CMD / GPIO2_IO14  |
+|    When any VSOM connected | 3V3       | 17 | 18 | SDIO      | SDIO DAT0 / GPIO2_IO15 |
+| ECSPI2_MOSI / GPIO5_IO11   | MOSI      | 19 | 20 | GND       |                        |
+| ECSPI2_MISO / GPIO5_IO12   | MISO      | 21 | 22 | SDIO      | SDIO DAT1 / GPIO2_IO16 |
+| ECSPI2_SCLK / GPIO5_IO10   | SCLK      | 23 | 24 | SPI CE0   | ECSPI2_SS0/GPIO5_IO13  |
+|                            | GND       | 25 | 26 | SCL       | NIGHT SCL            |
+|                    SYS I2C | SYS SDA   | 27 | 28 | SCL       | SYS I2C              |
+|                  NIGHT_INT | INT       | 29 | 30 | (GND)     |                      |
+|                  NIGHT_SDA | SDA       | 31 | 32 | TxD       | UART4 TX             |
+|                   UART4 RX | RxD       | 33 | 34 | JTAG      | SoM JTAG CLK (RPi GND) |
+|    Battery measuring point | BAT_LDO   | 35 | 36 | JTAG      | SoM JTAG DIO          |
+|     SDIO DAT2 / GPIO2_IO17 | SDIO      | 37 | 38 | CAN2      | CAN2 RX / GPIO4_IO27  |
+|               (GND on RPi) |           | 39 | 40 | CAN2      | CAN2 TX / GPIO4_IO26  |
 
 
-7 available GPIO pins
-
-EX_OH_nINT
-STEM I2C
-
-[?] Mapping of SOM GPIO to IMU GPIO ?
