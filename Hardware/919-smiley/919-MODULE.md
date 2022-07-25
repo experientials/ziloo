@@ -227,7 +227,7 @@ https://kicad.github.io/packages3d/
 - GND
 - PWRBTN, ALT_BOOT, QSPI_BOOT_EN_3P3
 - SYS_RST_PMIC, PMIC_ON_REQ, PMIC_STBY_REQ
-- EX0_nINT
+- SYS_nINT
 
 
 ### I2C EEPROM

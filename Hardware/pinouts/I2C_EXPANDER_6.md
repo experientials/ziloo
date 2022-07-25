@@ -1,10 +1,10 @@
 
 The 919 EX6 expander is used for testing m.2 signals on Key B and Key E.
-It is on the SYS I2C bus.
+It is on the SYS I2C bus and placed on the Faceboard.
 Pins on Key B are prefixed with `B_`.
 Pins on Key E are prefixed with `E_`.
 
-The EX6 expander input triggers interrupt via EX0_nINT (GPIO4_IO19).
+The EX6 expander input triggers interrupt via SYS_nINT (GPIO4_IO19).
 
 | Expander  | Connected to    |
 |-----------|-----------------|

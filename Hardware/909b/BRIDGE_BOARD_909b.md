@@ -476,17 +476,17 @@ Events that we want to catch
 - PCIe
 
 Interrupts from the PD Controller are input to I/O Expander 0 (or 3). It in turn
-triggers an interrupt on EX0_nINT or EX_T_nINT.
+triggers an interrupt on SYS_nINT or EX_T_nINT.
 
 Interrupts from the Left and right cameras interrupt signal(ATT_INT) is connected
 to I/O Expander 0.
-It in turn triggers an interrupt on EX0_nINT.
+It in turn triggers an interrupt on SYS_nINT.
 
 Direct/Indirect interrupt triggers
 
 | Chip           | Chip pin     | SoM pin       | Description               |
 |----------------|--------------|---------------|---------------------------|
-| PDA9555 EX 0   | INT          | EX0_nINT      | Original Expander - P1.60        |
+| PDA9555 EX 0   | INT          | SYS_nINT      | Original Expander - P1.60        |
 | PDA9555 EX 1   | INT          | EX_OH_nINT    | USB1 OTG and M.2 Key E - P1.59   |
 | PDA9555 EX 2   | INT          | EX_OH_nINT    | USB2 Host and M.2 Key B - P1.59  |
 | PDA9555 EX 3   | INT          | EX_T_nINT     | Separate T-USB module Expander - P1.98 |

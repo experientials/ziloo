@@ -1,3 +1,5 @@
+### Deprecated, no longer used
+
 The development board uses a single Expander. The 909 and 801 uses 2x PCA9555 to control more states.
 
 The EX1 expander input triggers interrupt via EX_OH_nINT (GPIO1_IO0).

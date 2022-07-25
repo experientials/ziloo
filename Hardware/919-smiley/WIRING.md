@@ -12,7 +12,7 @@
 | SPI MOSI       |           | M1SDX        |            |           |         |                 | SPI MOSI   |
 | SPI MISO       |           | M1SDI        |            |           |         |                 | SPI MISO   |
 |                |           |              |            |           |         |                 |            |
-| EX0_nINT       |           |              |            |           | nINT    |                 |            |
+| SYS_nINT       |           |              |            |           | nINT    |                 |            |
 |                |           |              | IN         |           |         |                 | LED_AUDIO  |
 |                |           |              | C_FILT     |           |         |                 | LED_FILTER |
 |                |           | MCSB1        |            |           |         |                 | GPIO       |

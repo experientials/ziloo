@@ -27,7 +27,7 @@ The mapping is also captured in [Hookups](./datasheets/i.MX8/ucm-imx8plus_p1_p2_
 | P21.12 | P1.51   |  CAN1_RX            |                   |       
 | P21.14 | P1.53   |  CAN1_TX            |                   |       
 | P20.12 | P1.59   | GPIO1_IO00          | EX_OH_nINT        |
-|        | P1.60   | GPIO4_IO19          | EX0_nINT          |
+|        | P1.60   | GPIO4_IO19          | SYS_nINT          |
 | P20.2  | P1.61   | UART3_TXD           |                   |
 | P21.31 | P1.63   |  HDMI_DDC_SDA       |                   |      
 | P21.29 | P1.70   |  HDMI_DDC_SCL       |                   |      

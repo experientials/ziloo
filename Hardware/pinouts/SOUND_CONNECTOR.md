@@ -22,7 +22,7 @@ The pins connect directly to the i.MX module.
 | 16  | MIC_DATA3  | SAI5_RXD3  | I2S DATA                  | 
 | 17  | SCL        | I2C6_SCL   | I2C                       |
 | 18  | SDA        | I2C6_SDA   | I2C                       |
-| 19  | GPIO1_IO0  | EX_OH_nINT | Interrupt pin             |
+| 19  | GPIO1_IO0  | EX_OH_nINT / SOUND_INT | Interrupt pin GPIO1_IO0        |
 | 20  | GND        | GND        | Power         |
 
 (?) Rename EX_OH_nINT

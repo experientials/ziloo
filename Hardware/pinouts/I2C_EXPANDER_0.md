@@ -1,14 +1,16 @@
 The development board uses a single Expander. The 909 and 801 uses 2x PCA9555 to control more states
-The system expander input triggers interrupt via EX0_nINT (GPIO4_IO19).
-This expander deals with activity relevant during waking.
+
+The system expander #0 is used by the SoM via SYS I2C.
+The system expander input triggers interrupt via SYS_nINT (GPIO4_IO19).
+This expander deals with activity relevant during waking state.
 
 This first expander, which is also on the dev. board maps,
 
 | Expander  | Connected to    |
 |-----------|-----------------|
 | EX0.0     | mPCIe_PERST on M2 Key B    |
-| EX0.1     |    |
-| EX0.2     |                 |
+| EX0.1     | - reserved for second mPCIe -   |
+| EX0.2     | MCU_SYS_nINT from T-USB module or other MCUs               |
 | EX0.3     |       |
 | EX0.4     | MUX_OTG_USB2_SEL - SoM USB1   |
 | EX0.5     | MUX_OTG_USB3_SEL - SoM USB1  |

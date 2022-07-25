@@ -19,7 +19,7 @@ Mated height 4.3mm/4.5mm height
 | 7   | USB2_DN      | USB      | USB2 D-                              |         |
 | 8  | GND          | Power    | Ground                               |         |
 | 9  | VSOM         | Power    | Main power for board 3.45V - 4.5V    |         |
-| 10  | EX0_nINT     | IRQ      | Interrupt signal (GPIO4_IO19)        |      |
+| 10  | SYS_nINT     | IRQ      | Interrupt signal (GPIO4_IO19)        |      |
 | 11  | EX_OH_nINT   | IRQ      | Interrupt signal (GPIO1_IO0)         |      |
 | 12  | EX_T_nINT    | IRQ      | Interrupt signal (GPIO1_IO1).        |      |
 | 13  | VSOM         | Power    | Main power for board 3.45V - 4.5V    |         |

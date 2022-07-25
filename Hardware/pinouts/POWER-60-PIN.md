@@ -31,7 +31,7 @@ default height 1.5mm
 | 9   | USB1_TX_DN   | USB      | USB1 TX D-                           |         |
 | 10  | GND          | Power    | Ground                               |         |
 | 11  | VSOM         | Power    | Main power for board 3.45V - 4.5V    |         |
-| 12  | EX0_nINT     | IRQ      | Interrupt signal (GPIO4_IO19)        |      |
+| 12  | SYS_nINT     | IRQ      | Interrupt signal (GPIO4_IO19)        |      |
 | 13  | EX_OH_nINT   | IRQ      | Interrupt signal (GPIO1_IO0)         |      |
 | 14  | EX_T_nINT    | IRQ      | Interrupt signal (GPIO1_IO1).        |      |
 | 15  | VSOM         | Power    | Main power for board 3.45V - 4.5V    |         |

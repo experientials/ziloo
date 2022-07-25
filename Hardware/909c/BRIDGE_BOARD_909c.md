@@ -205,19 +205,19 @@ Events that we want to catch
 - PCIe
 
 Interrupts from the PD Controller are input to I/O Expander 0 (or 3). It in turn
-triggers an interrupt on EX0_nINT or EX_T_nINT.
+triggers an interrupt on SYS_nINT or STEM_nINT.
 
 Interrupts from the Left and right cameras interrupt signal(ATT_INT) is connected
 to I/O Expander 0.
-It in turn triggers an interrupt on EX0_nINT.
+It in turn triggers an interrupt on SYS_nINT.
 
 Direct/Indirect interrupt triggers
 
 | Chip           | Chip pin     | Output to     | Description               |
 |----------------|--------------|---------------|---------------------------|
-| PDA9555 EX 0   | INT          | EX0_nINT      | Original Expander - P1.60        |
+| PDA9555 EX 0   | INT          | SYS_nINT      | Original Expander - P1.60        |
 | PDA9555 EX 4   | INT          | STEM_INT      | 50 pin connector to T-USB module  |
-| PDA9555 EX 6   | INT          | EX0_nINT      | m.2 Expander for SYS - P1.60  |
+| PDA9555 EX 6   | INT          | SYS_nINT      | m.2 Expander for SYS - P1.60  |
 | PCIe m.2 Key B | WAKE#        | PCIE_WAKE_B   | m.2 Key B - P2.52                |
 | PCIe m.2 Key B | CLKREQ#      | PCIE_CLKREQ_B | m.2 Key B - P2.90                |
 | Left Sensors   | ATT_INT      | EX0.10        | Left Camera Module sensors |    
