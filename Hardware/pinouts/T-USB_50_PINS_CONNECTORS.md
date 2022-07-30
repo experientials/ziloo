@@ -40,14 +40,16 @@ One side
 | 11  | USB2_TX_DP       | USB      | USB2 TX D+  (Host)                   |         |              | HD3SS460 SSTX         |
 | 12  | USB2_TX_DN       | USB      | USB2 TX D-  (Host)                   |         |              | HD3SS460 SSTX         |
 | 13  | GND              | Power    | Ground                               |         |              |          |
-|     |                  |          |                                      |         |              |             | 
+| 14  |                  |          |                                      |         |              |             | 
+| 15  |                  |          |                                      |         |              |             | 
+| 16  |                  |          |                                      |         |              |             | 
 | 17  | STEM SCL         | I2C      | STEM SCL                             |         |              | GP21 I2C0   |
 | 18  | STEM SDA         | I2C      | STEM SDA                             |         |              | GP20 I2C0   |
 | 19  | STEM INT         | I2C      | Sensor interrupts                    |         |              |          |
 | 20  | GND              | Power    | Ground                               |         |              |          |
-| 21  | SWD CLK RP       | RP2040   |                                      |         |              |          |
-| 22  | RUN_RP#          | RP2040   | Pull low to power off/reset RP       |         |              |             | 
-| 23  | SWD DAT RP       | RP2040   |                                      |         |              |          |
+| 21  | T_SBWTCK         | MSP430   | SBWTCK / TEST / RTS                  |         |              |          |
+| 22  | T_EXTRA          | MSP430   |                                      |         |              |             | 
+| 23  | T_SBWTDIO        | MSP430   | SBWTDIO / RST / NMI / DTR            |         |              |          |
 | 24  | PWR_CHARGE       | Battery  | Internal charge current for testing  |         |              |          |
 | 25  | BAT_STAT         | Battery  | Internal charging status for testing |         |              |          |
 
@@ -78,9 +80,9 @@ Other side
 | 32  | CAN_RX     |          | CAN1_RX                              |         | P21.12       |          |
 | 31  | CAN_TX     |          | CAN1_TX                              |         | P21.14       |          |
 | 30  | BAT_LDO    | Battery  | 4.9V 50mA LDO for STAT LED           |         |              |          |
-| 29  | BOOTSEL_RP | RP2040   | Boot Mode Select for RP              |         |              |          |
-| 28  | UART_RP_TXD| Debug    |                                      |         |              | GP0      |
-| 27  | UART_RP_RXD| Debug    |                                      |         |              | GP1      |
+| 29  | BOTH_VSOM2 | MSP430   | High if any VSOM pin on this connector supplies on Faceboard side. |         |              |          |
+| 28  | UART_T_TXD | MSP430   |                                      |         |              |          |
+| 27  | UART_T_RXD | MSP430   |                                      |         |              |          |
 | 26  | VSOM       | Power    | Main power for board 3.45V - 4.5V    |         |              |          |
 
 Could also take in HDMI or PCIe lanes instead of LVDS
@@ -105,7 +107,7 @@ One side
 | 8   | GND          | Power    | Ground                               |         |              |
 | 9   | PD_SWD_CLK   | Debug    | PD Controller GPIO12                 |         |              |
 | 10  | PD_SWD_DAT   | Debug    | PD Controller GPIO13                 |         |              |
-| 11  | BOTH_VSOM    | Enable   | Bridge board signal;VSOM connected on both sides |         |   |
+| 11  | BOTH_VSOM    | Enable   | Bridge board signal;VSOM connected on both sides | 3V3        |   |
 | 12  | MCU_SYS_INT  | IRQ      | When state of MCUs change -> SoM     |         | EX0.2 |             |
 | 13  | SYS I2C SCL  | I2C      |                                      |         | P21.7        | GP15 I2C1.  |
 | 14  | SYS I2C SDA  | I2C      |                                      |         | P21.5        | GP14 I2C1.  |
@@ -138,7 +140,7 @@ Other side
 | 40  | MIC_CLK    | Sensor   | frontboard mic                       |         |         |    |
 | 39  | MIC_DATA   | Sensor   |                                      |         |         |    |
 | 38  | MIC_INT    | Sensor   |                                      |         |  ?      |    |
-| 37  | MOTION_INT | Sensor   | frontboard motion mic on stem I2C    |         |  ?      |    |
+| 37  | MOTION_INT | Sensor   | Spare interrupt pin for future       |         |  ?      |    |
 | 36  | NIGHT SCL  | I2C      | I2C6 SCL                             |         | P21.2   | GP19 I2C1.   |
 | 35  | NIGHT SDA  | I2C      | I2C6 SDA                             |         | P21.4   | GP18 I2C1.   |
 | 34  | NIGHT INT  | I2C      | Sensor interrupts                    |         |         |         |

@@ -15,11 +15,21 @@ Two 45 pin debug connectors provides options to experiment with USB-C Alt. mode 
 To facilitate feature development two additional connectors are added.
 
 
+### Recent changes
+
+- Corrected the height specified here to 33mm, matching drawings.
+- Testing board and Faceboard will use 50 pin sockets with clearing of 2.5mm. This allows thicker components on board underside
+- The PCA9555 expanders have been replaced by a single MSP430FR2032.
+- Expander now connects additional pins on 3 pin button connector, Charger and PD Controller chips
+- Expander now connects additional pins on Alt Mode connectors and 50 pin connectors
+- Max input current limit is partially driven by the Expander
+- Debug pins for RP2040 have been remapped for MSP430
+- BOTH_VSOM2 pin added on 50 pin connector (will need to be added to testing board breakouts) 
+- Pins added on Host Alt. Mode connector for additional T-USB Expander pins under MSP430
+
+
 ### Open points
 
-- connectors for the two buttons; Lock and detach
-- Which GPIO receives interrupt
-- Mux chips shutdown mode
 - Power LED & Indicator LEDs
 - Add battery connector with temp. sensor JESDA?
 - Optional connectors debug uart / jtag
@@ -39,7 +49,7 @@ To facilitate feature development two additional connectors are added.
 - 2 * [Hirose USB-C CX80B1-24P](https://www.hirose.com/product/p/CL0480-0625-0-00)
 - 1 * [TPS65988](https://www.ti.com/product/TPS65988?keyMatch=TPS65988&tisearch=search-everything&usecase=GPN) Dual Port USB Type-C® and USB PD Controller, Power Switch, and High-Speed Multiplexer. [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/TPS65988DJRSHR?qs=sGAEpiMZZMv0NwlthflBiyrCPYKWtEb9w8lmLVKGFHI%3D)
 - 2 * [HD3SS460](https://www.ti.com/product/HD3SS460?keyMatch=HD3SS460&tisearch=search-everything&usecase=GPN) 4 x 6 Channels USB Type-C Alternate Mode MUX. Connected to T-USB Host. [Mouser](https://www.mouser.ch/new/texas-instruments/ti-hd3ss460-switch/). [Dock Eval Kit](https://www.mouser.ch/ProductDetail/Texas-Instruments/USB-CTM-MINIDK-EVM?qs=vcbl%252BK4rRletdX9FWp9J9A%3D%3D)
-- 1 * [PCA9555 I/O Expander HVQFN24 package](https://www.nxp.com/part/PCA9555D) $1.74/1pcs $0.64/1000pcs
+- 1 * [MSP430 FR2032 IG56 TSSOP DGG56](https://www.ti.com/product/MSP430FR2032#tech-docs). Inventory 4870 at TO. @1000 $0.766. 52 IO pins, 1 UART/I2C, 1 UART/SPI.
 - 4 * [TS5USBC410 Dual 2:1 USB 2.0 Mux/DeMux Switch](../datasheets/USB/ts5usbc41.pdf). [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/TS5USBC410IYFFR?qs=sGAEpiMZZMutXGli8Ay4kPB6XEQFysSpdNErqZgdEYs%3D)
 - 1 * [BQ24250RGER battery charger](https://www.ti.com/product/BQ24250)  [$2 JLCPCB (4x4 mm package)](https://jlcpcb.com/parts/componentSearch?isSearch=true&searchTxt=BQ24250) [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/BQ24250RGER?qs=VqERlb%252BKohfBI76g9iGg8g%3D%3D)
 - 2 * [3 pin JST SH socket SM03B-SRSS-TB](https://www.jst-mfg.com/product/detail_e.php?series=231) - [JLCPCB](https://jlcpcb.com/parts/componentSearch?isSearch=true&searchTxt=SM03B-SRSS-TB) - [Farnell](https://ch.farnell.com/jst-japan-solderless-terminals/sm03b-srss-tb-lf-sn/stecker-90-3kont/dp/1679118?CMP=GRHB-SF-OEM) (Matched by JST PHR-3)
@@ -89,14 +99,19 @@ In the base setup without added logic the board routes USB 3.0/2.0 data through 
 
 ### Board
 
-66 mm x 24 mm
+33 mm x 24 mm (height x width)
+
+The length can be increased to 41mm for the development version of the board. Don't forget to ensure clearing on testing board.
 
 The two 50 pin connectors are placed with a gap of 16 mm between their midpoint.
 These two connectors are vertically centered on the center of the vertical USB-C connector.
 
 The two 45 pin data breakouts are placed on one edge with a 2 mm gap.
 
-Components on the underside can be max 0.5mm thick. They can be placed above the horizontal USB-C.
+Components on the underside can be max 1.2mm thick. They can be placed above the horizontal USB-C.
+
+The expected DF40 socket the board inserts into creates 2.5mm clearing height. It has been increased to
+enable thicker components on the underside, specifically the MSP430.
 
 
 ### Multiplexing USB
@@ -159,11 +174,18 @@ The system power is driven by the Battery Charger, while the charging power come
 - If a CDP(5V, 3A) compatible charger is connected the board can draw 3A
 
 
-## Combined T-USB control I/O Expander
+## T-USB Expander
 
-Expander #3 combines control signals.
+Rather than the previous PCA9555 based I2C port expander an MSP430FR2032 is used. 
+This controls around 40 state pins and connects multiple busses.
 
-:[Combined T-USB control I/O Expander](../pinouts/I2C_EXPANDER_3.md)
+These pins are used in a special role
+
+:[Combined T-USB bus I/O Expander](../pinouts/T-USB_BUS_EXPANDER.md)
+
+Pins used as GPIO
+
+:[Combined T-USB control I/O Expander](../pinouts/T-USB_GPIO_EXPANDER.md)
 
 
 ## I2C adressing
@@ -235,6 +257,7 @@ EN2 = Low
 EN1 = High
 
 EN1 could be driven by extender to enable switching between 0.5A and 2A.
+It is now driven by MSP430.
 
 R_ILIM = 270 / I_IC
 
@@ -255,11 +278,12 @@ Charge current ISET resistor 500mA / 1A / 2A (4 resistors in parallel?)
 ## 3 pin Power Enable Connector
 
 The connector must be oriented along the board to allow packing of battery and board.
+These buttons drive inputs to the Expander / MSP430.
 
 | Pin          |                                                                  |
 |--------------|------------------------------------------------------------------|
-| VSOM_LOCK    | When raised high it signals the backplate is locked in           |
-| VSOM         | General board power                                              |
+| LOCK_BTN     | When raised high it signals the backplate is locked in           |
+| 3V3          | General board power                                              |
 | SHUTDOWN_BTN | When raised it signals a request to runtime modules to shut down |
 
 

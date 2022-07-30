@@ -128,3 +128,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 /Hardware/testing/T-USB-Testing/T-USB-Testing-backups
+/Hardware/testing/T-USB MCU/T-USB MCU-backups

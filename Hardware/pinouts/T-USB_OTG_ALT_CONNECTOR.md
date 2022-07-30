@@ -31,8 +31,8 @@
 | 28  | SYS I2C SCL| I2C      |                                      |         | GP15 I2C1.  |
 | 29  | SYS I2C SDA| I2C      |                                      |         | GP14 I2C1.  |
 | 30  | GND        | Power    | Ground                               |         |
-| 31  | SWD CLK RP |          |                                      |         |
-| 32  | SWD DAT RP |          |                                      |         
+| 31  | T_SBWTCK   |          |                                      |         |
+| 32  | T_SBWTDIO  |          |                                      |         
 | 33  | GND        | Power    | Ground                               |         |
 | 34  | UART1_TXD  | UART     | P1.72 UART1 Tx                       |         | P20.9   | GP4 UART1    |
 | 35  | UART1_RXD  | UART     | P1.19 UART1 Rx                       |         | P20.11  | GP5 UART1    |

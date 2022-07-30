@@ -17,13 +17,13 @@
 | 14  | HD+        | Host D+                     |
 | 15  | HD-        | Host D-                     |
 | 16  | GND        |                                          |
-| 17  |       |                      |
-| 18  |       |                      |
+| 17  | MSP_TDI    | MSP430                     |
+| 18  | MSP_TDO    | MSP430                     |
 | 19  | GND        |                     |
 | 20  | HX+        | Host Extra 2.0 D+                     |
 | 21  | HX-        | Host Extra 2.0 D-                     |
-| 22  |            |     |
-| 23  |            |      |
+| 22  | XIN        | MSP430    |
+| 23  | XOUT       | MSP430     |
 | 24  | GND        |                                          |
 | 25  | LVCLK+     | LVDS CLK+                      |
 | 26  | LVCLK-     | LVDS CLK-                      |
@@ -40,5 +40,9 @@
 | 37  | LVD3+      | LVDS D3+                      |
 | 38  | LVD3-      | LVDS D3-                      |
 | 39  | GND        |                     |
-| 44  | UART_RP…TXD. | Debug  |                                    |         |      | GP0.   |
-| 45  | UART…RP…RXD. | Debug. |                                    |         |      | GP1    |
+| 40  | TA1CLK     | MSP430    |
+| 41  | TA1.1      | MSP430    |
+| 42  | TA1.2      | MSP430    |
+| 43  | T_EXTRA    | MSP430    |
+| 44  | UART_T_TXD | Debug  |                                    |         |      | GP0.   |
+| 45  | UART_T_RXD | Debug. |                                    |         |      | GP1    |
