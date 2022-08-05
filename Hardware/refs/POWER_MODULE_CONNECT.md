@@ -53,6 +53,7 @@ The next step is to turn the back plate which will disconnect the conditional VS
 This requires logic on the 701/801/909/919 boards. 
 
 
+
 ### Powering Sensors and Camera modules
 
 - Camera modules should receive power regardless of VSOM_LOCK supplying.
