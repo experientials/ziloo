@@ -93,12 +93,7 @@ A dedicated I/O Expander controls addition pins on Key B.
 
 ### Reference designs
 
-![Congatec reference design SSD Key B](../refs/AM43-M2-SSD-reference-design.png)
-Congatec reference design
-
-![UCM Carrier Board reference design Key B](../refs/UCM-M2-KeyB-reference-design.png)
-Compulab reference design
-
+:[M.2 Key B References](../refs/m.2/M2_KEY_B_REFS.md)
 
 
 # M.2 Key E Expansion Module

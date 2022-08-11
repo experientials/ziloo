@@ -529,7 +529,7 @@ for more information see [UCM i.MX8 PLUS Reference Guide](../datasheets/i.MX8/uc
 
 ### Connecting the SB-UCM-iMX8PLUS carrier board
 
-![SB-UCM-iMX8PLUS Carrier Board](../refs/SB-UCMIMX8PLUS-carrier-board.jpg)
+![SB-UCM-iMX8PLUS Carrier Board](../refs/Compulab/SB-UCMIMX8PLUS-carrier-board.jpg)
 
 For further details see [Product Page](https://www.compulab.com/products/carrier-boards/sb-ucmimx8plus-carrier-board/#diagram).
 
