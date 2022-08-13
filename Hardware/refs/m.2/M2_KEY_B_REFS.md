@@ -4,12 +4,20 @@ Congatec reference design
 ![UCM Carrier Board reference design Key B](../refs/Compulab/UCM-M2-KeyB-reference-design.png)
 Compulab reference design
 
+There is a variation of the pin usage on m.2 connectors. For best compatibility we need to cross reference good implementations.
+
+- [Generic Key B pinout](https://pinoutguide.com/HD/M.2_NGFF_connector_pinout.shtml)
+- [iMX 6/7/8 interface to m.2 modules from embedded artists](https://developer.embeddedartists.com/docs-m2/get-started/imx/)
+
 
 ### Key B+M SSD cards
 
 - [WD SN520](https://www.westerndigital.com/en-ie/products/internal-drives/cl-sn520-nvme-ssd)
 - [WD SN520 128Gb NVMe SSD datasheet](https://documents.westerndigital.com/content/dam/doc-library/en_us/assets/public/western-digital/product/internal-drives/pc-sn520-ssd/data-sheet-pc-sn520-compute.pdf)
 - Older Kioxia cards
+- Supposedly: Kingston OU3PDP364B - Compulab P/N: 605DP6430
+- Supposedly: Kingston® NVME SSD OU3PDP3/OUSPDP3
+
 
 ### Key B Wireless cards
 
@@ -18,9 +26,9 @@ Compulab reference design
 - Fanstel M262X840XE BLE 5.2 LoRa [Downloads](https://www.fanstel.com/download-document)
 
 
-
 ### Google Coral
 
 Google Coral offers accelerators as A+E and B+M
 
 Uses REFCLK, PET, PER, CLKREQ, PERST, 3V3, GND
+

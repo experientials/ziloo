@@ -43,57 +43,7 @@ Two Connector components used are [DF40HC(3.5)-20DS-0.4V(51)](https://www.hirose
 :[Sound Connector](../pinouts/SOUND_CONNECTOR.md)
 
 
-# M.2 Key B Expansion Module
-
-Features:
-
-- 1 Lane PCIe (PExx0)
-- USB 3.0 data multiplexed (USB2/Host, PExx1)
-- USB 2.0 data multiplexed (USB2/Host)
-- GNSS / Stem I2C (I2C3)
-- MFG I2C (SYS I2C)
-- AUDIO I2S MIC SAI5 4 channels (GPIO5..8 and COEX*)
-- SPI (ANTCTL*)
-- DAS/DSS broken out with activity LED + expander bit
-- Additional signals via 16 bit I/O Expander
-- Some are broken out with pads near connector (CONFIG 0/2/3, DPR)
-- SIM pins are not connected, reserved for now
-- 4 channel I2S stereo input
-- 4 channel I2S stereo output
-
-
-The USB is connected to T-USB (not the M.2 expansions) on boot to support NVMe SSD expansions by default.
-The USB data signals from SoM are multiplexed between T-USB Host (USB2) and M.2 Key B based on MUX_USB2_SEL & MUX_USB3_SEL.
-
-Be aware the current pin plan is not final. Input/Ouput such as DIN/DOUT RXD/TXD may be the wrong way around.
-It must be verified with reference hardware design/testing.
-
-According to documentation: Type refers to the signal direction:
-• Type O means signal is an output from the MPU/MCU to the adapter. 
-• Type I means signals is an input to the MPU/MCU from the adapter.
-
-
-### Control pins mapped by I/O Expander
-
-The system I/O expander controls mPCIe_PERST which resets PCIe.
-PCIE_CLKREQ_B is a direct pin on the SoM.
-PCIE_WAKE_B is a direct pin on the SoM. 
-
-
-TODO consider bootup default state of I/O Expanders. USB must not connect M.2 by default
-
-TODO unallocated/GPIO pins from chipsets
-
-A dedicated I/O Expander controls addition pins on Key B.
-
-:[Expansion I/O Expander #2](../pinouts/I2C_EXPANDER_2.md)
-
-:[M.2 Key B Pin allocations](../pinouts/M2_KEY_B_CONNECTOR.md)
-
-
-### Reference designs
-
-:[M.2 Key B References](../refs/m.2/M2_KEY_B_REFS.md)
+:[Supervisor Slot](../standards/SUPERVISOR_SLOT.md)
 
 
 # M.2 Key E Expansion Module
