@@ -32,13 +32,14 @@ Available actions,
 ### Components
 
 - 1 * [MSP430 FR2032 IG56 TSSOP DGG56](https://www.ti.com/product/MSP430FR2032#tech-docs). Inventory 4870 at TO. @1000 $0.766. 52 IO pins, 1 UART/I2C, 1 UART/SPI.
+- Optionally 2 * [74HC595 PW,118 shift register TSSOP-16](https://www.mouser.ch/ProductDetail/Nexperia/74HC595PW118?qs=P62ublwmbi8GOYhe4PjE9Q%3D%3D). @1000 $0.15, 15k in 
 
 ![Block diagram MSP430FR2032](./datasheets/MSP430FR2032.png)
 
 
 ### Alt. Components
 
-- 3 * [74HC595 PW,118 shift register TSSOP-16](https://www.mouser.ch/ProductDetail/Nexperia/74HC595PW118?qs=P62ublwmbi8GOYhe4PjE9Q%3D%3D). @1000 $0.15, 15k in stock.
+stock.
 - 3 * [compact 74HC595BQ,115 DHVQFN-16](https://www.mouser.ch/ProductDetail/Nexperia/74HC595BQ115?qs=P62ublwmbi8j5S0PfJaZ3g%3D%3D) that are not available until 2023.
 - 3 * [771-74HC595D-Q100 SOIC-16](https://www.mouser.ch/ProductDetail/Nexperia/74HC595D-Q100118?qs=1sbE9T7hb3auqb4IeRpHgw%3D%3D)
 - 1 * [MSP430FR4131IPMR low mem, 60 IO, in stock](https://www.ti.com/product/MSP430FR4131/part-details/MSP430FR4131IPMR?keyMatch=MSP430FR4131IPMR&tisearch=search-everything&usecase=GPN)
@@ -143,10 +144,10 @@ For the 64 pin package shift registers are not used.
 
 | Function     | VQFN32 | LQFP | G56 | Connected to    |
 |--------------|--------|------|-----|-----------------|
-| SH1_DS       | 6      |      |     | P3.1. 74HC595 DS    |
-| SH1_SHCP     | 12     |      |     | P3.2. 74HC595 SHCP  |
-| SH1_MR       | 13     |      |     | P3.3. 74HC595 MR |
-| SH1_STCP     | 14     |      |     | P3.4. 74HC595 STCP |
+| SH1_DS       | 6      | 55   | 55  | P3.1. 74HC595 DS    |
+| SH1_SHCP     | 12     | 54   | 54  | P3.2. 74HC595 SHCP  |
+| SH1_MR       | 13     | 53   | 53  | P3.3. 74HC595 MR |
+| SH1_STCP     | 14     | 52   | 52  | P3.4. 74HC595 STCP |
 | SH2_STCP     | 18     |      |     | P3.5. 74HC595 STCP |
 | SH3_STCP     | 19     |      |     | P3.6. 74HC595 STCP |
 | SH4_STCP     | 20     |      |     | P3.7. 74HC595 STCP |
@@ -173,13 +174,15 @@ The output pins on the shift registers are grouped as,
 
 ## Faceboard expander pin allocations
 
+The faceboard expander runs on 1.8V signal level. It is in the 1V8 domain with camera modules and m.2 connectors.
+
 Pins used as GPIO
 
 :[Combined Faceboard control I/O Expander](../pinouts/FACE_GPIO_EXPANDER.md)
 
 
 The system expander #0 is used by the SoM via SYS I2C.
-The system expander input triggers interrupt via SYS_nINT (GPIO4_IO19).
+The system expander input triggers interrupt via SYS_EX_nINT (GPIO4_IO19).
 This expander deals with activity relevant during waking state.
 
 This first expander, which is also on the dev. board maps,
@@ -218,7 +221,7 @@ MMC CS
 m.2 WiFi CS SDIO
 
 
-The EX6 expander input triggers interrupt via SYS_nINT (GPIO4_IO19).
+The EX6 expander input triggers interrupt via SYS_EX_nINT (GPIO4_IO19).
 
 
 

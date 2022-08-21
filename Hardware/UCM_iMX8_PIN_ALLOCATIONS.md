@@ -9,6 +9,18 @@ To enable this FLEXCAN and ENET1 are re-mapped to other ports. LVDS isn't used, 
 
 The mapping is also captured in [Hookups](./datasheets/i.MX8/ucm-imx8plus_p1_p2_hookups.pdf)
 
+
+### M7 system mastering
+
+The M7 core can interface and upgrade parts of the system
+
+- USB 2.0 to M.2 modules for BLE/WiFi access
+- UART1/UART3 for uploading firmware to MSP430 Expanders
+- Using picoprobe debugging the MSP430 Expanders
+- UART2 for accessing LPWAN/BLE on M.2 modules
+-  
+
+
 ### P1 function allocation
 
 | Misc   | PX pin  | Pad connected       | Functionality     |
@@ -19,15 +31,15 @@ The mapping is also captured in [Hookups](./datasheets/i.MX8/ucm-imx8plus_p1_p2_
 | P21.17 | P1.28   |  SAI3_RXD           |  SAI5_RX_DATA0    |       
 | P21.15 | P1.30   |  SAI3_MCLK          |  SAI5_MCLK        |       
 | P21.19 | P1.32   |  SAI3_RXC           |  SAI5_RXC         |       
-| P21.8  | P1.33   |  CAN2_TX            |                   |      
+| P21.8  | P1.33   |  CAN2_TX            |  CAN2_TX          |      
 | P21.23 | P1.34   |  SAI3_RXFS          |  SAI5_RX_SYNC     |       
 | P21.13 | P1.36   |  SAI3_TXC           |  SAI5_RX_DATA2    |        
 | P21.21 | P1.38   |  SAI3_TXFS          |  SAI5_RX_DATA1    |        
-| P21.10 | P1.49   |  CAN2_RX            |                   |       
-| P21.12 | P1.51   |  CAN1_RX            |                   |       
-| P21.14 | P1.53   |  CAN1_TX            |                   |       
-| P20.12 | P1.59   | GPIO1_IO00          | EX_OH_nINT        |
-|        | P1.60   | GPIO4_IO19          | SYS_nINT          |
+| P21.10 | P1.49   |  CAN2_RX            | CAN2_RX           |       
+| P21.12 | P1.51   |  CAN1_RX            | CAN1_RX           |       
+| P21.14 | P1.53   |  CAN1_TX            | CAN1_TX           |       
+| P20.12 | P1.59   | GPIO1_IO00          | SOUND_INT        |
+|        | P1.60   | GPIO4_IO19          | SYS_EX_nINT       |
 | P20.2  | P1.61   | UART3_TXD           |                   |
 | P21.31 | P1.63   |  HDMI_DDC_SDA       |                   |      
 | P21.29 | P1.70   |  HDMI_DDC_SCL       |                   |      
@@ -46,7 +58,7 @@ The mapping is also captured in [Hookups](./datasheets/i.MX8/ucm-imx8plus_p1_p2_
 |        | P1.85   | HDMI_HPD            |                   |
 | P20.33 | P1.94   | I2C3_SCL            |                   |
 | P21.1  | P1.96   | I2C5_SDA            |                   |       
-| P20.14 | P1.98   | GPIO1_01            | EX_T_nINT         |
+| P20.14 | P1.98   | GPIO1_01            | STEM_INT          |
 | P21.3  | P1.100  |  I2C5_SCL           |                   |      
 
 

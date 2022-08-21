@@ -24,6 +24,8 @@ There is a variation of the pin usage on m.2 connectors. For best compatibility 
 - QCA9377M2B
 - STIX-9377-M2-B [Shop $25](https://www.technexion.com/shop/connectivity/stix-9377-m2-b/) - BLE: USB, WiFi: PCIe
 - Fanstel M262X840XE BLE 5.2 LoRa [Downloads](https://www.fanstel.com/download-document)
+- [Multi-Band 5G NR/LTE-FDD/LTE-TDD/HSPA+ SIM8200EA_M2 from SIMCom](https://www.simcom.com/product/SIM8200EA_M2.html) type 3052
+- [LTE-A card A7906E-M2](https://www.simcom.com/product/A7906EM2.html) type 3042
 
 
 ### Google Coral

@@ -1,5 +1,5 @@
 
-The Sensors on these expansion triggers interrupt via EX_OH_nINT (GPIO1_IO0).
+The Sensors on these expansion triggers interrupt via EX_OH_nINT / SOUND_INT (GPIO1_IO0).
 The pins connect directly to the i.MX module.
 
 | Pin | Code       | Function   | Description               | 

@@ -19,9 +19,9 @@ Mated height 4.3mm/4.5mm height
 | 7   | USB2_DN      | USB      | USB2 D-                              |         |
 | 8  | GND          | Power    | Ground                               |         |
 | 9  | VSOM         | Power    | Main power for board 3.45V - 4.5V    |         |
-| 10  | SYS_nINT     | IRQ      | Interrupt signal (GPIO4_IO19)        |      |
-| 11  | EX_OH_nINT   | IRQ      | Interrupt signal (GPIO1_IO0)         |      |
-| 12  | EX_T_nINT    | IRQ      | Interrupt signal (GPIO1_IO1).        |      |
+| 10  | MCU_SYS_INT     | IRQ      | Interrupt signal (GPIO4_IO19)        |      |
+| 11  | SOUND_INT    | IRQ      | Interrupt signal (GPIO1_IO0)         |      |
+| 12  | STEM_INT     | IRQ      | Interrupt signal (GPIO1_IO1).        |      |
 | 13  | VSOM         | Power    | Main power for board 3.45V - 4.5V    |         |
 | 14  | GND          | Power    | Ground                               |         |
 | 15  | SYS_RST_PMIC | Reset    | PMIC reset input pin. Internally pulled up with LDO1 power rail. Once low, PMIC performs reset. |         |
