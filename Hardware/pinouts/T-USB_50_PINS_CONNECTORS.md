@@ -108,7 +108,7 @@ One side
 | 9   | PD_SWD_CLK   | Debug    | PD Controller GPIO12                 |         |              |
 | 10  | PD_SWD_DAT   | Debug    | PD Controller GPIO13                 |         |              |
 | 11  | BOTH_VSOM    | Enable   | Bridge board signal;VSOM connected on both sides | 3V3        |   |
-| 12  | MCU_SYS_INT  | IRQ      | When state of MCUs change -> SoM     |         | EX0.2 |             |
+| 12  | MCU_SYS_INT  | IRQ      | When state of MCUs change -> SoM     |         | P20.20 P2.67 EX:P1.3 EX0.2 |             |
 | 13  | SYS I2C SCL  | I2C      |                                      |         | P21.7        | GP15 I2C1.  |
 | 14  | SYS I2C SDA  | I2C      |                                      |         | P21.5        | GP14 I2C1.  |
 | 15  | VSOM_LOCK    | Power    | Main power for board 3.45V - 4.5V, if mechanical lock shorted    |         | Mech. lock |

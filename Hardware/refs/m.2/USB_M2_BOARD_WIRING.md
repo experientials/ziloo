@@ -1,10 +1,3 @@
-### M.2 Key B
-
-See EXPANSION document for more information.
-
-Note that some pins are connected to I/O Expander 2 meant for USB2 and Key B.
-
-
 ### T-USB Data and M.2 Key E Expansion
 
 Data is routed primarily over the two USB-C connectors via the Power Module, but it is also available over the two M.2 Expansion connectors.

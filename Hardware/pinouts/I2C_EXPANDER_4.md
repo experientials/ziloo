@@ -8,7 +8,7 @@ The I2C address is 0x48/0x49 assigned by hardware address pins set to 0b100.
 - Nighttime camera attached sensors
 - 
 
-The EX4 expander input triggers interrupt via STEM_INT.
+The EX4 expander input triggers interrupt via STEM_INT (GPIO1_01).
 
 | Expander  | Pin   | Connected to                |
 |-----------|-------|-----------------------------|

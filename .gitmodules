@@ -1,3 +1,0 @@
-[submodule "Hardware/libs/RPi_Pi_Kicad"]
-	path = Hardware/libs/RPi_Pi_Kicad
-	url = git@github.com:bdubs-astro/Raspberry_Pi_Pico_Kicad_Files.git

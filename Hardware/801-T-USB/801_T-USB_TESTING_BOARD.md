@@ -231,18 +231,18 @@ Upper Power (10 pins)
 
 | Pin | 50 Conn | Code           | Type     | Details                              | Voltage |  Misc      |      |
 |-----|---------|----------------|----------|--------------------------------------|---------|------------|------|
-| 1   | 36  | NIGHT SCL      | I2C      | I2C6 SCL                             |         | P21.2      | GP19 I2C1.   |
-| 2   | 35  | NIGHT SDA      | I2C      | I2C6 SDA                             |         | P21.4      | GP18 I2C1.   |
-| 3   | 18  | SYS I2C SCL    | I2C      |                                      |         | P21.7      | GP15 I2C1.  |
-| 4   | 19  | SYS I2C SDA    | I2C      |                                      |         | P21.5      | GP14 I2C1.  |
-| 5   | 12  | MCU_SYS_INT    | IRQ      | Interrupt signal (GPIO4_IO19)        |         | P21.30  P1.60   |
-| 6   | 20  | VCC_RTC        | Power    | Low power mode supply                | 1.8V    | RTC connector  |
-| 7   | 21  | PWRBTN         | Boot     | Power button trigger                 |         | Direct on power button  |
-| 8   | 22  | ALT_BOOT       | Boot     | Alternate boot                       |         | Direct on alt boot button           |
-| 9   | 23  |QSPI_BOOT_EN_3P3| Boot     | SPI boot                             |         | P21.18     |
-| 10  |     | GND            | Power    | Ground                               |         |            |
-| 11  | 32  | CAN_RX         |          | CAN1_RX                              |         | P21.12     |
-| 12  | 31  | CAN_TX         |          | CAN1_TX                              |         | P21.14     |
+| 1   | 36      | NIGHT SCL      | I2C      | I2C6 SCL                             |         | P21.2      | GP19 I2C1.   |
+| 2   | 35      | NIGHT SDA      | I2C      | I2C6 SDA                             |         | P21.4      | GP18 I2C1.   |
+| 3   | 18      | SYS I2C SCL    | I2C      |                                      |         | P21.7      | GP15 I2C1.  |
+| 4   | 19      | SYS I2C SDA    | I2C      |                                      |         | P21.5      | GP14 I2C1.  |
+| 5   | 12      | MCU_SYS_INT    | IRQ      | Interrupt signal (GPIO4_IO19)        |         | P20.20  P2.67   |
+| 6   | 20      | VCC_RTC        | Power    | Low power mode supply                | 1.8V    | RTC connector  |
+| 7   | 21      | PWRBTN         | Boot     | Power button trigger                 |         | Direct on power button  |
+| 8   | 22      | ALT_BOOT       | Boot     | Alternate boot                       |         | Direct on alt boot button           |
+| 9   | 23      |QSPI_BOOT_EN_3P3| Boot     | SPI boot                             |         | P21.18     |
+| 10  |         | GND            | Power    | Ground                               |         |            |
+| 11  | 32      | CAN_RX         |          | CAN1_RX                              |         | P21.12     |
+| 12  | 31      | CAN_TX         |          | CAN1_TX                              |         | P21.14     |
 
 
 50 pins for PD Controller -> Dev Board P10 (5 pins)

@@ -21,13 +21,16 @@ Components
 
 - 1 * [MEMSIC mCube MC6470](https://mcubemems.com/product/mc6470-6-axis-ecompass/) - [Mouser](https://www.mouser.ch/ProductDetail/MEMSIC/MC6470?qs=u6%2FIMcj1sDuOjN54xX4NKQ%3D%3D)
 - 1 * [IS31FL3730 8x8 matrix output](https://www.mouser.ch/ProductDetail/Lumissil/IS31FL3730-QFLS2-TR)
-- 2 * [PCA9555 I/O Expander HVQFN24 package](https://www.nxp.com/part/PCA9555D)
+- 1 * [MSP430 FR2032 IG56 TSSOP DGG56](https://www.ti.com/product/MSP430FR2032#tech-docs). Inventory 4870 at TO. @1000 $0.766. 52 IO pins, 1 UART/I2C, 1 UART/SPI.
 - 1 * [TXB0108YZPR2 8-Bit Bidirectional Voltage-Level Shifter with Auto Direction Sensing and +/-15-kV ESD Protect 20-DSBGA -40 to 85](https://www.ti.com/store/ti/en/p/product/?p=TXB0108YZPR2) - [Mouser](https://www.mouser.ch/ProductDetail/Texas-Instruments/TXB0108YZPR2?qs=PqoDHHvF64977Sea9xf4wg%3D%3D)
 - ? * [Kingbright APHHS1005SYCK 1mm x 0.5mm yellow](https://www.mouser.ch/ProductDetail/Kingbright/APHHS1005SYCK)
 - [Würth 150040YS73220 1mm x 0.5mm yellow](https://www.mouser.ch/ProductDetail/Wurth-Elektronik/150040YS73220)
+- 3 * [TXS0104EDR 4-Bit Bidirectional Voltage-Level Shifter in stock](https://www.ti.com/product/TXS0104E/part-details/TXS0104EDR?keyMatch=TXS0104EDR&tisearch=search-everything&usecase=GPN)
+
 
 Connectors placed on the board are,
 
+- 2 * [Hirose DF40HC(2.5)-50DS-0.4V tall sockets with 2.5mm clearing]()
 - 2 * [Hirose DF40C-34DS-0.4V](https://www.hirose.com/en/product/p/CL0684-4023-0-51) ([Mouser](https://www.mouser.ch/ProductDetail/Hirose-Connector/DF40C-34DS-04V51?qs=vcbW%252B4%252BSTIpg26DsEbj1iQ%3D%3D))
 - 1 * [TE Connectivity 45PIN 0.3MM 571-4-2328724-5 FPC 3-2328724-5](https://www.te.com/usa-en/product-4-2328724-5.html) $0.41
 - 1 * [Battery clip 2894TR](https://www.keyelco.com/product.cfm/product_id/14479/stepAccess/4610033) - [Mouser](https://www.mouser.ch/ProductDetail/Keystone-Electronics/2894?qs=u16ybLDytRb94n%2F3dXyVLQ%3D%3D) - [Alibaba](https://www.alibaba.com/product-detail/Custom-AAA-Lithium-Coin-Cell-Battery_62567779532.html?spm=a2700.galleryofferlist.normal_offer.d_title.634038883OQveK&s=p)
@@ -45,11 +48,11 @@ Development connectors placed on board are,
 701 components are,
 
 - [SB-UCM-iMX8PLUS](https://www.compulab.com/products/computer-on-modules/ucm-imx8m-plus-nxp-i-mx-8m-plus-som-system-on-module-computer/) System-on-Module
-- 2 * [PCA9555 I/O Expander HVQFN24 package](https://www.nxp.com/part/PCA9555D)
+- 1 * [MSP430 FR2032 IG56 TSSOP DGG56](https://www.ti.com/product/MSP430FR2032#tech-docs). Inventory 4870 at TO. @1000 $0.766. 52 IO pins, 1 UART/I2C, 1 UART/SPI.
 - 2 * [Hirose DF40HC(3.0)-100DS-0.4V](https://www.hirose.com/en/product/p/CL0684-4151-0-51) mated height 3.0mm
 - M.2 key B connector H4.20mm [Amphenol ICC 10128793001RLF](https://www.amphenol-icc.com/pci-express-10128793001rlf.html)
 - M.2 key E connector H4.20mm [Amphenol ICC 10128794001RLF](https://www.amphenol-icc.com/pci-express-10128794001rlf.html)
-
+- [SN74CB3Q3245 8-bit FET](https://www.ti.com/product/SN74CB3Q3245#cad-cae-symbols) - []
 
 Alt Components [not currently used]
 
@@ -227,7 +230,7 @@ https://kicad.github.io/packages3d/
 - GND
 - PWRBTN, ALT_BOOT, QSPI_BOOT_EN_3P3
 - SYS_RST_PMIC, PMIC_ON_REQ, PMIC_STBY_REQ
-- SYS_nINT
+- MCU_SYS_INT
 
 
 ### I2C EEPROM

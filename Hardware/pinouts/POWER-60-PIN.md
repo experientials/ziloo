@@ -33,7 +33,7 @@ default height 1.5mm
 | 11  | VSOM         | Power    | Main power for board 3.45V - 4.5V    |         |
 | 12  | SYS_nINT     | IRQ      | Interrupt signal (GPIO4_IO19)        |      |
 | 13  | EX_OH_nINT   | IRQ      | Interrupt signal (GPIO1_IO0)         |      |
-| 14  | EX_T_nINT    | IRQ      | Interrupt signal (GPIO1_IO1).        |      |
+| 14  | STEM_T_nINT  | IRQ      | Interrupt signal (GPIO1_IO1).        |      |
 | 15  | VSOM         | Power    | Main power for board 3.45V - 4.5V    |         |
 | 16  | SYS_RST_PMIC | Reset    | PMIC reset input pin. Internally pulled up with LDO1 power rail. Once low, PMIC performs reset. |         |
 | 17  | POR_B_3P3    | Reset    | Power On reset output pin. Open drain output requiring external pull up resistor. |    |

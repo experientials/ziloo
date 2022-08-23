@@ -1,7 +1,7 @@
 
 This EX3 Combined T-USB control I/O Expander is placed on T-USB daughterboard and controlled via the Stem I2C.
 The I2C address is 0x46/0x47 assigned by hardware address pins set to 0b011.
-The EX3 expander input triggers interrupt via STEM_INT.
+The EX3 expander input triggers interrupt via STEM_INT (GPIO1_01).
 
 The pins relate to USB1 OTG, USB2 Host, PD Controller
 The EX3 expander allows controlling T-USB maps,

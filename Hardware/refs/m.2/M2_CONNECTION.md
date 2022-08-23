@@ -60,7 +60,7 @@ Notes on the pins:
 
 The RESET# need a pull up with a resistor to 1.8V or 3.3V, it is strongly recommended to put a100pF capacitor and an ESD protection diode close to the RESET# pin. Please refer to the following figure for the recommended reference circuit.
 
-![Reset pin](./RESET_pin.png)
+![Reset pin](../refs/m.2/RESET_pin.png)
 
 
 ### Ziloo Specific Submodule Key B

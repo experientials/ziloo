@@ -11,9 +11,9 @@ This first expander, which is also on the dev. board maps,
 | EX0.0     | IO0_0 mPCIe_PERST on M2 Key B    |
 | EX0.1     | - reserved for second mPCIe -   |
 | EX0.2     | IO0_2 MCU_SYS_INT from T-USB module or other MCUs               |
-| EX0.3     |       |
-| EX0.4     |     |
-| EX0.5     |    |
+| EX0.3     |                       |
+| EX0.4     |                       |
+| EX0.5     |                       |
 | EX0.6     | IO0_6 LVDS_DISP_RESET   |
 | EX0.7     | IO0_7 LVDS_TOUCH_RESET  |
 | EX0.8     | IO1_0 CSI1_PWR_DWN_B  |
