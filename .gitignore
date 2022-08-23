@@ -129,3 +129,9 @@ dmypy.json
 .pyre/
 /Hardware/testing/T-USB-Testing/T-USB-Testing-backups
 /Hardware/testing/T-USB MCU/T-USB MCU-backups
+/Hardware/testing/T-USB-Testing/Faceboard/Faceboard-backups
+
+# KiCAD
+*.kicad_sch-bak
+\#auto_saved_files\#
+fp-info-cache

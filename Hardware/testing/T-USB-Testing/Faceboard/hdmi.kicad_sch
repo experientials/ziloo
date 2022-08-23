@@ -1,0 +1,16 @@
+(kicad_sch (version 20211123) (generator eeschema)
+
+  (uuid 45531c24-7f33-41a7-8804-0a2d7de8fc93)
+
+  (paper "A4")
+
+  (title_block
+    (title "HDMI connector")
+    (date "2022-08-23")
+    (company "Digital Sculptor GmbH")
+  )
+
+  (lib_symbols
+  )
+
+)

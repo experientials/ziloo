@@ -1,0 +1,16 @@
+(kicad_sch (version 20211123) (generator eeschema)
+
+  (uuid 3750150d-9c27-474d-aae5-bcbccaf9d570)
+
+  (paper "A4")
+
+  (title_block
+    (title "Ethernet and SD1")
+    (date "2022-08-23")
+    (company "Digital Sculptor GmbH")
+  )
+
+  (lib_symbols
+  )
+
+)
