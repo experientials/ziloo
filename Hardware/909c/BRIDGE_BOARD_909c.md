@@ -166,19 +166,6 @@ Three expanders are placed on the bridge board and a fourth is on the Power Modu
 :[SYS I2C GPIO Expander 0](../pinouts/I2C_EXPANDER_0.md)
 I/O Expander like Compulab Carrier Board to map Camera interrupts. (SYS I2C)
 
-#### Expander 4
-
-:[SYS I2C GPIO Expander 4](../pinouts/I2C_EXPANDER_4.md)
-I/O Expander to cover m.2 Expander (Stem I2C).
-Some sensor pins not connected.
-
-
-#### Expander 6
-
-:[SYS I2C GPIO Expander 6](../pinouts/I2C_EXPANDER_6.md)
-I/O Expander to cover m.2 Expander (SYS I2C).
-E_* pins are not connected.
-
 
 ### SYS I2C adresses
 

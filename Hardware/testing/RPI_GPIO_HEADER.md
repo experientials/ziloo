@@ -30,3 +30,6 @@ RP UART RX/TX
 
 RP Power on
 RP Bootsel
+
+MSP_SBWTDIO
+MSP_SBWTCK

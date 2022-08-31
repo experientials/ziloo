@@ -8,7 +8,7 @@ It represents the pins of the zimbus plus ECSPI2 from the SoM.
 |  When VSOM fully connected | 3V3       | 1  | 2  | VCC_FULL  | When VSOM fully connected  |
 |                  STEM_SDA  | SDA       | 3  | 4  | VCC_FULL  | When VSOM fully connected |
 |                  STEM_SCL  | SCL       | 5  | 6  | GND       |                      |
-|                   STEM_INT | INT       | 7  | 8  | TxD       | UART1 TxD            |
+|                STEM_T_nINT | INT       | 7  | 8  | TxD       | UART1 TxD            |
 |                            | GND       | 9  | 10 | RxD       | UART1 RxD            |
 |                            |           | 11 | 12 | SWD       | SWDCLK for attached  |
 |     SDIO DAT3 / GPIO2_IO18 | SDIO      | 13 | 14 | SWD       | SWDIO for attached   |

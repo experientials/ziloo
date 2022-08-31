@@ -230,6 +230,7 @@ The EX6 expander input triggers interrupt via SYS_EX_nINT (GPIO4_IO19).
 
 
 - [1-Wire](https://en.wikipedia.org/wiki/1-Wire) - [OneWire implementation for MSP430](https://github.com/dsiroky/OneWire)
+- [A world of possibilities: 5 ways to use MSP430™︎ MCUs in your design](https://e2e.ti.com/blogs_/b/process/posts/a-world-of-possibilities-5-ways-to-use-msp430-mcus-in-your-design)
 - [MSP430 CCS Code Examples](https://github.com/ticepd/msp430-examples)
 - [MoaT owslave](https://github.com/smurfix/owslave)
 - [Three-state logic](https://en.wikipedia.org/wiki/Three-state_logic)
@@ -249,6 +250,7 @@ The EX6 expander input triggers interrupt via SYS_EX_nINT (GPIO4_IO19).
 - [Riot OS with MSP430](https://doc.riot-os.org/group__cpu__msp430__common.html)
 - [Software UART example for MSP430 using mps430-gcc on Linux](https://github.com/wendlers/msp430-softuart)
 - [74HC125 tri-state conversion of 4 signals](http://www.learningaboutelectronics.com/Articles/74HC125-tri-state-buffer-circuit.php)
+- [UART-to-I2C Bridge Using Low-Memory MSP430TM MCUs Application Note](https://www.ti.com/lit/an/slaa908a/slaa908a.pdf)
 
 
 ## Other MSP430 options
@@ -261,3 +263,37 @@ alt SMD package LQFP-64
 [MSP430 FR4132 - Available january](https://www.mouser.ch/ProductDetail/Texas-Instruments/MSP430FR4132IPMR?qs=beZBGHSk9c0mvhrDlLULJA%3D%3D)
 $1.32.
 60 IO.
+
+[MSP430 FR2422 IRHLR](https://www.ti.com/product/MSP430FR2422/part-details/MSP430FR2422IRHLR)
+3.5 x 4.5 x 1 mm
+VQFN/RHL 20 pins
+BSL P1.4 P1.5 (I2C P1.3 P1.2)
+I2C P1.3 P1.2 / P2.6 P2.5
+15 GPIO
+In stock
+8 voltage points
+
+
+[MSP430 FR2476 TRHBR](https://www.ti.com/product/MSP430FR2476/part-details/MSP430FR2476TRHBR)
+5 x 5 x 1 mm
+VQFN/RHB 32 pins
+BSL P1.4 P1.5
+I2C P1.3 P1.2 / P3.6 P3.2
+27 GPIO
+In stock
+12 voltage points (internal reference 1.5,2.0,2.5)
+
+
+[MSP430 G2533 IRHB32R](https://www.ti.com/product/MSP430G2533/part-details/MSP430G2533IRHB32T)
+5 x 5 x 1 mm
+VQFN/RHB 32 pins
+BSL P1.1 P1.5
+I2C P1.6 P1.7
+24 GPIO
+10 voltage points w internal reference (of VCC?)
+
+
+FR2422 in stock - MSP430FR2422IRHLR
+
+G2413 not in stock
+G2453 not in stock

@@ -70,7 +70,7 @@ The M7 core can interface and upgrade parts of the system
 | P20.23 | P2.43   | ~~ENET1_RD1~~       | SD1_DATA3         |
 | P20.25 | P2.45   | ~~ENET1_RD2~~       | OE_SOUND          |
 | P20.27 | P2.47   | ~~ENET1_RD3~~       | OE_CAM            |
-|        | P2.49   |  GPIO2_IO20         |                   |       
+|        | P2.49   |  GPIO2_IO20         | TOUCH_nINT        |       
 | P21.16 | P2.51   | GPIO2_IO19          | SD2_nRST          |       
 | P21.32 | P2.52   | GPIO4_IO20          | PCIE_WAKE_B       |      
 | P20.19 | P2.53   | ~~ENET1_RX_CTL~~    | SAI5_TXFS         |

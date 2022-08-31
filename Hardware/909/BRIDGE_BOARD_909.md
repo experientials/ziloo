@@ -60,28 +60,7 @@ The USB-C connectors can power the carrier board 12V by upregulating, which woul
 
 ## 8.1 Carrier Board Design Guidelines
 
-APPLICATION NOTES from  UCM-iMX8M-Plus Reference guide.
-
-- Ensure that all V_SOM and GND power pins are connected.
-- Major power rails - V_SOM and GND must be implemented by planes, rather than traces. Using at least two planes is essential to ensure the system signal quality because the planes provide a current return path for all interface signals.
-- It is recommended to put several 10/100uF capacitors between V_SOM and GND near the mating connectors.
-- Except for a power connection, no other connection is mandatory for UCM-iMX8M-Plus operation. All power-up circuitry and all required pullups/pulldowns are available onboard UCM-iMX8M-Plus.
-- If for some reason you decide to place an external pullup or pulldown resistor on a certain signal (for example - on the GPIOs), first check the documentation of that signal provided in this manual. Certain signals have on-board pullup/pulldown resistors required for proper initialization. Overriding their values by external components will disable board operation. For details please refer to section Error! Reference source not found..
-- You must be familiar with signal interconnection design rules. There are many sensitive groups of signals. For example:
-- PCIe, Ethernet, USB and more signals must be routed in differential pairs and by a controlled impedance trace.
-- Audio input must be decoupled from possible sources of carrier board noise.
-- The following interfaces should meet the differential impedance requirements with
-manufacturer tolerance of 10%:
-- USB2.0: DP/DM signals require 90 ohm differential impedance.
-- All single-ended signals require 50 ohm impedance.
-- PCIe TX/RX data pairs and PCIe clocks require 85 ohm differential impedance.
-- Ethernet, MIPI-CSI and MIPI-DSI signals require 100 ohm differential impedance.
-- The carrier board interface connectors provide 3mm mating height. Bear in mind that there are components on the bottom side of UCM-iMX8M-Plus. It is not recommended to place any components underneath the UCM-iMX8M-Plus module.
-- Refer to the SB-UCMIMX8PLUS carrier board reference design schematics.
-- It is recommended to send the schematics of the custom carrier board to Compulab
-support team for review.
-
-V_SOM is recommended between 3.45 and 4.4 volt, typical 3.7
+:[UCM Design Guidelines](../refs/Compulab/DESIGN_GUIDELINES.md)
 
 
 ## Connectors
