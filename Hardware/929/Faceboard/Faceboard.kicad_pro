@@ -48,7 +48,13 @@
           "min_clearance": 0.508
         }
       },
-      "diff_pair_dimensions": [],
+      "diff_pair_dimensions": [
+        {
+          "gap": 0.0,
+          "via_gap": 0.0,
+          "width": 0.0
+        }
+      ],
       "drc_exclusions": [],
       "meta": {
         "version": 2
@@ -97,7 +103,7 @@
         "allow_blind_buried_vias": false,
         "allow_microvias": false,
         "max_error": 0.005,
-        "min_clearance": 0.0,
+        "min_clearance": 0.19999999999999998,
         "min_copper_edge_clearance": 0.0,
         "min_hole_clearance": 0.25,
         "min_hole_to_hole": 0.25,
@@ -112,8 +118,15 @@
         "solder_mask_min_width": 0.0,
         "use_height_for_length_calcs": true
       },
-      "track_widths": [],
-      "via_dimensions": [],
+      "track_widths": [
+        0.0
+      ],
+      "via_dimensions": [
+        {
+          "diameter": 0.0,
+          "drill": 0.0
+        }
+      ],
       "zones_allow_external_fillets": false,
       "zones_use_no_outline": true
     },
@@ -420,12 +433,12 @@
       "Camera + Sound Domain"
     ],
     [
-      "f9cba0e3-9eb3-4a2d-82b0-5146fbb0c3ef",
-      "NVMe SSD B+M connected"
-    ],
-    [
       "34eb3b0c-f20c-4c3e-9e0f-a5cee2a226d8",
       "Expander, M.2 and T-USB"
+    ],
+    [
+      "bdbc0a39-72e4-4dfa-9584-d8c033439f07",
+      "Combi Camera"
     ],
     [
       "3c2ea437-a70e-4bf7-84f9-f3e60511581a",

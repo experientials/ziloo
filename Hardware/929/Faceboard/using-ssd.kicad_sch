@@ -469,6 +469,7 @@
     )
   )
 
+
   (junction (at 165.1 134.62) (diameter 0) (color 0 0 0 0)
     (uuid 030e0fab-6d2d-4cc5-b6c0-b28e423cb61b)
   )
@@ -802,7 +803,7 @@
     (property "Value" "CAP" (id 1) (at 203.2 60.9599 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_SMD:C_1210_3225Metric" (id 2) (at 198.12 59.69 0)
+    (property "Footprint" "Capacitor_SMD:C_0402_1005Metric" (id 2) (at 198.12 59.69 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 198.12 59.69 0)
@@ -821,7 +822,7 @@
     (property "Value" "CAP" (id 1) (at 201.93 144.7799 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_SMD:C_1210_3225Metric" (id 2) (at 196.85 143.51 0)
+    (property "Footprint" "Capacitor_SMD:C_0402_1005Metric" (id 2) (at 196.85 143.51 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 196.85 143.51 0)
