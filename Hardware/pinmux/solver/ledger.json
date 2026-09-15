@@ -1,0 +1,63 @@
+[
+  {
+    "config": {
+      "audio_speaker": "sai5",
+      "audio_mic": "sai5",
+      "control_sound": "default",
+      "mcu_control": "i2c4_p20",
+      "sensor_bus": "i2c3",
+      "camera_ctrl": "both"
+    },
+    "objectives": {
+      "pins": 26,
+      "locality": 2,
+      "lanes": 4,
+      "risk": 2,
+      "shifters": 0,
+      "isolation": 1,
+      "sd1": 0
+    },
+    "pareto": true
+  },
+  {
+    "config": {
+      "audio_speaker": "sai5",
+      "audio_mic": "sai5",
+      "control_sound": "default",
+      "mcu_control": "i2c4_p21",
+      "sensor_bus": "i2c3",
+      "camera_ctrl": "both"
+    },
+    "objectives": {
+      "pins": 26,
+      "locality": 2,
+      "lanes": 4,
+      "risk": 2,
+      "shifters": 0,
+      "isolation": 1,
+      "sd1": 0
+    },
+    "pareto": true
+  },
+  {
+    "config": {
+      "audio_speaker": "sai5",
+      "audio_mic": "sai5",
+      "control_sound": "default",
+      "sd1": true,
+      "mcu_control": "i2c4_p21",
+      "sensor_bus": "i2c3",
+      "camera_ctrl": "both"
+    },
+    "objectives": {
+      "pins": 32,
+      "locality": 2,
+      "lanes": 4,
+      "risk": 2,
+      "shifters": 0,
+      "isolation": 1,
+      "sd1": 1
+    },
+    "pareto": false
+  }
+]

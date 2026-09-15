@@ -1,0 +1,102 @@
+# UCM-iMX8M-Plus pin-allocation model (resources · features · constraints · objectives)
+# Method: the `pin-allocation-eval` skill. This is the machine-readable model it operates on.
+# Scope: the CONTESTED region (audio SAI, I2C, SD on the freed ENET1 block + the SAI3/camera region).
+# Extend to the full 100-pin P1/P2 as needed. Capabilities cite the source; unverified = a risk.
+# Non-'E' module (UCM-iMX8PLUS-C1800Q-D1-N16): ENET1 pads are free. SAI pad level = 1.8 V (measured).
+
+meta:
+  board: UCM-iMX8M-Plus / SB-UCM-iMX8Plus carrier
+  sources:
+    RM: "IMX8MPRM.pdf (IOMUXC tables)"
+    guide: "ucm-imx8plus_reference-guide_2021-11-02.pdf (interface + mux tables)"
+    plan: "UCM_iMX8_PIN_ALLOCATIONS.md"
+  level_domains: { NVCC_SAI: "1.8V (measured 2026-09-13 on P20.19)" }
+
+# --- Resources: pad -> {connector pin, SoM pin, level, ALT capabilities} -----------------------
+# alt: interface each mux serves. verified: RM-confirmed | doc-claimed(unverified) | measured.
+resources:
+  # ENET1 block (all break out on P20) — the over-subscribed pads
+  ENET_MDC:    { hdr: P20.15, som: P2.68, level: 1.8V, alts: [SD1_CLK, SAI6_TX_DATA0, I2C5_SCL, GPIO], verified: RM }
+  ENET_MDIO:   { hdr: P20.17, som: P2.70, level: 1.8V, alts: [SD1_CMD, SAI6_TX_SYNC, I2C5_SDA, GPIO], verified: RM }
+  ENET_TD3:    { hdr: P20.28, som: P2.65, level: 1.8V, alts: [SD1_x, SAI6_TX_BCLK, "SAI5_TXD3?"], verified: RM }
+  ENET_TD2:    { hdr: P20.26, som: P2.63, level: 1.8V, alts: [SAI6_RX_DATA0, "SAI5_TXD2?"], verified: RM }
+  ENET_TD1:    { hdr: P20.24, som: P2.61, level: 1.8V, alts: [SD1_DATA0, SAI6_RX_SYNC, I2C6_SCL], verified: RM }
+  ENET_TD0:    { hdr: P20.22, som: P2.59, level: 1.8V, alts: [SD1_DATA1, SAI6_RX_BCLK, I2C6_SDA], verified: RM }
+  ENET_TX_CTL: { hdr: P20.20, som: P2.67, level: 1.8V, alts: [MCU_SYS_INT, SAI6_MCLK], verified: RM }
+  ENET_TXC:    { hdr: P20.30, som: P2.69, level: 1.8V, alts: [SYS_PRG#, SAI7_TX_DATA0], verified: RM }
+  ENET_RX_CTL: { hdr: P20.19, som: P2.53, level: 1.8V, alts: [SAI7_TX_SYNC, "SAI5_TXFS?", GPIO], verified: measured }
+  ENET_RXC:    { hdr: P20.29, som: P2.55, level: 1.8V, alts: [SAI7_TX_BCLK, "SAI5_TXC?"], verified: RM }
+  ENET_RD0:    { hdr: P20.21, som: P2.41, level: 1.8V, alts: [SD1_DATA2, SAI7_RX_DATA0, I2C4_SCL], verified: RM }
+  ENET_RD1:    { hdr: P20.23, som: P2.43, level: 1.8V, alts: [SD1_DATA3, SAI7_RX_SYNC, I2C4_SDA], verified: RM }
+  ENET_RD2:    { hdr: P20.25, som: P2.45, level: 1.8V, alts: [OE_SOUND, SAI7_RX_BCLK], verified: RM }
+  ENET_RD3:    { hdr: P20.27, som: P2.47, level: 1.8V, alts: [OE_CAM, SAI7_MCLK], verified: RM }
+  GPIO4_12:    { hdr: P21.34, som: P2.60, level: 1.8V, alts: ["SAI5_TXD0?"], verified: doc-claimed }
+  ENET_nRST:   { hdr: P20.16, som: P2.76, level: 1.8V, alts: ["SAI5_TXD1?"], verified: doc-claimed }
+  # SAI3-region pads (P21) — the SAI5 RX / mic path (CompuLab-consistent)
+  SAI3_RXD:    { hdr: P21.17, som: P1.28, level: 1.8V, alts: [SAI5_RX_DATA0, I2C5], verified: doc-claimed }
+  SAI3_RXC:    { hdr: P21.19, som: P1.32, level: 1.8V, alts: [SAI5_RXC], verified: doc-claimed }
+  SAI3_RXFS:   { hdr: P21.23, som: P1.34, level: 1.8V, alts: [SAI5_RX_SYNC], verified: doc-claimed }
+  SAI3_MCLK:   { hdr: P21.15, som: P1.30, level: 1.8V, alts: [SAI5_MCLK], verified: doc-claimed }
+  SAI3_TXD:    { hdr: P21.11, som: P1.26, level: 1.8V, alts: [SAI5_RX_DATA3], verified: doc-claimed }
+  SAI3_TXC:    { hdr: P21.13, som: P1.36, level: 1.8V, alts: [SAI5_RX_DATA2], verified: doc-claimed }
+  SAI3_TXFS:   { hdr: P21.21, som: P1.38, level: 1.8V, alts: [SAI5_RX_DATA1], verified: doc-claimed }
+  # I2C controllers reachable on the headers
+  I2C6_pads:   { hdr: "P21.2/.4", som: "P1.87/89", level: 1.8V, alts: [I2C6], verified: guide }
+  I2C5_pads:   { hdr: "P21.1/.3", som: "P1.96/100", level: 1.8V, alts: [I2C5], verified: guide }
+  I2C3_scl:    { hdr: P20.33, som: P1.94, level: 1.8V, alts: [I2C3_SCL], verified: guide }
+  I2C4_native: { hdr: "P21.20/.24", som: "P2.90/91", level: 1.8V, alts: [I2C4, PCIE_CLKREQ, ECSPI2_SS0], verified: guide }
+
+connectors:
+  sound:      { pins: 20, needs: [SAI5_TX(4), SAI5_RX(4), SAI5_MCLK, I2C6, SOUND_INT, power] }
+  camera_x2:  { needs: [I2C5, I2C6, SAI5_RX_DATA0, OE_CAM] }
+  m2_key_b:   { needs: [COEX, PCIE_WAKE, PCIE_CLKREQ] }
+  supervisor: { needs: [UART1, UART3, MCU_SYS_INT, SYS_PRG#, I2C(MCU)] }
+
+# --- Features (wishes) = ATAM scenarios ---------------------------------------------------------
+features:
+  audio_speaker:  { signals: [BCLK, LRCLK, MCLK, "DATA x1..4"], priority: high, stresses: [lane-count, locality] }
+  audio_mic:      { signals: [BCLK, LRCLK, "DATA x1..4"], priority: high, stresses: [locality] }
+  mcu_control:    { signals: [I2C], priority: high, stresses: [fault-isolation] }
+  sensor_bus:     { signals: [I2C], priority: high, stresses: [fault-isolation] }
+  camera_ctrl:    { signals: [I2C5, I2C6], priority: high, stresses: [] }
+  sd1:            { signals: [CLK, CMD, "DATA0..3"], priority: medium, stresses: [pin-count] }
+  hdmi_display:   { signals: [HDMI_TX, DDC, +5V], priority: medium, stresses: [power_domain_purity, onboard_power_budget],
+                    bench: "driven onboard (HDMI-A connector OK)",
+                    product: "OFFLOADED to the USB-C-connected host (DP-alt-mode) — not driven/powered onboard" }
+
+# --- Profiles: the same board, evaluated under different objective weightings -------------------
+profiles:
+  bench:
+    power_in: [12V barrel, 5V USB]
+    logic_domain: "mixed 1.8 / 3.3 / 5 V (eval carrier — anything goes)"
+    hdmi: "onboard OK"
+  product:
+    power_in: [5V USB-C only]
+    rule_1v8: "1V8 EVERYWHERE POSSIBLE (decision 2026-09-14). No 3V3 or 5V on any battery-driven
+      board — EXCEPT: (a) the 5V USB input rail, and (b) connector/module boards that are NOT driven
+      by the battery (plug-in modules with their own or host power). A battery-driven onboard 3V3/5V
+      net is a violation, not a penalty."
+    logic_domain: "PURE 1.8 V on the main (battery) board — all SoC NVCC at 1.8 V; no onboard 3.3 V
+      logic rail; level-shift/DAC/3V3 peripherals move to the plug-in module side."
+    hdmi: "OFFLOADED to the logic plugged in via USB-C (display over DP-alt-mode); not driven/+5V onboard"
+
+# --- Constraints (any valid config must satisfy) ------------------------------------------------
+constraints:
+  - one_function_per_pad
+  - signal_on_capable_pad          # a signal only lands where an alt offers it
+  - level_domain_match             # 1.8V pads to 1.8V devices, or add a shifter (costs an objective)
+  - connector_locality_preferred   # keep a bus on one connector where the feature wants it
+  - fault_isolation                # supervisor(MCU) bus must not share a controller with a wedge-prone peripheral bus
+
+# --- Objectives (score axes; 'max'/'min' = better direction) ------------------------------------
+objectives:
+  pin_count:        { dir: min,  note: "header pins consumed" }
+  locality:         { dir: max,  note: "bus stays on one connector (P20-only ideal)" }
+  level_shifters:   { dir: min,  note: "count of translator ICs needed" }
+  discrete_lanes:   { dir: max,  note: "independent TX data lanes on one SAI" }
+  fault_isolation:  { dir: max,  note: "supervisor reachable if a sensor wedges its bus" }
+  expandability:    { dir: max }
+  bom_cost:         { dir: min }
+  risk:             { dir: min,  note: "unverified mux / verification debt" }
+  power_domain_purity: { dir: max, profile: product, hard: true, note: "1V8 everywhere on battery-driven boards; a battery-driven onboard 3V3/5V net is a VIOLATION (not a soft penalty). 3V3/5V allowed only on the 5V input rail or non-battery connector/module boards." }
+  onboard_power_budget: { dir: min, profile: product, note: "5 V USB-C is the only input; no onboard 12 V / battery-driven peripheral rails; offload HDMI/display + any 3V3 DAC/codec to the USB-C host or plug-in module" }

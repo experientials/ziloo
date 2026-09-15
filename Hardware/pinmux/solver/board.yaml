@@ -1,0 +1,93 @@
+# Formal (machine-readable) model for the CP-SAT validator. The human-readable design docs are
+# ../model.yaml (resources/objectives/profiles) and ../challenges.md. This is the executable spec:
+# pads (with connector + level) and, per feature, the candidate IMPLEMENTATIONS (pad-groups) the
+# solver selects among. Set-packing: pick one impl per required feature, no pad used twice.
+# Scope: the contested region (audio SAI + I2C + SD on the freed ENET1 block + SAI3 mic region).
+
+target: UCM-iMX8M-Plus
+
+# pad -> {conn, level(V)}. Verified capability lives in the feature options (verified: true/false).
+pads:
+  # ENET1 block — all on P20 (16 pads)
+  ENET_MDC:    {conn: P20, level: 1.8}
+  ENET_MDIO:   {conn: P20, level: 1.8}
+  ENET_TD3:    {conn: P20, level: 1.8}
+  ENET_TD2:    {conn: P20, level: 1.8}
+  ENET_TD1:    {conn: P20, level: 1.8}
+  ENET_TD0:    {conn: P20, level: 1.8}
+  ENET_TX_CTL: {conn: P20, level: 1.8}
+  ENET_TXC:    {conn: P20, level: 1.8}
+  ENET_RX_CTL: {conn: P20, level: 1.8}
+  ENET_RXC:    {conn: P20, level: 1.8}
+  ENET_RD0:    {conn: P20, level: 1.8}
+  ENET_RD1:    {conn: P20, level: 1.8}
+  ENET_RD2:    {conn: P20, level: 1.8}
+  ENET_RD3:    {conn: P20, level: 1.8}
+  ENET_nRST:   {conn: P20, level: 1.8}
+  ENET_INT:    {conn: P20, level: 1.8}
+  # off-ENET audio pads (P21)
+  GPIO4_12:    {conn: P21, level: 1.8}
+  SAI3_MCLK:   {conn: P21, level: 1.8}
+  SAI3_RXD:    {conn: P21, level: 1.8}
+  SAI3_RXC:    {conn: P21, level: 1.8}
+  SAI3_RXFS:   {conn: P21, level: 1.8}
+  SAI3_TXD:    {conn: P21, level: 1.8}
+  SAI3_TXC:    {conn: P21, level: 1.8}
+  SAI3_TXFS:   {conn: P21, level: 1.8}
+  # I2C pads
+  I2C3_SCL_P20_33: {conn: P20, level: 1.8}
+  I2C3_SDA_P21_28: {conn: P21, level: 1.8}
+  I2C4_P21_20:     {conn: P21, level: 1.8}
+  I2C4_P21_24:     {conn: P21, level: 1.8}
+  I2C5_P21_1:      {conn: P21, level: 1.8}
+  I2C5_P21_3:      {conn: P21, level: 1.8}
+  I2C6_P21_2:      {conn: P21, level: 1.8}
+  I2C6_P21_4:      {conn: P21, level: 1.8}
+
+# features -> {required, audio?, options:[{id, pads, lanes, verified, note}]}
+# lanes: independent TX/RX data lanes (objective). verified:false => a `risk` (unconfirmed mux).
+features:
+  audio_speaker:
+    required: true
+    audio: true
+    options:
+      - {id: sai5, verified: false, lanes: 4, pads: [ENET_RXC, ENET_RX_CTL, ENET_TD2, ENET_TD3, ENET_nRST, GPIO4_12, SAI3_MCLK]}
+      - {id: sai7, verified: true,  lanes: 1, pads: [ENET_RXC, ENET_RX_CTL, ENET_TXC, ENET_RD3]}
+      - {id: sai6, verified: true,  lanes: 1, pads: [ENET_TD3, ENET_MDIO, ENET_MDC, ENET_TX_CTL]}
+  audio_mic:
+    required: true
+    audio: true
+    options:
+      - {id: sai5, verified: false, lanes: 4, pads: [SAI3_RXC, SAI3_RXFS, SAI3_RXD, SAI3_TXFS, SAI3_TXC, SAI3_TXD]}
+      - {id: sai7, verified: true,  lanes: 1, pads: [ENET_RD2, ENET_RD1, ENET_RD0]}   # SAI7 RX on ENET RD*
+  control_sound:   # OE_SOUND / OE_CAM / MCU_SYS_INT / SYS_PRG# / COEX
+    required: true
+    options:
+      - {id: default, verified: true, lanes: 0, pads: [ENET_RD2, ENET_RD3, ENET_TX_CTL, ENET_TXC, ENET_INT]}
+  sd1:             # second SD/eMMC — optional
+    required: false
+    options:
+      - {id: on, verified: true, lanes: 0, pads: [ENET_MDC, ENET_MDIO, ENET_TD0, ENET_TD1, ENET_RD0, ENET_RD1]}
+  mcu_control:     # supervisor I2C bus (fault-isolated)
+    required: true
+    options:
+      - {id: i2c4_p21, verified: true, lanes: 0, pads: [I2C4_P21_20, I2C4_P21_24], note: "collides PCIe/ECSPI2 (not modelled)"}
+      - {id: i2c4_p20, verified: true, lanes: 0, pads: [ENET_RD0, ENET_RD1]}
+  sensor_bus:      # sensor I2C bus
+    required: true
+    options:
+      - {id: i2c3, verified: true, lanes: 0, pads: [I2C3_SCL_P20_33, I2C3_SDA_P21_28]}
+  camera_ctrl:
+    required: true
+    options:
+      - {id: both, verified: true, lanes: 0, pads: [I2C5_P21_1, I2C5_P21_3, I2C6_P21_2, I2C6_P21_4]}
+
+# The current plan, as one selection (validated + used as Pugh datum).
+baseline:
+  audio_speaker: sai5
+  audio_mic: sai5
+  control_sound: default
+  sd1: on
+  mcu_control: i2c4_p21
+  sensor_bus: i2c3
+  camera_ctrl: both

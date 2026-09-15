@@ -1,0 +1,149 @@
+# CANONICAL pin-allocation source of truth (UCM-iMX8M-Plus / SB-UCM carrier).
+# Humans + tools consume THIS; Markdown tables, cable lists and solver model are GENERATED from it
+# (render.py / Makefile). Cross-checked by check.py. Level defaults to 1.8 V.
+# Fields: som · func · dest · alts · verified · level · pad · tags
+# `tags` are cross-cutting facets (see tag_vocab). check.py rejects tags not in the vocab.
+
+meta:
+  board: UCM-iMX8M-Plus / SB-UCM-iMX8Plus
+  module: UCM-iMX8PLUS-C1800Q-D1-N16 (non-'E')
+  default_level: 1.8
+  # Ground-truth cross-check (check.py K-series): compare this MODEL against the drawn KiCad
+  # schematic. Drift here is expected during design (board may lead/lag the plan) → warnings, not
+  # errors. Skipped silently if schematic_dir is absent.
+  kicad:
+    schematic_dir: "../929/Faceboard"  # relative to pinmux/
+    sound_connector: "20DS"            # DF40 size the sound path is *planned* to use (BOM/docs)
+    audio_net_prefix: "SAI5"           # audio bus family expected on the board
+
+# Controlled tag vocabulary (facets). Add here first, then use on pins.
+tag_vocab:
+  iface:  [audio, i2c, uart, can, sd, spi, pwm, hdmi, pcie, m2, gpio, power, reset, ethernet]
+  bus:    [sai5, sai3, i2c3, i2c4, i2c5, i2c6, can1, can2, sd1, sd2, ecspi2, uart1, uart2, uart3, uart4]
+  role:   [speaker, mic, bclk, lrclk, mclk, clk, data, sync, enable, int, prog, console, pwr-ctrl, gnd, rail, reserved]
+  sys:    [sound, camera, supervisor, sensors, m2keyb, debug]
+  volt:   [v1p8, v3p3, v5]
+  status: [measured, tentative, unverified]
+  profile: [product, bench]
+
+connectors:
+  P20: {desc: "2x17 0.1in expansion header", pins: 34, power: "5V / 3V3 / GND (unlisted pins)"}
+  P21: {desc: "2x17 0.1in expansion header", pins: 34}
+  P10: {desc: "2x5 power/reset/system-control (DR10SM)", pins: 10, note: "pin order tentative — verify sheet 6"}
+
+# Connector registry — first-class connectors beyond the P20/P21/P10 headers.
+# `status`: given (vendor-fixed, not our design) · placed (drawn in KiCad) · draft (planned, may change).
+# Detailed far-side pinouts live in the linked `pinout:` doc (single source) — here we track identity,
+# keying, wiring summary (how it connects to the SoM), level domain, and status. check.py K4 audits these.
+connector_registry:
+  M2_CARRIER_SBUCM:
+    name: "SB-UCM eval-carrier M.2 (P9)"
+    board: sb-ucm-imx8plus-carrier
+    role: m2_socket
+    keying: B
+    positions: 67
+    status: given                       # CompuLab-fixed; not our design to change
+    purpose: "Modem / SSD"
+    part: "CompuLab carrier ref P9 (M.2 B-key)"
+    source: "sb-ucm-imx8plus_bom_1v1; ucm-dev hardware-reference.md"
+    level: "3.3V (M.2 standard)"
+    connects: "SoM PCIe x1 (modem) + SATA/SDIO (SSD) + USB per CompuLab carrier design"
+  M2_929_KEYB:
+    name: "929 Faceboard M.2 Key B"
+    board: 929-faceboard
+    role: m2_socket
+    keying: B
+    positions: 67                        # M.2 standard; pinout doc numbers 1–75 with gaps
+    status: placed
+    purpose: "WWAN/LoRa/SIM + Key-M storage (SD2) + I2S audio (SAI5) + PCIe"
+    part: "Amphenol 10128793-001RLF"
+    pinout: "../pinouts/M2_KEY_B_CONNECTOR.md"
+    kicad: "929/Faceboard/m2-key-b.kicad_sch"
+    level: "mixed 1.8/3.3 — TXS0104 shifters + SN74CB3Q3245 bus switch (challenge C5)"
+    connects: "SoM via P20/P21 — SAI5 I2S spk+mic (TXC/TXFS/TXD0/RXFS/RXD0), SD2 Key-M
+      (DATA0-3/CMD/CLK), PCIe (RXN±/TXN±/REFCLK±/CLKREQ/WAKE/PERST), USB2 D±, USB3 SSTX/SSRX±,
+      I2C3 (GNSS/STEM), UART2 (COEX/LoRa/debug)"
+    som_signals: [SAI5_TXC, SAI5_TXFS, SAI5_TXD0, SAI5_RXFS, SAI5_RXD0, SD2_x, PCIE_x,
+                  USB2, USB3, I2C3, UART2]
+  M2_PRODUCT:
+    name: "Product M.2 (planned)"
+    board: product
+    role: m2_socket
+    keying: B                           # CURRENT PLAN — mirrors the 929 Key B
+    keying_status: TBD                  # type NOT finalized; may change (B / E / M)
+    positions: 67
+    status: draft
+    purpose: "current plan = Key B (WWAN/LoRa/SIM + storage); type not locked"
+    pinout: "../pinouts/M2_KEY_B_CONNECTOR.md"
+    alternatives: "Key E (WiFi/BT WNFB-266XI over SD1/UART2) — ../pinouts/M2_KEY_E_CONNECTOR.md"
+    note: "DRAFT — keying B/E/M undecided; current plan follows the 929 Key B. Revisit before layout."
+
+pins:
+  # --- P20 ---
+  P20.1:  {som: P1.74, func: UART2_TXD, dest: "Debug console (A53)", tags: [uart, uart2, console, debug]}
+  P20.2:  {som: P1.61, func: UART3_TXD, dest: "Supervisor (MSP430 prog)", tags: [uart, uart3, prog, supervisor]}
+  P20.3:  {som: P1.76, func: UART2_RXD, dest: "Debug console (A53)", tags: [uart, uart2, console, debug]}
+  P20.4:  {som: P1.21, func: UART3_RXD, dest: "Supervisor (MSP430 prog)", tags: [uart, uart3, prog, supervisor]}
+  P20.5:  {som: P1.77, func: PWM1_OUT, dest: "expansion / GPIO", tags: [pwm, gpio]}
+  P20.8:  {som: P1.86, func: UART4_TXD, dest: "Debug console (M7)", tags: [uart, uart4, console, debug]}
+  P20.9:  {som: P1.72, func: UART1_TXD, dest: "Supervisor (MSP430 prog)", tags: [uart, uart1, prog, supervisor]}
+  P20.10: {som: P1.84, func: UART4_RXD, dest: "Debug console (M7)", tags: [uart, uart4, console, debug]}
+  P20.11: {som: P1.19, func: UART1_RXD, dest: "Supervisor (MSP430 prog)", tags: [uart, uart1, prog, supervisor]}
+  P20.12: {som: P1.59, func: SOUND_INT, dest: "Sound p19", pad: GPIO1_IO00, tags: [gpio, int, sound]}
+  P20.13: {som: P2.62, func: SD1_RESET_B, dest: "SD1", pad: GPIO2_IO10, alts: [I2C3_SCL], tags: [sd, sd1, reset]}
+  P20.14: {som: P1.98, func: STEM_INT, dest: "Supervisor / STEM", pad: GPIO1_IO01, tags: [gpio, int, supervisor]}
+  P20.15: {som: P2.68, func: SD1_CLK, dest: "SD1", pad: ENET_MDC, alts: [SAI6_TX_DATA0, I2C5_SCL], tags: [sd, sd1, clk]}
+  P20.16: {som: P2.76, func: SAI5_TXD1, dest: "Sound p6", pad: ENET_nRST, tags: [audio, sai5, speaker, data, sound]}
+  P20.17: {som: P2.70, func: SD1_CMD, dest: "SD1", pad: ENET_MDIO, alts: [SAI6_TX_SYNC, I2C5_SDA], tags: [sd, sd1]}
+  P20.18: {som: P2.88, func: COEX, dest: "M.2 Key B", pad: ENET_INT, tags: [m2, m2keyb]}
+  P20.19: {som: P2.53, func: SAI5_TXFS, dest: "Sound p4", pad: ENET_RX_CTL, alts: [SAI7_TX_SYNC], verified: measured, tags: [audio, sai5, speaker, lrclk, sound, measured]}
+  P20.20: {som: P2.67, func: MCU_SYS_INT, dest: "Supervisor", pad: ENET_TX_CTL, alts: [SAI6_MCLK], tags: [gpio, int, supervisor]}
+  P20.21: {som: P2.41, func: SD1_DATA2, dest: "SD1", pad: ENET_RD0, alts: [I2C4_SCL, SAI7_RX_DATA0], tags: [sd, sd1, data]}
+  P20.22: {som: P2.59, func: SD1_DATA1, dest: "SD1", pad: ENET_TD0, alts: [SAI6_RX_BCLK], tags: [sd, sd1, data]}
+  P20.23: {som: P2.43, func: SD1_DATA3, dest: "SD1", pad: ENET_RD1, alts: [I2C4_SDA, SAI7_RX_SYNC], tags: [sd, sd1, data]}
+  P20.24: {som: P2.61, func: SD1_DATA0, dest: "SD1", pad: ENET_TD1, alts: [SAI6_RX_SYNC], tags: [sd, sd1, data]}
+  P20.25: {som: P2.45, func: OE_SOUND, dest: "Sound (bus enable)", pad: ENET_RD2, alts: [SAI7_RX_BCLK], tags: [gpio, enable, sound]}
+  P20.26: {som: P2.63, func: SAI5_TXD2, dest: "Sound p7", pad: ENET_TD2, alts: [SAI6_RX_DATA0], tags: [audio, sai5, speaker, data, sound]}
+  P20.27: {som: P2.47, func: OE_CAM, dest: "Camera (bus enable)", pad: ENET_RD3, alts: [SAI7_MCLK], tags: [gpio, enable, camera]}
+  P20.28: {som: P2.65, func: SAI5_TXD3, dest: "Sound p8", pad: ENET_TD3, alts: [SAI6_TX_BCLK], tags: [audio, sai5, speaker, data, sound]}
+  P20.29: {som: P2.55, func: SAI5_TXC, dest: "Sound p3", pad: ENET_RXC, alts: [SAI7_TX_BCLK], tags: [audio, sai5, speaker, bclk, sound]}
+  P20.30: {som: P2.69, func: SYS_PRG#, dest: "Supervisor", pad: ENET_TXC, alts: [SAI7_TX_DATA0], tags: [gpio, prog, supervisor]}
+  P20.33: {som: P1.94, func: I2C3_SCL, dest: "Sensors", tags: [i2c, i2c3, sensors]}
+  # --- P21 ---
+  P21.1:  {som: P1.96, func: I2C5_SDA, dest: "Camera (CSI1)", alts: [SAI5_MCLK], tags: [i2c, i2c5, camera]}
+  P21.2:  {som: P1.87, func: I2C6_SCL, dest: "Sound p17 + Camera (CSI2)", alts: [SAI5_RXFS], tags: [i2c, i2c6, camera, sound]}
+  P21.3:  {som: P1.100, func: I2C5_SCL, dest: "Camera (CSI1)", alts: [SAI5_RXD0], tags: [i2c, i2c5, camera]}
+  P21.4:  {som: P1.89, func: I2C6_SDA, dest: "Sound p18 + Camera (CSI2)", alts: [SAI5_RXC], tags: [i2c, i2c6, camera, sound]}
+  P21.8:  {som: P1.33, func: CAN2_TX, dest: "CAN2", tags: [can, can2]}
+  P21.10: {som: P1.49, func: CAN2_RX, dest: "CAN2", tags: [can, can2]}
+  P21.11: {som: P1.26, func: SAI5_RX_DATA3, dest: "Sound p16", pad: SAI3_TXD, tags: [audio, sai5, mic, data, sound]}
+  P21.12: {som: P1.51, func: CAN1_RX, dest: "CAN1", tags: [can, can1]}
+  P21.13: {som: P1.36, func: SAI5_RX_DATA2, dest: "Sound p15", pad: SAI3_TXC, tags: [audio, sai5, mic, data, sound]}
+  P21.14: {som: P1.53, func: CAN1_TX, dest: "CAN1", tags: [can, can1]}
+  P21.15: {som: P1.30, func: SAI5_MCLK, dest: "Sound p2", pad: SAI3_MCLK, tags: [audio, sai5, mclk, sound]}
+  P21.16: {som: P2.51, func: SD2_nRST, dest: "SD2", pad: GPIO2_IO19, tags: [sd, sd2, reset]}
+  P21.17: {som: P1.28, func: SAI5_RX_DATA0, dest: "Sound p13 + Camera (mic lane)", pad: SAI3_RXD, tags: [audio, sai5, mic, data, sound, camera]}
+  P21.19: {som: P1.32, func: SAI5_RXC, dest: "Sound p11", pad: SAI3_RXC, tags: [audio, sai5, mic, bclk, sound]}
+  P21.20: {som: P2.90, func: PCIE_CLKREQ_B, dest: "M.2 Key B", alts: [I2C4_SCL], tags: [pcie, m2keyb]}
+  P21.21: {som: P1.38, func: SAI5_RX_DATA1, dest: "Sound p14", pad: SAI3_TXFS, tags: [audio, sai5, mic, data, sound]}
+  P21.22: {som: P2.89, func: ECSPI2_MISO, dest: "Sound (future/expanded)", alts: [I2C4_SCL, SAI7_MCLK], tags: [spi, ecspi2]}
+  P21.23: {som: P1.34, func: SAI5_RX_SYNC, dest: "Sound p12", pad: SAI3_RXFS, tags: [audio, sai5, mic, lrclk, sound]}
+  P21.24: {som: P2.91, func: ECSPI2_SS0, dest: "Sound (future/expanded)", alts: [I2C4_SDA], tags: [spi, ecspi2]}
+  P21.26: {som: P2.93, func: ECSPI2_SCLK, dest: "Sound (future/expanded)", alts: [I2C3_SCL, SAI7_TXC], tags: [spi, ecspi2]}
+  P21.27: {som: P2.77, func: ENET_TD2_BYPASS, dest: "(Ethernet bypass)", tags: [ethernet]}
+  P21.28: {som: P2.95, func: ECSPI2_MOSI, dest: "Sound (future/expanded)", alts: [I2C3_SDA, SAI7_TXD0], tags: [spi, ecspi2]}
+  P21.29: {som: P1.70, func: HDMI_DDC_SCL, dest: "HDMI", alts: [I2C5_SCL], tags: [hdmi, i2c]}
+  P21.31: {som: P1.63, func: HDMI_DDC_SDA, dest: "HDMI", alts: [I2C5_SDA], tags: [hdmi, i2c]}
+  P21.32: {som: P2.52, func: PCIE_WAKE_B, dest: "M.2 Key B", pad: GPIO4_IO20, tags: [pcie, m2keyb]}
+  P21.34: {som: P2.60, func: SAI5_TXD0, dest: "Sound p5", pad: GPIO4_12, tags: [audio, sai5, speaker, data, sound]}
+  # --- P10 (power/reset/system-control; pin order tentative) ---
+  P10.1:  {func: 3V3_PER, dest: "power", tags: [power, rail, v3p3]}
+  P10.2:  {func: 1V8_PER, dest: "power (1.8 V rail — usable for SPH0645 mic)", tags: [power, rail, v1p8]}
+  P10.3:  {som: P1.66, func: PMIC_STBY_REQ, dest: "power control", tags: [power, pwr-ctrl]}
+  P10.4:  {func: PHY_IV5, dest: "Ethernet PHY ('E' option; unused non-'E')", tags: [ethernet, power]}
+  P10.5:  {som: P1.68, func: PMIC_ON_REQ, dest: "power control (ONOFF)", tags: [power, pwr-ctrl]}
+  P10.6:  {func: RESERVED1, dest: "reserved", tags: [reserved]}
+  P10.7:  {func: POR_B_3P3, dest: "reset (PCA9450 POR_B)", tags: [reset]}
+  P10.8:  {func: RESERVED2, dest: "reserved", tags: [reserved]}
+  P10.9:  {som: P1.2, func: SYS_RST_PMIC, dest: "reset (global)", tags: [reset]}
+  P10.10: {func: GND, dest: "power", tags: [power, gnd]}

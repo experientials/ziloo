@@ -1,0 +1,4 @@
+.venv/
+solver/.venv/
+__pycache__/
+*.pyc

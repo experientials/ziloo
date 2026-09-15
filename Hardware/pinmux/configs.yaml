@@ -1,0 +1,42 @@
+# Configurations: the baseline (current plan) + candidate allocations.
+# Each config assigns features -> pads/buses. Method: `pin-allocation-eval` skill. Score in challenges.md.
+
+baseline:   # = the current product plan (UCM_iMX8_PIN_ALLOCATIONS.md)
+  name: current-plan (SAI5)
+  assignments:
+    audio_speaker:  { sai: SAI5, pads: [ENET_RXC=TXC, ENET_RX_CTL=TXFS, GPIO4_12=TXD0, ENET_nRST=TXD1, ENET_TD2=TXD2, ENET_TD3=TXD3, SAI3_MCLK=MCLK], where: "P20 (+ P21.34, P21.15)" }
+    audio_mic:      { sai: SAI5, pads: [SAI3_RXC, SAI3_RXFS, SAI3_RXD, SAI3_TXFS, SAI3_TXC, SAI3_TXD, SAI3_MCLK], where: P21 }
+    camera_ctrl:    { buses: [I2C5, I2C6], where: P21 }
+    mcu_control:    { bus: I2C4, where: "P21.20/.24 (native)" }
+    sensor_bus:     { bus: I2C3, where: "P20.33 + routed SDA" }
+    sd1:            { pads: [ENET_MDC, ENET_MDIO, ENET_TD0, ENET_TD1, ENET_RD0, ENET_RD1], where: P20 }
+  notes: >
+    Over-subscribed: SD1 and SAI5-TX both claim ENET pads (ENET_TD2/TD3 want SAI5_TXD2/3 AND
+    ENET_TD0/1/RD0/1 want SD1) — infeasible as written unless SD1 is dropped or trimmed.
+    SAI5_TX-on-ENET is doc-claimed, not RM-verified (risk).
+
+candidates:
+  - name: cand-A · SAI6/7 P20-only, drop SD1
+    from: baseline
+    changes:
+      audio_speaker: { sai: SAI7, pads: [ENET_RXC=BCLK, ENET_RX_CTL=LRCLK, ENET_TXC=DATA0, ENET_RD3=MCLK], where: P20 }
+      audio_mic:     { sai: SAI7, pads: [ENET_RD2=BCLK, ENET_RD1=LRCLK, ENET_RD0=DATA0], where: P20 }
+      sd1:           dropped
+      mcu_control:   { bus: I2C4, where: "P20.21/.23 (freed by dropping SD1)" }
+    gains: [locality (audio P20-only), risk (RM-verified mux), fault-isolation kept]
+    loses: [discrete_lanes (1 TX lane/SAI vs 4), sd1 feature, pin plan churn]
+
+  - name: cand-B · keep SAI5, drop SD1 to resolve contention
+    from: baseline
+    changes:
+      sd1: dropped
+    gains: [feasibility (removes the ENET over-subscription), discrete_lanes kept (4)]
+    loses: [sd1 feature]
+    open: "still depends on unverified SAI5_TX-on-ENET mux"
+
+  - name: cand-C · SAI6 early-bench (speaker only, MAX98357A)
+    from: baseline
+    changes:
+      audio_speaker: { sai: SAI6, pads: [ENET_TD3=BCLK, ENET_MDIO=LRCLK, ENET_MDC=DATA0], where: P20 }
+      audio_mic:     deferred
+    purpose: "not a product config — the RM-verified, easy-to-wire bring-up path"

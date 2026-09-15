@@ -1,0 +1,2 @@
+ortools>=9.8
+pyyaml>=6
