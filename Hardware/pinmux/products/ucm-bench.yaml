@@ -1,0 +1,28 @@
+# PRODUCT — UCM bench prototype. The SoM module installed on the SB-UCM eval carrier.
+# Sound/camera/etc. exit on the P20/P21 headers and are HAND-CABLED to breakouts (the `dest`
+# fields on the carrier pins name the intended cable targets). No on-board DF40 media connector.
+kind: product
+name: UCM bench prototype
+modules: [ucm-imx8mp]
+boards:  [sb-ucm-carrier]
+# A hand-built daughter module can be added here later as another board/module.
+# No `kicad:` — the CompuLab carrier schematic isn't in this repo, so K-checks skip for this product.
+
+# Spare/available bench resources beyond the allocated P20/P21 signals — and how to use them.
+# (Documentation; the loader ignores this block.)
+bench_resources:
+  m2_p9:       "M.2 Key-B slot: USB2 + USB3(muxed) + PCIe x1 + nanoSIM. Plug a Key-B WiFi/BT/LTE
+                card or SSD to prototype wireless/storage NOW — this is how to de-risk the
+                M2_PRODUCT keying + SD1-drop decision (prove USB/PCIe wireless suffices)."
+  gmsl_j9_j12: "NOT USED (decision 2026-09-15). The carrier's GMSL FAKRA coax path (J9-J12 → MAX9286)
+                needs expensive matching GMSL1-serializer cameras; generic/analog coax cameras are
+                incompatible. Cameras go via direct MIPI-CSI (CSI2_SELECTOR mux in MIPI mode) instead."
+  jtag_p7:     "Hardware debug/reset: openocd + J-Link (adaptive VTref on P7.2). SoC reset via the
+                probe's nSRST (diode-OR'd into SYS_RST_PMIC). Use when the console isn't enough."
+  flexspi_boot: "Boot-mode override header — force flash/alt boot for recovery/testing."
+  spare_mux:   "Unused ALT muxes on allocated pins (see each pin's `alts`): I2C4/5/6, SAI6/7, SPDIF,
+                extra PWM/GPIO — remux a header pin for a different bus during bring-up."
+  power_rails: "Header rails to power breakouts: 5V0_PER (P20.6), 3V3_PER, 1V8_PER (P10.1/.2).
+                Power the SPH0645 mic + MAX98357A amp at 1V8 off P10.2 for audio bring-up."
+  audio_path:  "SAI5 spk+mic already broken out on P20/P21 (dest 'Sound pN') — hand-cable to the
+                MAX98357A / SPH0645 breakouts for the audio-out/in bring-up task."

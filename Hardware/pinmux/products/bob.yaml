@@ -1,0 +1,27 @@
+# PRODUCT — Bob (929). The SoM module installed on the 929 Faceboard (a DIFFERENT host board from
+# the bench carrier). This is the stack with the DF40 media/sound connectors, the level shifters,
+# and the M.2 Key B — validated against the 929 KiCad by the K-series checks.
+kind: product
+name: Bob (929)
+modules: [ucm-imx8mp]
+boards:  [929-faceboard]
+
+# Ground-truth cross-check (check.py K-series) runs against this product's KiCad.
+kicad:
+  schematic_dir: "../929/Faceboard"   # relative to pinmux/
+  sound_connector: "20DS"             # DF40 size the sound path is *planned* to use (BOM/docs)
+  audio_net_prefix: "SAI5"            # audio bus family expected on the board
+
+# The product's own M.2 (draft) — distinct from the placed 929 Key B; keying not yet locked.
+connector_registry:
+  M2_PRODUCT:
+    name: "Product M.2 (planned)"
+    role: m2_socket
+    keying: B                           # CURRENT PLAN — mirrors the 929 Key B
+    keying_status: TBD                  # type NOT finalized; may change (B / E / M)
+    positions: 67
+    status: draft
+    purpose: "current plan = Key B (WWAN/LoRa/SIM + storage); type not locked"
+    pinout: "../pinouts/M2_KEY_B_CONNECTOR.md"
+    alternatives: "Key E (WiFi/BT WNFB-266XI over SD1/UART2) — ../pinouts/M2_KEY_E_CONNECTOR.md"
+    note: "DRAFT — keying B/E/M undecided; current plan follows the 929 Key B. Revisit before layout."

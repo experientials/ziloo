@@ -159,12 +159,109 @@ All ENET pads break out on **P20**, and SAI6+SAI7 (both TX and RX) live entirely
 does not. (Header power measured on P20: **5V, 3V3, GND — no 1.8V**.)
 
 ### Amp selection
-- **Bench (SAI6, early test):** on-hand **MAX98357A** direct — V_IH ~1.4V takes 1.8V I²S with **no
+- **Bench (SAI6, early test):** on-hand **MAX98357A** direct — takes 1.8V I²S with **no
   level shifter, no MCLK**. Wiring (all ALT2): BCLK→**P20.28**, LRC→**P20.17**, DIN→**P20.15**,
   VIN→5V/3V3, GND. Stereo = 2× (each strapped L/R via SD).
+
+### MAX98357A — verified electrical facts (datasheet-sourced)
+Source: **`talkihw/Power Module/datasheets/MAX98357A-MAX98357B.pdf`**, Electrical Characteristics
+(table header **VDD = 5V**) and §*SD_MODE and Shutdown Operation*. Verified 2026-09-15 (not recall).
+- **VIN = 5V is safe for the 1.8V I²S pins.** `VIH = 1.3V min` for the digital audio inputs — a
+  **fixed** threshold spec'd at VDD = 5V, *not* a fraction of VDD — so 1.8V reads as logic-high with
+  ~0.5V margin regardless of VDD (VIL = 0.6V max). Inputs are high-Z (leakage ±1µA @ VDD = 5.5V), so
+  the amp **cannot back-drive 5V** onto the SoC; its only outputs are OUT± → speaker. VDD range
+  2.5–5.5V; abs-max on VDD/LRCLK/BCLK/DIN = −0.3 to +6V. Only hazard is a *wiring slip* (VIN/SD wire
+  onto a 1.8V pin) — meter continuity VIN↔each signal = open before power-on. **3.3V VIN** (P20 3V3_PER)
+  is the lower-risk first-try (still ~1.3W/4Ω).  *(Corrected: earlier "~1.4V" recall → datasheet 1.3V.)*
+- **SD_MODE does enable AND channel-select** (Table 5): `>1.4V`=Left, `0.77–1.4V`=Right,
+  `0.16–0.77V`=(L/2+R/2), `<0.16V`=Shutdown (**0.6µA**, vs 340–400µA standby). Trip points B2=1.4V,
+  B1=0.77V, B0=0.16V typ. To keep channel-select while gating, use the **open-drain** driver
+  (Figure 4): pull-up resistor to VDDIO sets the channel, GPIO pulls **low = shutdown / release =
+  on**. 1.8V-VDDIO resistor values: RSMALL 69.8kΩ (Right), RLARGE 300kΩ (L/2+R/2) — Table 6.
+  Push-pull high (Figure 5) forces Left-only.
+
+### Production SD_MODE / amp-enable ownership — OPEN decision (2026-09-16)
+Question (Henrik): drive SD from an **MSP430** enable line in production? Analysis:
+- **For:** the always-on supervisor can force true **0.6µA shutdown** during deep-sleep / SoC-hang —
+  a fail-safe the SoC can't give when it's the thing asleep/wedged (datasheet ISHDN 0.6µA vs ISTNDBY
+  340–400µA).
+- **Against / caveats:** (1) SD also selects the channel → must use **open-drain** (Fig 4) to keep
+  both; (2) it **collides with the current plan** — `pins.yaml`/`sb-ucm-carrier` route the sound
+  enable via **`OE_SOUND` (P20.25, som P2.45 = i.MX GPIO)**, not the MSP430; (3) enable must be
+  **sequenced with the I²S clocks** to avoid pops (datasheet Startup §/Fig 6), and the i.MX owns those
+  clocks → SoC↔MSP430 coordination cost.
+- **Recommendation (not locked):** SoC drives SD for normal pop-free per-stream mute; **MSP430 holds
+  a parallel open-drain override** (or gates the amp power rail) purely for sleep/fault power-off.
+  Decide before the product amp choice — if an I²C smart-amp (TAS2780/TAS5805M) is used, enable/mute
+  moves to I²C and this changes.
 - **Product:** prefer an amp with a **1.8V IOVDD/DVDD** pin so the bus stays 1.8V native and the
   TXS0104 shifters can be **deleted**: **TAS5805M** (stereo 23W, I²C+DSP), **TAS2780/2770** (mono
   smart amp), or **ES8311** (codec+amp, if a mic is also wanted).
+
+## Sound-enable topology (OE_SOUND) — Bob / Ziloo planning
+`OE_SOUND` is currently modeled as **one** GPIO (`pinmux`: P20.25, som **P2.45** = i.MX GPIO, tag
+`enable/sound`). That is almost certainly **too simple** — "enable sound" is several concerns with
+different owners, timing, and fail-safe needs. Plan the enable topology **before the SOUND connector
+pinout freezes**, because the number and source of enable pins is architecture-dependent and the
+20-pin connector is already full (signals 2–19, power 1/9/10/20 — `pinouts/SOUND_CONNECTOR.md`).
+
+### 1. What actually needs enabling (enumerate — don't collapse into one net)
+| Thing | How it's enabled | Owner tendency |
+|---|---|---|
+| **Speaker amp(s)** | MAX98357A `SD_MODE` = shutdown **and** channel-select (datasheet Table 5: `<0.16V`=off **0.6µA**, else L/R/½+½). Smart-amp (TAS2780/TAS5805M) = **I²C** enable/mute. | functional → i.MX; power → MSP430 |
+| **Mic(s)** | SPH0645 has **no enable pin** — gate its **VDD rail** (I/O tracks VDD). | power → MSP430 |
+| **Level shifter OE** | only if shifters survive (product aims 1.8V-native to delete them); TXS/TXU have an `OE`. | whoever owns the domain |
+| **Module power rail** | a master rail gate for the whole sound module — the **biggest power lever**. | MSP430 (supervisor) |
+
+### 2. Two enable authorities — why it takes pins from BOTH i.MX and MSP430
+- **i.MX (functional):** per-stream mute/enable + channel select, **sequenced with the SAI clocks**
+  to avoid pops (MAX98357A Startup §). Low-latency, per-use. Owns `SD`/mute.
+- **MSP430 (supervisor, always-on):** **power + fail-safe** — force true **0.6µA off** in deep-sleep,
+  SoC-hang, thermal, or under-voltage — a guarantee the SoC **cannot** provide when it is itself the
+  thing asleep or wedged (datasheet `ISHDN` 0.6µA vs `ISTNDBY` 340–400µA).
+- These are **different jobs**, so the sound enable legitimately draws a pin from **each** controller.
+
+### 3. How they combine (two patterns)
+- **Wired-OR on one line (open-drain):** both controllers open-drain onto `SD` (pull-up sets channel);
+  *either* can pull low to disable. **1 connector pin**, but couples the two and both must be open-drain.
+- **Layered (recommended):** i.MX drives `SD` (functional, pop-free); **MSP430 gates the module power
+  rail** (or holds a separate hard-mute). Clean separation; costs a **rail-enable pin** but gives a
+  true hardware kill independent of `SD` state.
+
+### 4. Enable-pin count on the SOUND connector — the real fork = amp architecture
+- **Dumb amps (MAX98357A ×N):** one `SD` per mono amp → up to **4 SD lines** for 4 speakers (+ optional
+  shifter-OE, + module-EN). The 20-pin connector has **no spare** → needs reassignment or a bigger part.
+- **I²C smart-amp (TAS2780/TAS5805M) — recommended for the product:** enable/mute/gain/channel all move
+  to **I²C6, which is already on the connector** (`SND.17/18` = I2C6 SCL/SDA). That **collapses the per-
+  channel SD lines to zero**, leaving the connector's enable budget for the fail-safe. Typically only
+  **1 reset/PDN** + **1 MSP430 hard-gate** remain as discrete pins.
+- **Fail-safe rule:** reserve **≥1 MSP430-driven enable pin** on the connector (module power / hard-mute)
+  **regardless** of amp choice — that is the whole point of supervisor ownership.
+
+### 5. Recommendation
+1. **Go I²C smart-amp for the product** → per-channel `SD` disappears into I²C6 (already routed),
+   freeing connector pins and giving DSP/gain/diagnostics for free. This is the single biggest
+   simplifier of the enable problem.
+2. **Reserve two enable pins** on the SOUND connector, 1.8V, both:
+   - `EN_SND_IMX` — i.MX functional enable / amp PDN, sequenced with SAI (pop-free).
+   - `EN_SND_SUP` — **MSP430** open-drain hard-mute / module power-gate, fail-safe.
+3. **Define the on/off sequence** (power → clocks → unmute; reverse for off) and which controller does
+   which step — required to avoid pops and inrush.
+
+### 6. Bench prototyping (how to prove this on the eval carrier)
+- **First test:** tie `SD` to a solid high (VIN / 1.8V) — deterministic ON — and just prove SAI5 makes
+  sound. Don't gate yet.
+- **Then** connect `SD` → **P20.25 (OE_SOUND)** and drive it as a GPIO to exercise the i.MX enable path
+  (1 = on/Left, 0 = shutdown; use **open-drain + pull-up** if the 1.8V-vs-1.4V-typ margin is flaky).
+- The **MSP430 fail-safe** leg can't be tried on the CompuLab carrier (no MSP430) — validate it on the
+  929/product board where the supervisor exists.
+
+### 7. Model implications (pinmux — do when the amp architecture is chosen)
+- `OE_SOUND` (single, i.MX) likely **splits** into `EN_SND_IMX` (i.MX) + `EN_SND_SUP` (**MSP430** GPIO —
+  a new supervisor allocation that must route to the sound module).
+- The `SND` connector may **grow** 1–2 enable pins (it's full at 20) — or the smart-amp path frees the
+  speaker DATA lanes and reclaims them. This is the trigger to revisit the 20-pin size.
+- Until the amp (dumb vs I²C smart) is decided, keep this **OPEN**; that decision sets the pin count.
 
 ### Level shifters (only if a 3.3V amp / 3.3V module connector is used)
 Use a **directional push-pull** translator — SN74LVC2T45 / **SN74LVC8T245** / TI TXU0304/0104 —

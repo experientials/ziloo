@@ -1,0 +1,30 @@
+# MODULE — the UCM-iMX8M-Plus System-on-Module (a component installed onto a host board via its
+# P1/P2 board-to-board connectors). Shared: the SB-UCM carrier and the 929 faceboard each install
+# one. Intrinsic (SoC/module) facts live here; how each host board routes/allocates the balls lives
+# in that board's file (2-layer: boards hold pins+func).
+kind: module
+name: UCM-iMX8M-Plus
+variant: "UCM-iMX8PLUS-C1800Q-D1-N16 (non-'E')"
+soc: "NXP i.MX8M Plus (4×A53 + M7 + 2.3-TOPS NPU)"
+
+# Installed onto a host board via two Hirose DF40 100-pin mezzanine connectors (the SoM balls).
+installs_via:
+  - {connector: P1, type: "Hirose DF40 100-pin (SMT board-to-board)", balls: "P1.1..100"}
+  - {connector: P2, type: "Hirose DF40 100-pin (SMT board-to-board)", balls: "P2.1..100"}
+
+level_domains:
+  NVCC_SAI: {v: 1.8, note: "measured 2026-09-13 on carrier P20.19 (SAI pad domain)"}
+
+# Ball space — the valid SoM balls a board pin may reference via `som:`. check.py N-series
+# validates every pin `som` lands in range here. `signals` (full ball→mux map from the P1/P2
+# hookups, Table 44/45) is a future enrichment that would also validate func/pad consistency.
+balls:
+  P1: {count: 100, desc: "SoM connector P1, balls P1.1..100 (hookups Table 44)"}
+  P2: {count: 100, desc: "SoM connector P2, balls P2.1..100 (hookups Table 45)"}
+
+notes: >
+  Non-'E' variant → the ENET1 pads are free and remuxable (SAI6/SAI7/SD1/I2C) per the RM IOMUXC
+  tables. A host board picks each ball's function; the SoM only bounds what each ball CAN be.
+source:
+  RM: "IMX8MPRM.pdf (IOMUXC mux tables)"
+  guide: "ucm-imx8plus_reference-guide_2021-11-02.pdf"

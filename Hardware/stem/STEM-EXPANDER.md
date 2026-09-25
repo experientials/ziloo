@@ -53,6 +53,59 @@ There seem to be no [74HC595 alternatives](https://www.apogeeweb.net/circuitry/7
 
 The [G2553](./datasheets/msp430g2553.pdf) routes debugging and programming over RST/TEST (even if not shown in diagram).
 
+### MCU sizing — FR2433 vs FR2476 (2026-09-21)
+
+Current parts (the FR24xx FRAM line supersedes the older candidates above). The deciding constraint is
+the **I²C count**, because a Stem Expander is fundamentally an **I²C slave** on the Stem bus:
+
+- **Simple expander → MSP430FR2433** — 15 KB FRAM, 4 KB SRAM, **19 I/O (VQFN-24)**, **1× eUSCI_B (I²C)**
+  + 2× eUSCI_A (UART/SPI). Its **one I²C is the Stem-bus slave control surface**, so it can expose local
+  pins/state and do local sensing over **ADC / GPIO / SPI** — but it **cannot also master a local I²C
+  sensor bus** (that's a second, mutually-exclusive I²C role). Add 74HC595 shift registers for extra
+  output pins (as above). This is the **product-baseline** part (keep firmware ≤ 15 KB program FRAM).
+- **Expander that must ALSO master a local I²C bus, or needs a big pin fan-out → MSP430FR2476** — 64 KB
+  FRAM, 8 KB SRAM, **43 I/O (LQFP-48)**, **2× eUSCI_B (two I²C)**. Needed when the domain's
+  sensors/controllers are I²C and the module must **monitor/master** them *while staying a Stem slave*.
+- **Central role** — mastering the whole **Stem I²C** is the **SoM RT core / M7** (or an RP2040 module),
+  **not** an MSP430 expander. One MSP430 with one I²C can't be both the SoM's slave control-surface **and**
+  the sensor-bus master, so an FR2433 belongs **on an attached module, not as the main-board supervisor**.
+
+Per-domain rule of thumb: keep local sensing on **ADC/GPIO/SPI** to fit an expander on the **FR2433**; if
+the domain forces a **local I²C master** (a PD controller, IMU-on-I²C, an I²C sensor cluster) in addition
+to the Stem slave surface, it's an **FR2476**. E.g. the **T-USB** (PD/battery) and **Faceboard** (IMU/m.2)
+domains lean FR2476 if their parts are I²C; a purely GPIO/ADC domain stays FR2433.
+
+#### Options compared (research 2026-09-21)
+
+All MSP430 FRAM value-line: **ultra-low-power** (≈0.5 µA LPM3.5 standby w/ RTC, 126 µA/MHz active) +
+**instant-on FRAM, no flash wear** → the "runs forever on the cell" property. Prices ~@1k ballpark
+(verify DigiKey/Mouser); all Active / long TI lifecycle. Datasheets in `Hardware/datasheets/`.
+
+| Part | I²C | UART/SPI | FRAM | RAM | I/O (pkg) | ADC | Analog extras | ~$@1k |
+|---|---|---|---|---|---|---|---|---|
+| FR2422 | 1 | 1 | 7.25 KB | 2 KB | 15 (QFN-20) | 10-bit 8ch | — | ~0.6 |
+| **FR2433** | 1 | 1 | 15 KB | 4 KB | 19 (QFN-24) | 10-bit 8ch | — | ~0.8 |
+| FR2153 | 2 | 2 | 16 KB | 2 KB | 44 (QFN-32/LQFP-48) | 12-bit 12ch | 2× eCOMP (NO SAC) | ~0.95 |
+| FR2155 | 2 | 2 | **32 KB** | 4 KB | 44 (QFN-32/LQFP-48) | 12-bit 12ch | 2× eCOMP (NO SAC) | ~1.2 |
+| FR2353 | 2 | 2 | 16 KB | 2 KB | 44 (QFN-32/LQFP-48) | 12-bit 12ch | 4× SAC (opamp/PGA + 12-bit DAC) + 2× eCOMP | ~2.2 |
+| FR2355 | 2 | 2 | 32 KB | 4 KB | 44 (LQFP-48) | 12-bit 12ch | 4× SAC (opamp/PGA + 12-bit DAC) + 2× eCOMP | ~2.7 |
+| FR2475 | 2 | 2 | 32 KB | 6 KB | 25–43 | 12-bit 12ch | eCOMP + 6-bit DAC | ~1.3 |
+| FR2476 | 2 | 2 | 64 KB | 8 KB | 43 (LQFP-48) | 12-bit 12ch | eCOMP + 6-bit DAC | ~1.6 |
+
+- **1× I²C (FR2422/FR2433)** = simple slave expander only (the one I²C is the Stem control surface); local
+  sensing on ADC/GPIO. FR2433 = **product baseline**.
+- **2× I²C (FR215x/FR235x/FR247x)** = Stem slave **and** master a local sensor I²C ("monitor").
+- **Analog sensor translation:** for in-chip conditioning (opamp/PGA/DAC) the **FR2355 Smart Analog
+  Combo** is the standout; plain ADC translation is on any (10-bit on 24xx, 12-bit on 23xx/247x).
+- **SPI:** single-eUSCI_A parts (2422/2433) pick UART *or* SPI; dual-eUSCI parts do UART + SPI + 2×I²C.
+
+**MSP430 vs RP2040 (always-on role).** MSP430 wins for the *always-on* supervisor/expander: **~0.5 µA
+standby** + FRAM instant-on/no-wear → runs for years on the single cell, waking the system. **RP2040 has
+no µA deep-sleep** (boots from external flash) → it's the **on-demand compute peer** (dual-M0+ 133 MHz,
+TinyML, USB), not the always-on part. Longevity: MSP430 = TI multi-decade value line; RP2040 newer /
+single-source (RPi to 2030+). **⇒ MSP430 for always-on supervise/expand/monitor; RP2040 for on-demand
+compute.**
+
 
 
 ### Programming
@@ -81,7 +134,23 @@ The BSL Scripter is a PC application that allows to easily communicate with the 
 
 The primary I2C bus, where the Expander exposes its connected gpio output and input, is the Stem I2C.
 The Stem I2C is mastered by one of the MCUs connected such as RT core in SoM or the RP2040 in the Smart Camera Module.
-The expander can also provide its service on the SYS I2C.
+
+**MSP430 supervisor bus scope — CANONICAL (confirmed 2026-09-24).** The MSP is on **exactly two I2C
+buses — Stem and Sensor — and nothing else** (never SYS_I2C, never the PMIC bus). Its two eUSCI_B are
+fully consumed, one per bus:
+
+- **Stem I2C** — the MSP is **always the SLAVE**; the SoM (RT core) or the RP2040 always masters it.
+  `eUSCI_B1` on **P3.2/P3.6**.
+- **Sensor I2C** — the master **switches**: the MSP masters it in *Sensing* mode; it **releases** the
+  bus so the **SoM** masters it in *Passive* mode. `eUSCI_B0` on **P1.2/P1.3**.
+
+SYS_I2C is a **SoM-side** system bus and **the MSP is not on it** — SYS carries the SoM's own devices
+(RTC/EEPROM/codec on the CompuLab bench carrier's `I²C2`; on the product faceboard also PMIC/PD/clkgen,
+see `../pinouts/SYS_I2C_ADDRESSES.md`). An earlier line here — *"the expander can also provide its
+service on the SYS I2C"* — is **superseded**: it never applied to the 2×eUSCI_B FR2476/FR2155
+supervisor (both eUSCI_B are taken by Stem+Sensor; a third I2C would need a third eUSCI_B, which these
+parts don't have). The old **"unified I2C"** idea (all devices on one bus) is **dead** — the standing
+model is *one bus always SoM-mastered (Stem), one that switches masters (Sensor)*.
 
 
 #### Interrupt events

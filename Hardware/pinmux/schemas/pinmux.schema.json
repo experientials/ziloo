@@ -1,0 +1,140 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "pinmux model — structural schema for module/board/product files",
+  "description": "Validated by check.py (S-series). additionalProperties:false catches typo'd/unknown fields; enums bound status/verified. Keep in sync when adding a field.",
+  "$defs": {
+    "status": { "enum": ["given", "placed", "draft", "not-used", "unknown"] },
+
+    "pin": {
+      "type": "object",
+      "required": ["func"],
+      "additionalProperties": false,
+      "properties": {
+        "som":      { "type": "string" },
+        "func":     { "type": "string" },
+        "dest":     { "type": "string" },
+        "alts":     { "type": "array", "items": { "type": "string" } },
+        "pad":      { "type": "string" },
+        "verified": { "enum": ["measured", "reference", "doc-claimed", "guide", "RM", "tentative"] },
+        "level":    { "type": ["number", "string"] },
+        "tags":     { "type": "array", "items": { "type": "string" } }
+      }
+    },
+
+    "connector": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "desc":       { "type": "string" },
+        "pins":       { "type": "integer", "minimum": 1 },
+        "power":      { "type": "string" },
+        "note":       { "type": "string" },
+        "status":     { "$ref": "#/$defs/status" },
+        "complete":   { "type": "boolean", "description": "if true, every 1..pins position must be a modeled pin or in power_pins (gap = error)" },
+        "power_pins": { "type": "array", "items": { "type": "integer", "minimum": 1 }, "description": "positions that are power/GND/NC — acknowledged non-signal, excluded from fullness gaps" },
+        "alt_of":     { "type": "string", "description": "this connector is an ALTERNATIVE footprint of the named connector (shares SoM balls; only one populated per build) — E1 permits the shared balls" }
+      }
+    },
+
+    "registryEntry": {
+      "type": "object",
+      "required": ["name", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "name":          { "type": "string" },
+        "board":         { "type": "string" },
+        "role":          { "type": "string" },
+        "keying":        { "type": "string" },
+        "keying_status": { "type": "string" },
+        "positions":     { "type": ["integer", "string"] },
+        "status":        { "$ref": "#/$defs/status" },
+        "part":          { "type": "string" },
+        "source":        { "type": "string" },
+        "level":         { "type": "string" },
+        "connects":      { "type": "string" },
+        "purpose":       { "type": "string" },
+        "pinout":        { "type": "string" },
+        "kicad":         { "type": "string" },
+        "alternatives":  { "type": "string" },
+        "note":          { "type": "string" },
+        "decision":      { "type": "string" }
+      }
+    },
+
+    "chip": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "part": { "type": "string" },
+        "role": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+
+    "module": {
+      "type": "object",
+      "required": ["kind", "name"],
+      "additionalProperties": false,
+      "properties": {
+        "kind":          { "const": "module" },
+        "name":          { "type": "string" },
+        "variant":       { "type": "string" },
+        "soc":           { "type": "string" },
+        "installs_via":  { "type": "array" },
+        "level_domains": { "type": "object" },
+        "balls": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "count": { "type": "integer", "minimum": 1 },
+              "desc":  { "type": "string" }
+            }
+          }
+        },
+        "notes":         { "type": "string" },
+        "source":        { "type": "object" }
+      }
+    },
+
+    "board": {
+      "type": "object",
+      "required": ["kind", "name"],
+      "additionalProperties": false,
+      "properties": {
+        "kind":               { "const": "board" },
+        "name":               { "type": "string" },
+        "hosts":              { "type": "array", "items": { "type": "string" } },
+        "kicad":              { "type": "string" },
+        "connectors":         { "type": "object", "additionalProperties": { "$ref": "#/$defs/connector" } },
+        "connector_registry": { "type": "object", "additionalProperties": { "$ref": "#/$defs/registryEntry" } },
+        "chips":              { "type": "object", "additionalProperties": { "$ref": "#/$defs/chip" } },
+        "pins":               { "type": "object", "additionalProperties": { "$ref": "#/$defs/pin" } }
+      }
+    },
+
+    "product": {
+      "type": "object",
+      "required": ["kind", "name", "boards"],
+      "additionalProperties": false,
+      "properties": {
+        "kind":               { "const": "product" },
+        "name":               { "type": "string" },
+        "modules":            { "type": "array", "items": { "type": "string" } },
+        "boards":             { "type": "array", "items": { "type": "string" } },
+        "kicad": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "schematic_dir":   { "type": "string" },
+            "sound_connector": { "type": "string" },
+            "audio_net_prefix":{ "type": "string" }
+          }
+        },
+        "connector_registry": { "type": "object", "additionalProperties": { "$ref": "#/$defs/registryEntry" } },
+        "bench_resources":    { "type": "object", "additionalProperties": { "type": "string" } }
+      }
+    }
+  }
+}

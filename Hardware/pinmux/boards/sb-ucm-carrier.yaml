@@ -1,0 +1,243 @@
+# BOARD — CompuLab SB-UCM-iMX8Plus evaluation carrier. Hosts one UCM-iMX8M-Plus SoM (via P1/P2).
+# Surfaces SoM balls on the P20/P21/P10 0.1" headers. This is the BENCH host board — downstream
+# devices are hand-cabled off the headers (there is no on-board DF40 media/sound connector here).
+#
+# AUTHORITY: this is a CompuLab board, NOT a Talki board. Carrier facts (pin functions, what's on a
+# bus, boot flow) come from CompuLab's OFFICIAL docs (reference guide, P1/P2 hookups, carrier design
+# package). The `func`/`dest` below are OUR intended allocation — a PLAN — not CompuLab's definition.
+# Note per official docs: SYS_I2C = I2C2 (RTC/EEPROM, P1-97/99); I2C3 (P1-91/94) is general-purpose.
+# The SYS_I2C device map in pinouts/SYS_I2C_ADDRESSES.md is a TALKI FACEBOARD bus, not this carrier.
+#
+# 2-layer: this file holds each header pin's chosen func + destination (the allocation).
+# Fields: som (SoM ball) · func · dest · alts (other muxes the ball offers) · pad · verified · tags
+kind: board
+name: SB-UCM-iMX8Plus carrier
+hosts: [ucm-imx8mp]
+
+connectors:
+  P20: {desc: "2x17 0.1in expansion header", pins: 34, power: "5V / 3V3 / GND (unlisted pins)"}
+  P21: {desc: "2x17 0.1in expansion header", pins: 34}
+  P10: {desc: "2x5 power/reset/system-control (DR10SM)", pins: 10, note: "pin order tentative — verify sheet 6"}
+  P7:  {desc: "2x5 JTAG debug header (JTAG_HDR_10), next to P10", pins: 10,
+        note: "pin order tentative — verify carrier sheet 6/13. NVCC_JTAG = 1.8 V, un-shifted."}
+  DEV_MCU:
+    desc: "DEV: carrier→MCU breakout (1.8V · GND · I2C · I2S) — bench-only pigtail"
+    pins: 10
+    status: draft
+    complete: true
+    note: "Development pigtail carrying I2C (control) + I2S/SAI (audio) to a dev codec/amp/mic.
+      **LEVEL WARNING (measured 2026-09-20, SPIKE-1 — corrects an earlier WRONG 'all 1.8V' claim):
+      the SAI3/I2S lines on P21.11-23 are a 3.3V bus, NOT 1.8V.** A 1.8V part wired here sees 3.3V.
+      The on-carrier WM8731 codec (U10) runs at 3.3V (DBVDD=3V3) with 3.3V pull-ups directly on these
+      SAI3 nets, behind an I2S level shifter (output-enabled by I2S_LS_OE) with the M.2 TXB0104 (U14)
+      also on the bus. Measured: a 1.8V SoC GPIO driven high reads **3.3V** at P21.11/.15 (they FOLLOW
+      the drive, level-shifted up: high→3.3V, low→0V); P21.17 (SAI3_RXD = codec ADCDAT *output*) is
+      STUCK LOW regardless of drive — the powered codec contends and software cannot tri-state it.
+      => P21.11-23 is NOT a clean 1.8V mic/I2S header; making it usable needs HARDWARE (3.3V parts +
+      lift U10 ADCDAT + handle the shifter), not just disabling the codec driver. I2C5/6/4 on P21
+      likely also cross the I2C shifter (I2C_LS_OE) — treat as 3.3V-suspect until measured. Only the
+      power pins are 1.8V (1V8 from P10.2, GND P10.10).
+      I2S pad map (reference): SAI3_MCLK=P21.15 · TXC/RXC=BCLK · TXFS/RXFS=LRCLK · TXD=DOUT · RXD=DIN."
+
+# Carrier control/enable nets (NOT header pins — internal to the carrier; recorded for reference):
+#   M.2/USB3 path (silkscreen "M.2 USB3 Enable"): HUB_OE, TCSW_EN (Type-C switch), HASW_EN,
+#   plus I2C_LS_OE / I2S_LS_OE (level-shifter output-enables). Source: carrier sb-ucmimx8plus_1v1.
+
+# Connectors on THIS board beyond the headers (see also products for product-side connectors).
+connector_registry:
+  M2_CARRIER_SBUCM:
+    name: "SB-UCM eval-carrier M.2 (P9)"
+    role: m2_socket
+    keying: B
+    positions: 67
+    status: given                       # CompuLab-fixed; not our design to change
+    purpose: "Modem / SSD / wireless — usable on the bench NOW (plug a Key-B card)"
+    part: "CompuLab carrier ref P9 (M.2 B-key) + nanoSIM socket (P15)"
+    source: "carrier sb-ucmimx8plus_1v1 sheet ('M.2 Socket - Key B', P9); hardware-reference.md"
+    level: "3.3V (M.2 standard) — via carrier M.2 level shifters"
+    connects: "USB2 (M2_USB_DP/DN) · USB3 (HOST, muxed to Key-B, HUB_OE/TCSW_EN gated) · PCIe x1
+      (PCIE_CLKREQ_B, mPCIE_PERST) · nanoSIM (SIM_PWR/RST/CLK/DATA/CD, socket P15) · control
+      (M2B_PWROFF#, M2B_3V3_W_DISABLE#, W_DIS1#) · +3.3V. NOT wired to SD1 (SDIO) on this carrier."
+  FLEXSPI_BOOT:
+    name: "FlexSPI boot-select header"
+    role: boot_select
+    status: given
+    purpose: "Force FlexSPI (QSPI/octal-flash) boot mode; carrier silkscreen 'FlexSPI_BOOT'"
+    source: "carrier sb-ucmimx8plus_1v1 (near SoM balls 97/98)"
+  J9_J12:
+    name: "J9–J12 — GMSL camera coax (FAKRA)"
+    role: "camera_coax (4× FAKRA)"
+    status: not-used                    # DECISION 2026-09-15: not using GMSL
+    part: "FAKRA-RF-Male-50Ohm (4× round coax)"
+    purpose: "Carrier's GMSL camera-over-coax path: 4× FAKRA (PO_COAX_FAKRA0-3) → MAX9286 GMSL1
+      deserializer → MIPI-CSI2, 12 V PoC from P8. Chunky round industrial RF connectors."
+    decision: "NOT USED. Camera goes via direct MIPI-CSI instead (cheaper, matches the product
+      camera path). GMSL needs a matching GMSL1-serializer camera (expensive, automotive) and the
+      MAX9286 is a carrier population option (may be DNP). Generic/analog coax cameras are NOT
+      compatible. Bench cameras use the CSI2_SELECTOR mux in MIPI-CSI mode."
+  # --- remaining CompuLab carrier I/O (all `given`; source: ucm-dev hardware-reference.md table) ---
+  CAM_FPC:
+    name: "Camera / display FPC (P11/P22/P49/P45)"
+    role: camera_csi
+    status: given
+    part: "FPC 40 / 30 / 22 / 8-pin"
+    purpose: "MIPI-CSI camera + display FPC connectors — THE camera path now GMSL is dropped
+      (CSI2_SELECTOR in MIPI mode). See the camera-connectors skill / pinouts/ for the FPC maps."
+  AUDIO_JACKS:
+    name: "Analog audio jacks / RCA (J6–J8, P27)"
+    role: audio_analog
+    status: not-used                    # DECISION 2026-09-15: audio goes via the extension headers
+    purpose: "Carrier WM8731 codec on SAI3 → 3.5mm jacks; P27 = RCA composite video."
+    decision: "NOT USED. Audio is the SAI5 digital I2S path over the P20/P21 extension connectors
+      (to MAX98357A / SPH0645), not the on-carrier WM8731/SAI3 analog codec. SAI3 is free to remux."
+  CONSOLE_P13:
+    name: "Serial console (P13, micro-USB B)"
+    role: uart_console
+    status: given
+    purpose: "Debug console → CP2104 (U24) → i.MX UART2. Primary bench console."
+  USBC_J5:
+    name: "USB-C (J5)"
+    role: usb_otg
+    status: given
+    purpose: "USB1 OTG/DRP (HD3SS3220): ROM SDP recovery (uuu) + USB-CDC usb0 gadget network;
+      DP-alt-mode display offload (the product's 1V8 display path)."
+  USB3A_J3:
+    name: "USB3 Type-A (J3)"
+    role: usb_host
+    status: given
+    purpose: "USB2 permanently host — networking only via a USB-Ethernet dongle."
+  USD_P23:
+    name: "Micro-SD (P23)"
+    role: sd_card
+    status: given
+    purpose: "SD boot (safest bring-up), card-detect. Uses a uSDHC controller — see SD1 history."
+  RJ45_P6:
+    name: "RJ45 1GbE (P6)"
+    role: ethernet
+    status: given
+    purpose: "Carrier AR8031 PHY — eth0 WORKS, 1 Gbps (verified 2026-09; needs `ip link set eth0 up`
+      at cold boot — DMA race, not a fault). Planned M7-dedicated (DUT/diag); Linux day-to-day net is
+      USB-CDC usb0 by design, not because eth0 is broken."
+  HDMI_P14:
+    name: "HDMI-A (P14)"
+    role: hdmi
+    status: given
+    purpose: "Display out (bench). Product offloads display to USB-C DP-alt (1V8-everywhere rule)."
+  PWR_J2:
+    name: "DC power jack (J2)"
+    role: power_in
+    status: given
+    purpose: "Main power in — 12 V nominal (jack rated 20 V/10 A; on-board buck)."
+  GMSL_PWR_P8:
+    name: "GMSL Power-over-Coax (P8, 12 V)"
+    role: power_coax
+    status: not-used
+    purpose: "12 V PoC feed for the GMSL FAKRA cameras — not used (GMSL dropped, see J9_J12)."
+
+pins:
+  # --- P20 ---
+  P20.1:  {som: P1.74, func: UART2_TXD, dest: "Debug console (A53)", tags: [uart, uart2, console, debug]}
+  P20.2:  {som: P1.61, func: UART3_TXD, dest: "Supervisor (MSP430 prog)", tags: [uart, uart3, prog, supervisor]}
+  P20.3:  {som: P1.76, func: UART2_RXD, dest: "Debug console (A53)", tags: [uart, uart2, console, debug]}
+  P20.4:  {som: P1.21, func: UART3_RXD, dest: "Supervisor (MSP430 prog)", tags: [uart, uart3, prog, supervisor]}
+  P20.5:  {som: P1.77, func: PWM1_OUT, dest: "expansion / GPIO", tags: [pwm, gpio]}
+  P20.6:  {func: 5V, tags: [power]}
+  P20.7:  {func: 3V3_PER, dest: "power (3.3V rail)", tags: [power, rail, v3p3]}
+  P20.8:  {som: P1.86, func: UART4_TXD, dest: "Debug console (M7)", tags: [uart, uart4, console, debug]}
+  P20.9:  {som: P1.72, func: UART1_TXD, dest: "Supervisor (MSP430 prog)", tags: [uart, uart1, prog, supervisor]}
+  P20.10: {som: P1.84, func: UART4_RXD, dest: "Debug console (M7)", tags: [uart, uart4, console, debug]}
+  P20.11: {som: P1.19, func: UART1_RXD, dest: "Supervisor (MSP430 prog)", tags: [uart, uart1, prog, supervisor]}
+  P20.12: {som: P1.59, func: SOUND_INT, dest: "Sound p19", pad: GPIO1_IO00, tags: [gpio, int, sound]}
+  P20.13: {som: P2.62, func: SD1_RESET_B, dest: "SD1", pad: GPIO2_IO10, alts: [I2C3_SCL], tags: [sd, sd1, reset]}
+  P20.14: {som: P1.98, func: STEM_INT, dest: "Supervisor / STEM", pad: GPIO1_IO01, tags: [gpio, int, supervisor]}
+  P20.15: {som: P2.68, func: SD1_CLK, dest: "SD1", pad: ENET_MDC, alts: [SAI6_TX_DATA0, I2C5_SCL], tags: [sd, sd1, clk]}
+  P20.16: {som: P2.76, func: SAI5_TXD1, dest: "Sound p6", pad: ENET_nRST, tags: [audio, sai5, speaker, data, sound]}
+  P20.17: {som: P2.70, func: SD1_CMD, dest: "SD1", pad: ENET_MDIO, alts: [SAI6_TX_SYNC, I2C5_SDA], tags: [sd, sd1]}
+  P20.18: {som: P2.88, func: COEX, dest: "M.2 Key B", pad: ENET_INT, tags: [m2, m2keyb]}
+  P20.19: {som: P2.53, func: SAI5_TXFS, dest: "Sound p4", pad: ENET_RX_CTL, alts: [SAI7_TX_SYNC], verified: measured, tags: [audio, sai5, speaker, lrclk, sound, measured]}
+  P20.20: {som: P2.67, func: MCU_SYS_INT, dest: "Supervisor", pad: ENET_TX_CTL, alts: [SAI6_MCLK], tags: [gpio, int, supervisor]}
+  P20.21: {som: P2.41, func: SD1_DATA2, dest: "SD1", pad: ENET_RD0, alts: [I2C4_SCL, SAI7_RX_DATA0], tags: [sd, sd1, data]}
+  P20.22: {som: P2.59, func: SD1_DATA1, dest: "SD1", pad: ENET_TD0, alts: [SAI6_RX_BCLK], tags: [sd, sd1, data]}
+  P20.23: {som: P2.43, func: SD1_DATA3, dest: "SD1", pad: ENET_RD1, alts: [I2C4_SDA, SAI7_RX_SYNC], tags: [sd, sd1, data]}
+  P20.24: {som: P2.61, func: SD1_DATA0, dest: "SD1", pad: ENET_TD1, alts: [SAI6_RX_SYNC], tags: [sd, sd1, data]}
+  P20.25: {som: P2.45, func: OE_SOUND, dest: "Sound (bus enable)", pad: ENET_RD2, alts: [SAI7_RX_BCLK], tags: [gpio, enable, sound]}
+  P20.26: {som: P2.63, func: SAI5_TXD2, dest: "Sound p7", pad: ENET_TD2, alts: [SAI6_RX_DATA0], tags: [audio, sai5, speaker, data, sound]}
+  P20.27: {som: P2.47, func: OE_CAM, dest: "Camera (bus enable)", pad: ENET_RD3, alts: [SAI7_MCLK], tags: [gpio, enable, camera]}
+  P20.28: {som: P2.65, func: SAI5_TXD3, dest: "Sound p8", pad: ENET_TD3, alts: [SAI6_TX_BCLK], tags: [audio, sai5, speaker, data, sound]}
+  P20.29: {som: P2.55, func: SAI5_TXC, dest: "Sound p3", pad: ENET_RXC, alts: [SAI7_TX_BCLK], tags: [audio, sai5, speaker, bclk, sound]}
+  P20.30: {som: P2.69, func: SYS_PRG#, dest: "Supervisor", pad: ENET_TXC, alts: [SAI7_TX_DATA0], tags: [gpio, prog, supervisor]}
+  P20.31: {func: GND, dest: "power", tags: [power, gnd]}
+  P20.32: {func: GND, dest: "power", tags: [power, gnd]}
+  P20.33: {som: P1.94, func: I2C3_SCL, dest: "Sensors — I2C3 SCL (SDA on P20.34 → complete bus on P20)", tags: [i2c, i2c3, sensors]}
+  P20.34: {som: P1.91, func: I2C3_SDA, dest: "Sensors — I2C3 SDA", tags: [i2c, i2c3, sensors]}
+  # --- P21 ---
+  P21.1:  {som: P1.96, func: I2C5_SDA, dest: "Camera (CSI1)", alts: [SAI5_MCLK], tags: [i2c, i2c5, camera]}
+  P21.2:  {som: P1.87, func: I2C6_SCL, dest: "Sound p17 + Camera (CSI2)", alts: [SAI5_RXFS], tags: [i2c, i2c6, camera, sound]}
+  P21.3:  {som: P1.100, func: I2C5_SCL, dest: "Camera (CSI1)", alts: [SAI5_RXD0], tags: [i2c, i2c5, camera]}
+  P21.4:  {som: P1.89, func: I2C6_SDA, dest: "Sound p18 + Camera (CSI2)", alts: [SAI5_RXC], tags: [i2c, i2c6, camera, sound]}
+  P21.5:  {som: P1.97, func: SYS_I2C_SDA, dest: "SYS_I2C (=I2C2) — carrier expander/RTC/EEPROM/codec bus", tags: [i2c, i2c2, supervisor]}
+  P21.6:  {func: GND, dest: "power", tags: [power, gnd]}
+  P21.7:  {som: P1.99, func: SYS_I2C_SCL, dest: "SYS_I2C (=I2C2)", tags: [i2c, i2c2, supervisor]}
+  P21.8:  {som: P1.33, func: CAN2_TX, dest: "CAN2", tags: [can, can2]}
+  P21.9:  {func: GND, dest: "power", tags: [power, gnd]}
+  P21.10: {som: P1.49, func: CAN2_RX, dest: "CAN2", tags: [can, can2]}
+  P21.11: {som: P1.26, func: SAI5_RX_DATA3, dest: "Sound p16", pad: SAI3_TXD, tags: [audio, sai5, mic, data, sound]}
+  P21.12: {som: P1.51, func: CAN1_RX, dest: "CAN1", tags: [can, can1]}
+  P21.13: {som: P1.36, func: SAI5_RX_DATA2, dest: "Sound p15", pad: SAI3_TXC, tags: [audio, sai5, mic, data, sound]}
+  P21.14: {som: P1.53, func: CAN1_TX, dest: "CAN1", tags: [can, can1]}
+  P21.15: {som: P1.30, func: SAI5_MCLK, dest: "Sound p2", pad: SAI3_MCLK, tags: [audio, sai5, mclk, sound]}
+  P21.16: {som: P2.51, func: SD2_nRST, dest: "SD2", pad: GPIO2_IO19, tags: [sd, sd2, reset]}
+  P21.17: {som: P1.28, func: SAI5_RX_DATA0, dest: "Sound p13 + Camera (mic lane)", pad: SAI3_RXD, tags: [audio, sai5, mic, data, sound, camera]}
+  P21.18: {func: QSPI_BOOT_EN_3P3, dest: "FlexSPI boot-select enable (carrier)", tags: [boot, gpio]}
+  P21.19: {som: P1.32, func: SAI5_RXC, dest: "Sound p11", pad: SAI3_RXC, tags: [audio, sai5, mic, bclk, sound]}
+  P21.20: {som: P2.90, func: PCIE_CLKREQ_B, dest: "M.2 Key B", alts: [I2C4_SCL], tags: [pcie, m2keyb]}
+  P21.21: {som: P1.38, func: SAI5_RX_DATA1, dest: "Sound p14", pad: SAI3_TXFS, tags: [audio, sai5, mic, data, sound]}
+  P21.22: {som: P2.89, func: ECSPI2_MISO, dest: "Sound (future/expanded)", alts: [I2C4_SCL, SAI7_MCLK], tags: [spi, ecspi2]}
+  P21.23: {som: P1.34, func: SAI5_RX_SYNC, dest: "Sound p12", pad: SAI3_RXFS, tags: [audio, sai5, mic, lrclk, sound]}
+  P21.24: {som: P2.91, func: ECSPI2_SS0, dest: "Sound (future/expanded)", alts: [I2C4_SDA], tags: [spi, ecspi2]}
+  P21.25: {func: HDMI_HPD, dest: "HDMI hot-plug detect", tags: [hdmi]}
+  P21.26: {som: P2.93, func: ECSPI2_SCLK, dest: "Sound (future/expanded)", alts: [I2C3_SCL, SAI7_TXC], tags: [spi, ecspi2]}
+  P21.27: {som: P2.77, func: ENET_TD2_BYPASS, dest: "(Ethernet bypass)", tags: [ethernet]}
+  P21.28: {som: P2.95, func: ECSPI2_MOSI, dest: "Sound (future/expanded)", alts: [I2C3_SDA, SAI7_TXD0], tags: [spi, ecspi2]}
+  P21.29: {som: P1.70, func: HDMI_DDC_SCL, dest: "HDMI", alts: [I2C5_SCL], tags: [hdmi, i2c]}
+  P21.30: {func: USB1_TCPC_nINT, alts: [SAI1_TXD7], dest: "USB-C (USB1) Type-C port-controller INT", tags: [usb, int]}
+  P21.31: {som: P1.63, func: HDMI_DDC_SDA, dest: "HDMI", alts: [I2C5_SDA], tags: [hdmi, i2c]}
+  P21.32: {som: P2.52, func: PCIE_WAKE_B, dest: "M.2 Key B", pad: GPIO4_IO20, tags: [pcie, m2keyb]}
+  P21.33: {func: HDMI_CEC, dest: "HDMI CEC", tags: [hdmi]}
+  P21.34: {som: P2.60, func: SAI5_TXD0, dest: "Sound p5", pad: GPIO4_12, tags: [audio, sai5, speaker, data, sound]}
+  # --- P10 (power/reset/system-control; pin order tentative) ---
+  P10.1:  {func: 3V3_PER, dest: "power", tags: [power, rail, v3p3]}
+  P10.2:  {func: 1V8_PER, dest: "power (1.8 V rail — usable for SPH0645 mic)", tags: [power, rail, v1p8]}
+  P10.3:  {som: P1.66, func: PMIC_STBY_REQ, dest: "power control", tags: [power, pwr-ctrl]}
+  P10.4:  {func: PHY_IV5, dest: "Ethernet PHY ('E' option; unused non-'E')", tags: [ethernet, power]}
+  P10.5:  {som: P1.68, func: PMIC_ON_REQ, dest: "power control (ONOFF)", tags: [power, pwr-ctrl]}
+  P10.6:  {func: RESERVED1, dest: "reserved", tags: [reserved]}
+  P10.7:  {func: POR_B_3P3, dest: "reset (PCA9450 POR_B)", tags: [reset]}
+  P10.8:  {func: RESERVED2, dest: "reserved", tags: [reserved]}
+  P10.9:  {som: P1.2, func: SYS_RST_PMIC, dest: "reset (global)", tags: [reset]}
+  P10.10: {func: GND, dest: "power", tags: [power, gnd]}
+  # --- P7 (JTAG debug, JTAG_HDR_10). Pins 1-8 CONFIRMED from carrier sb-ucmimx8plus_1v1 sheet 6;
+  # pins 9-10 not legible in the schematic PDF → verify. Level = NVCC_JTAG 1.8 V, un-shifted.
+  # Separately, JTAG_RST is diode-OR'd (BAT54WS D10/D14) into SYS_RST_PMIC → a probe's nSRST can
+  # reset the SoC; it is NOT one of these 10 header pins (it's an internal reset net).
+  P7.1:  {func: JTAG_TMS, dest: "JTAG", verified: reference, tags: [jtag, debug]}
+  P7.2:  {func: JTAG_VREF, dest: "JTAG (JTAG_POWER — adaptive VTref)", verified: reference, tags: [jtag, power]}
+  P7.3:  {func: JTAG_TCK, dest: "JTAG", verified: reference, tags: [jtag, debug]}
+  P7.4:  {func: GND, dest: "JTAG", verified: reference, tags: [jtag, gnd]}
+  P7.5:  {func: JTAG_TDO, dest: "JTAG", verified: reference, tags: [jtag, debug]}
+  P7.6:  {func: GND, dest: "JTAG", verified: reference, tags: [jtag, gnd]}
+  P7.7:  {func: JTAG_TDI, dest: "JTAG", verified: reference, tags: [jtag, debug]}
+  P7.8:  {func: JTAG_MOD, dest: "JTAG (BOOT/JTAG mode sel, via R155)", verified: reference, tags: [jtag, debug]}
+  P7.9:  {func: JTAG_P9_NC, dest: "JTAG (pin 9 — verify: likely nTRST or NC)", tags: [jtag, reserved]}
+  P7.10: {func: JTAG_P10_NC, dest: "JTAG (pin 10 — verify: likely GND)", tags: [jtag, reserved]}
+  # --- DEV_MCU (development I2C+I2S breakout to 1.8V MCUs; downstream taps, no fresh SoM ball) ---
+  DEV_MCU.1:  {func: VCC_1V8, dest: "MCU dev — 1.8V (tap P10.2 / 1V8_PER)", tags: [power, rail, v1p8]}
+  DEV_MCU.2:  {func: GND, dest: "MCU dev — GND (tap P10.10)", tags: [power, gnd]}
+  DEV_MCU.3:  {func: I2C_SCL, dest: "MCU dev — I2C SCL (route a header bus, see note)", tags: [i2c]}
+  DEV_MCU.4:  {func: I2C_SDA, dest: "MCU dev — I2C SDA (route a header bus, see note)", tags: [i2c]}
+  DEV_MCU.5:  {func: I2S_MCLK, dest: "MCU dev — I2S MCLK (SAI3_MCLK, P21.15)", tags: [audio, sai3, mclk]}
+  DEV_MCU.6:  {func: I2S_BCLK, dest: "MCU dev — I2S bit clock (SAI3_TXC/RXC)", tags: [audio, sai3, bclk]}
+  DEV_MCU.7:  {func: I2S_LRCLK, dest: "MCU dev — I2S frame/WS (SAI3_TXFS/RXFS)", tags: [audio, sai3, lrclk]}
+  DEV_MCU.8:  {func: I2S_DOUT, dest: "MCU dev — I2S data SoC→MCU (SAI3_TXD)", tags: [audio, sai3, data]}
+  DEV_MCU.9:  {func: I2S_DIN, dest: "MCU dev — I2S data MCU→SoC (SAI3_RXD)", tags: [audio, sai3, data]}
+  DEV_MCU.10: {func: GND, dest: "MCU dev — GND (I2S return)", tags: [power, gnd]}

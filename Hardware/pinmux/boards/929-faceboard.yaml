@@ -1,0 +1,149 @@
+# BOARD — 929 "Faceboard". A DIFFERENT host board from the SB-UCM carrier (NOT interchangeable):
+# it also installs one UCM-iMX8M-Plus SoM (via P1/P2), but routes the SoM balls to on-board DF40
+# mezzanine connectors + an M.2 Key B socket, through level shifters. This is the product-ish stack
+# (used by the `bob` product). Per-pin far-side maps of the big DF40s live in KiCad (single source);
+# here we model the connector inventory, the chips, and the SAI5 sound-connector mapping.
+kind: board
+name: 929 Faceboard
+hosts: [ucm-imx8mp]
+kicad: "929/Faceboard"                    # schematic dir (relative to Hardware/) — ground truth
+
+connectors:
+  SND:
+    desc: "Sound connector (DF40 20p, 0.4mm SMT) — legacy; ALTERNATIVE footprint of SND_MOD"
+    pins: 20
+    status: draft
+    complete: true                 # all 20 positions accounted → a missing SIGNAL pin is an error
+    power_pins: [1, 9, 10, 20]     # 1/20 = GND, 9 = VIN, 10 = 3V3 (per pinouts/SOUND_CONNECTOR.md)
+    note: "The current 20p sound-only plan (SAI5 spk+mic; NOT yet placed in KiCad, see K2; audio rides
+      MEDIA today). SND_MOD is the 40p upgrade that ALSO carries the M7 RJ45/eth — an ALTERNATIVE
+      footprint on the same SoM balls (populate one). Speaker SAI5_TX→SAI7 correction in challenges.md."
+  SND_MOD:
+    desc: "Module host — DF40 40DS (2x20, 0.4mm SMT); UNIQUE size vs 20/34/50/60/100DS elsewhere
+      (anti-mismate on a swapped connector). Swappable RJ45/DUT | sound/product module. RAW 1.8V"
+    pins: 40
+    status: draft
+    alt_of: SND                    # same SoM balls as SND (spk+mic); populate one per build → E1 OK
+    complete: true                 # every 1..40 position is defined below (signal or power/GND)
+    note: "RAW 1.8V pins — NO on-board level shifters (unlike SND/MEDIA via the TXS0104s); the attached
+      module does any shifting. Carries ENET1 RGMII (TD0-3/TXC/TX_CTL/RD0-3/RXC/RX_CTL/MDC/MDIO) +
+      SAI7 speaker + SAI5 mic + I2C/INT + power. XOR on the shared ENET pads: a DUT module drives the
+      full RGMII, XOR a product module drives the SAI7 speaker (TX rides ENET_RXC/RX_CTL/TXC). The SAI5
+      mic is on separate SAI3 pads → always available. See the pins block for the high-speed layout."
+  MEDIA:
+    desc: "Smart-cam / media (DF40 60p)"
+    pins: 60
+    status: placed
+    note: "carries SAI5 audio + camera TODAY, through the TXS0104 shifters"
+  CAM:  {desc: "Camera (DF40 34p)", pins: 34, status: placed}
+  EXP:  {desc: "M.2 / T-USB expansion (DF40 50p)", pins: 50, status: placed}
+  BLE_MOD:
+    desc: "Radio module — nRF52840 BLE/Thread NCP over ECSPI2 (M7-hosted); OMITTABLE (radio-free SKU)"
+    pins: 12
+    status: draft
+    note: "SPI link to an nRF NCP: ECSPI2 (SCLK=P2.93 · MOSI=P2.95 · MISO=P2.89 · CS/SS0=P2.91 — free
+      per challenges.md C7; claiming them retires the dormant I2C4-native-on-P2.91 option) + IRQ/
+      data-ready + RESET (+ SWD, or rely on USB-DFU) + 1V8/GND — all 1.8V. BLE is the phone path;
+      Thread the future toy-mesh option (same nRF, same 2.4GHz antenna). BLE-HCI-over-SPI is NOT a
+      standard BlueZ transport → run the nRF as an NCP so the M7 runs a thin client (m7-coprocessor.md).
+      IRQ/RESET/SWD ball allocation TBD at layout (free GPIO balls). See challenges.md C7, bench-v2.md."
+
+# On-board ICs (the ones that matter for level domains / the 1V8-everywhere audit).
+chips:
+  U19: {part: TXS0104, role: "level shifter 1.8<->3.3V (media/SAI5 bus)", tags: [shifter]}
+  U20: {part: TXS0104, role: "level shifter 1.8<->3.3V (media/SAI5 bus)", tags: [shifter]}
+  U21: {part: TXS0104, role: "level shifter 1.8<->3.3V (media/SAI5 bus)", tags: [shifter]}
+  BUSSW: {part: SN74CB3Q3245, role: "FET bus switch (same-rail mux, no translation)"}
+
+connector_registry:
+  M2_929_KEYB:
+    name: "929 Faceboard M.2 Key B"
+    role: m2_socket
+    keying: B
+    positions: 67                        # M.2 standard; pinout doc numbers 1–75 with gaps
+    status: placed
+    purpose: "WWAN/LoRa/SIM + Key-M storage (SD2) + I2S audio (SAI5) + PCIe"
+    part: "Amphenol 10128793-001RLF"
+    pinout: "../pinouts/M2_KEY_B_CONNECTOR.md"
+    kicad: "929/Faceboard/m2-key-b.kicad_sch"
+    level: "mixed 1.8/3.3 — TXS0104 shifters + SN74CB3Q3245 bus switch (challenge C5)"
+    connects: "SoM via the SoM mate — SAI5 I2S spk+mic, SD2 Key-M (DATA0-3/CMD/CLK), PCIe
+      (RXN±/TXN±/REFCLK±/CLKREQ/WAKE/PERST), USB2 D±, USB3 SSTX/SSRX±, I2C3, UART2 (COEX/LoRa)"
+
+# === PINS — the faceboard's two sound connectors are ALTERNATIVE footprints (alt_of) sharing the
+# same SoM balls; only one is populated per build. SND (legacy 20p) is listed first, then SND_MOD
+# (40p upgrade). func/dest chosen here (2-layer); `som` = SoM ball. Ball↔pad↔alt facts are from
+# boards/sb-ucm-carrier.yaml (same SoM, board-independent).
+# SND_MOD HIGH-SPEED / POWER LAYOUT RULES (RGMII = 125 MHz DDR, source-synchronous):
+#  * The 12 RGMII lines occupy pins 3-22 with a GND/power reference between EVERY signal pair; both
+#    clocks are FLANKED by GND on both sides (RXC@11 by 10/12, TXC@21 by 20/22), TX/RX split @12.
+#  * Data pairs GND-split: RD0/1|RD2/3 by GND@5/8; TD0/1|TD2/3 by GND@15/18. Controls (RX_CTL@9,
+#    TX_CTL@19) sit solo between two GND.
+#  * Rails 3V3-only (no 5V): +3V3 distributed @1 & 25 (amp + RJ45 PHY delivery, AC ref, decouple at
+#    the connector) + one +1V8 @31 (logic / PHY-core). 11 GND / 2x +3V3 / 1x +1V8 total.
+#  * Strict pair-grounding is a HIGH-SPEED rule → applied to RGMII only; the low-speed tail (pins
+#    23-40: MDC/MDIO 2.5MHz, SAI5 mic ~few-MHz I2S, I2C, static nRST/INT/SOUND_INT) runs relaxed
+#    (grounding it uniformly would need a 50p connector for no SI benefit).
+#  SHARED pins: func = ENET/RGMII name (DUT eth); `alts` = the SAI6/7 audio function (product sound).
+pins:
+  # --- SND — legacy 20p sound connector (SAI5 spk+mic). Speaker labels are the legacy SAI5_TX map;
+  #     the SAI5-speaker-impossible / SAI7 correction is tracked in challenges.md. Kept per request.
+  SND.2:  {som: P1.30, func: SAI5_MCLK, dest: "Sound p2", tags: [audio, sai5, mclk, sound, media]}
+  SND.3:  {som: P2.55, func: SAI5_TXC, dest: "Sound p3", tags: [audio, sai5, speaker, bclk, sound, media]}
+  SND.4:  {som: P2.53, func: SAI5_TXFS, dest: "Sound p4", tags: [audio, sai5, speaker, lrclk, sound, media]}
+  SND.5:  {som: P2.60, func: SAI5_TXD0, dest: "Sound p5", tags: [audio, sai5, speaker, data, sound, media]}
+  SND.6:  {som: P2.76, func: SAI5_TXD1, dest: "Sound p6", tags: [audio, sai5, speaker, data, sound, media]}
+  SND.7:  {som: P2.63, func: SAI5_TXD2, dest: "Sound p7", tags: [audio, sai5, speaker, data, sound, media]}
+  SND.8:  {som: P2.65, func: SAI5_TXD3, dest: "Sound p8", tags: [audio, sai5, speaker, data, sound, media]}
+  SND.11: {som: P1.32, func: SAI5_RXC, dest: "Sound p11", tags: [audio, sai5, mic, bclk, sound, media]}
+  SND.12: {som: P1.34, func: SAI5_RX_SYNC, dest: "Sound p12", tags: [audio, sai5, mic, lrclk, sound, media]}
+  SND.13: {som: P1.28, func: SAI5_RX_DATA0, dest: "Sound p13", tags: [audio, sai5, mic, data, sound, media]}
+  SND.14: {som: P1.38, func: SAI5_RX_DATA1, dest: "Sound p14", tags: [audio, sai5, mic, data, sound, media]}
+  SND.15: {som: P1.36, func: SAI5_RX_DATA2, dest: "Sound p15", tags: [audio, sai5, mic, data, sound, media]}
+  SND.16: {som: P1.26, func: SAI5_RX_DATA3, dest: "Sound p16", tags: [audio, sai5, mic, data, sound, media]}
+  SND.17: {som: P1.87, func: I2C6_SCL, dest: "Sound p17", tags: [i2c, i2c6, sound, media]}
+  SND.18: {som: P1.89, func: I2C6_SDA, dest: "Sound p18", tags: [i2c, i2c6, sound, media]}
+  SND.19: {som: P1.59, func: SOUND_INT, dest: "Sound p19", tags: [gpio, int, sound, media]}
+
+  # --- SND_MOD — 40DS upgrade (RJ45/DUT + sound); RGMII pins 3-22 strict-grounded (pairs split,
+  #     clocks flanked at 10/11/12 & 20/21/22), low-speed tail 23-40 relaxed. 11 GND / 2x3V3 / 1x1V8.
+  SND_MOD.1:  {func: "+3V3", dest: "amp / RJ45 PHY power (delivery + AC ref)", tags: [power, rail, v3p3]}
+  SND_MOD.2:  {func: GND, dest: "RD0/RD1 return", tags: [power, gnd]}
+  SND_MOD.3:  {som: P2.41, func: ENET_RD0, alts: [SAI7_RX_DATA0], dest: "eth RGMII RD0 | SAI7 mic-in", tags: [ethernet, data, audio, sai7, sound]}
+  SND_MOD.4:  {som: P2.43, func: ENET_RD1, alts: [SAI7_RX_SYNC], dest: "eth RGMII RD1 | SAI7 RX LRCLK", tags: [ethernet, data, audio, sai7, sync, sound]}
+  SND_MOD.5:  {func: GND, dest: "pair split RD0/1 | RD2/3", tags: [power, gnd]}
+  SND_MOD.6:  {som: P2.45, func: ENET_RD2, alts: [SAI7_RX_BCLK], dest: "eth RGMII RD2 | SAI7 RX BCLK; OE_SOUND gpio in sound mode", tags: [ethernet, data, audio, sai7, bclk, enable, sound]}
+  SND_MOD.7:  {som: P2.47, func: ENET_RD3, alts: [SAI7_MCLK], dest: "eth RGMII RD3 | SAI7 MCLK", tags: [ethernet, data, audio, sai7, mclk, sound]}
+  SND_MOD.8:  {func: GND, dest: "RD2/3 return; RX_CTL flank", tags: [power, gnd]}
+  SND_MOD.9:  {som: P2.53, func: ENET_RX_CTL, alts: [SAI7_TX_SYNC], dest: "eth RGMII RX_CTL | speaker LRCLK", tags: [ethernet, sync, audio, sai7, speaker, lrclk, sound]}
+  SND_MOD.10: {func: GND, dest: "RXC clock flank", tags: [power, gnd]}
+  SND_MOD.11: {som: P2.55, func: ENET_RXC, alts: [SAI7_TX_BCLK], dest: "eth RGMII RX CLOCK | speaker BCLK", tags: [ethernet, clk, audio, sai7, speaker, bclk, sound]}
+  SND_MOD.12: {func: GND, dest: "RXC clock flank; TX/RX split", tags: [power, gnd]}
+  SND_MOD.13: {som: P2.59, func: ENET_TD0, alts: [SAI6_RX_BCLK], dest: "eth RGMII TD0 | SAI6 alt", tags: [ethernet, data, audio, sai6, bclk, sound]}
+  SND_MOD.14: {som: P2.61, func: ENET_TD1, alts: [SAI6_RX_SYNC], dest: "eth RGMII TD1 | SAI6 alt", tags: [ethernet, data, audio, sai6, sync, sound]}
+  SND_MOD.15: {func: GND, dest: "pair split TD0/1 | TD2/3", tags: [power, gnd]}
+  SND_MOD.16: {som: P2.63, func: ENET_TD2, alts: [SAI6_RX_DATA0], dest: "eth RGMII TD2 | SAI6 alt", tags: [ethernet, data, audio, sai6, sound]}
+  SND_MOD.17: {som: P2.65, func: ENET_TD3, alts: [SAI6_TX_BCLK], dest: "eth RGMII TD3 | SAI6 alt", tags: [ethernet, data, audio, sai6, bclk, sound]}
+  SND_MOD.18: {func: GND, dest: "TD2/3 return; TX_CTL flank", tags: [power, gnd]}
+  SND_MOD.19: {som: P2.67, func: ENET_TX_CTL, alts: [SAI6_MCLK], dest: "eth RGMII TX_CTL | SAI6 MCLK", tags: [ethernet, sync, audio, sai6, mclk, sound]}
+  SND_MOD.20: {func: GND, dest: "TXC clock flank", tags: [power, gnd]}
+  SND_MOD.21: {som: P2.69, func: ENET_TXC, alts: [SAI7_TX_DATA0], dest: "eth RGMII TX CLOCK | speaker DATA", tags: [ethernet, clk, audio, sai7, speaker, data, sound]}
+  SND_MOD.22: {func: GND, dest: "TXC clock flank; end RGMII block", tags: [power, gnd]}
+  SND_MOD.23: {som: P2.68, func: ENET_MDC,  alts: [SAI6_TX_DATA0], dest: "eth MDC (mgmt clk) | SAI6 alt", tags: [ethernet, clk, audio, sai6, sound]}
+  SND_MOD.24: {som: P2.70, func: ENET_MDIO, alts: [SAI6_TX_SYNC], dest: "eth MDIO (mgmt) | SAI6 alt", tags: [ethernet, data, audio, sai6, sound]}
+  SND_MOD.25: {func: "+3V3", dest: "power delivery (mid) + AC ref", tags: [power, rail, v3p3]}
+  SND_MOD.26: {som: P2.76, func: ENET_nRST, dest: "PHY reset", tags: [ethernet, reset]}
+  SND_MOD.27: {som: P2.88, func: ENET_INT,  dest: "PHY interrupt", tags: [ethernet, int]}
+  SND_MOD.28: {func: GND, dest: "low-speed return", tags: [power, gnd]}
+  SND_MOD.29: {som: P1.30, func: SAI5_MCLK, dest: "mic master clock", tags: [audio, sai5, mic, mclk, sound]}
+  SND_MOD.30: {som: P1.32, func: SAI5_RXC, dest: "mic BCLK", tags: [audio, sai5, mic, bclk, sound]}
+  SND_MOD.31: {func: "+1V8", dest: "logic / PHY-core ref + AC ref", tags: [power, rail, v1p8]}
+  SND_MOD.32: {som: P1.34, func: SAI5_RX_SYNC, dest: "mic LRCLK", tags: [audio, sai5, mic, lrclk, sound]}
+  SND_MOD.33: {som: P1.28, func: SAI5_RX_DATA0, dest: "mic data 0", tags: [audio, sai5, mic, data, sound]}
+  SND_MOD.34: {func: GND, dest: "mic return", tags: [power, gnd]}
+  SND_MOD.35: {som: P1.38, func: SAI5_RX_DATA1, dest: "mic data 1", tags: [audio, sai5, mic, data, sound]}
+  SND_MOD.36: {som: P1.36, func: SAI5_RX_DATA2, dest: "mic data 2", tags: [audio, sai5, mic, data, sound]}
+  SND_MOD.37: {som: P1.26, func: SAI5_RX_DATA3, dest: "mic data 3", tags: [audio, sai5, mic, data, sound]}
+  SND_MOD.38: {som: P1.87, func: I2C6_SCL, dest: "codec / module-ID", tags: [i2c, i2c6, sound]}
+  SND_MOD.39: {som: P1.89, func: I2C6_SDA, dest: "codec / module-ID", tags: [i2c, i2c6, sound]}
+  SND_MOD.40: {som: P1.59, func: SOUND_INT, dest: "sound / module interrupt", tags: [gpio, int, sound]}

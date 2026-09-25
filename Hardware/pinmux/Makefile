@@ -1,15 +1,18 @@
-# Build step for the pin-allocation model. Source of truth = pins.yaml (+ solver/board.yaml).
-# Generated Markdown views live in generated/ — never hand-edit those.
+# Build step for the pin-allocation model. Source of truth = the module/board/product YAMLs
+# (modules/, boards/, products/, common.yaml) assembled by model.py (+ solver/board.yaml).
+# Generated Markdown views live in generated/<product>/ — never hand-edit those.
+# Scope a single product with PRODUCT=<name>, e.g. `make check PRODUCT=bob`.
 UV := /opt/homebrew/bin/uv
 VENV := .venv
 PY := $(VENV)/bin/python
+PRODUCT ?=
 
 .PHONY: all check render solve venv clean
 
 all: check render solve
 
-check: venv           ## cross-check the YAMLs (SoM-ball uniqueness, ranges, cross-file, sound conn)
-	$(PY) check.py
+check: venv           ## cross-check every product (SoM-ball uniqueness, ranges, cross-file, KiCad)
+	$(PY) check.py $(PRODUCT)
 
 venv: $(VENV)/.stamp
 $(VENV)/.stamp: requirements.txt
@@ -17,7 +20,7 @@ $(VENV)/.stamp: requirements.txt
 	VIRTUAL_ENV=$(VENV) $(UV) pip install -q -r requirements.txt
 	touch $@
 
-render: venv          ## regenerate generated/*.md from pins.yaml
+render: venv          ## regenerate generated/<product>/*.md from the model
 	$(PY) render.py
 
 solve: venv           ## run the CP-SAT validator (feasibility + Pareto + ledger)

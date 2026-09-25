@@ -198,12 +198,14 @@ I2C3_SDA (P1.91), TOUCH_nINT (P2.49), SD2 bus (P2.92–100).
 
 ## Allocation indexed by header pin
 
-**Generated from [`pinmux/pins.yaml`](pinmux/pins.yaml)** (the canonical source) — do not hand-edit
-tables here. Rebuild with `make -C pinmux render`; cross-validate with `make -C pinmux check`. Views:
+**Generated from the layered model** ([`pinmux/`](pinmux/README.md) — `modules/` + `boards/` +
+`products/`, assembled by `model.py`) — do not hand-edit tables here. Rebuild with
+`make -C pinmux render`; cross-validate with `make -C pinmux check`. This board is the SB-UCM
+carrier, product **`ucm-bench`** (`boards/sb-ucm-carrier.yaml`). Views:
 
-- [P20 by-pin](pinmux/generated/P20.md) · [P21 by-pin](pinmux/generated/P21.md) · [P10 power/reset](pinmux/generated/P10.md)
-- [by destination](pinmux/generated/by_destination.md) · [sound-connector cable (DF40 -> header)](pinmux/generated/sound_connector_cable.md)
-- [connector registry](pinmux/generated/connectors.md) — M.2 (carrier P9 *given*, 929 Key B *placed*, product *draft*) and other first-class connectors
+- [P20 by-pin](pinmux/generated/ucm-bench/P20.md) · [P21 by-pin](pinmux/generated/ucm-bench/P21.md) · [P10 power/reset](pinmux/generated/ucm-bench/P10.md)
+- [by destination](pinmux/generated/ucm-bench/by_destination.md) · [sound-connector cable (DF40)](pinmux/generated/ucm-bench/sound_connector_cable.md)
+- [connector registry](pinmux/generated/ucm-bench/connectors.md) — carrier M.2 P9 (*given*). The 929 Key B (*placed*) + product M.2 (*draft*) live under product [`bob`](pinmux/generated/bob/connectors.md).
 
 ### P10 — power / reset / system-control (2x5, DR10SM)
 Table: generated [P10](pinmux/generated/P10.md). Design notes that don't belong in the table:
